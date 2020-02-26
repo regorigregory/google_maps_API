@@ -27,80 +27,79 @@
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right" role="form">
-            <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">k1721863 - Gergo Endresz - Google Maps 2020 Assignment</a>
+                </div>
+
             </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
+        </nav>
+         <div class="jumbotron">
+                <div class="container">
+                    <h1>Dear Visitor,</h1>
+                    <p>This is a website created for the assignment xyz in 2020 by Gergo Endresz (k1721863).</p>
+                    <p>The responsive design and the styling was built by using <a href="https://getbootstrap.com/" target="_blank" title="Bootstrap documentation"> BootStrap.</a></p>
+
+                </div>
             </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </form>
-        </div><!--/.navbar-collapse -->
-      </div>
-    </nav>
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-      </div>
-    </div>
+        <div class="container" id="google_maps_iframe_container">
+            <div class="row" id="the_map_itself_container">
+                <div class="col-12">
+                    
+                    
+                </div>
+                
+            </div>
+            
+             <div class="row" id="map_controls">
+                <div class="col-12">
+                    <button class="btn btn-primary btn-lg" role="button" id="moveTo" data-toggle="tooltip" data-placement="bottom" title="Move to a specific coordinate.">Move to</button>
+                    <button class="btn btn-primary btn-lg" role="button" id="moveTo" data-toggle="tooltip" data-placement="bottom" title="Move to london.">Move to London</button>
+                    <button class="btn btn-primary btn-lg" role="button" data-toggle="tooltip" data-placement="bottom" title="Add a marker to the map at a specific coordinate.">Add marker</button>
+                    <button class="btn btn-primary btn-lg" role="button" data-toggle="tooltip" data-placement="bottom" title="Zoom in.">Zoom in</button>
+                    <button class="btn btn-primary btn-lg" role="button" data-toggle="tooltip" data-placement="bottom" title="Zoom out.">Zoom out</button>
+                    <button class="btn btn-primary btn-lg" role="button" data-toggle="tooltip" data-placement="bottom" title="Press for different map styles.">Toggle map style</button>
+                    <button class="btn btn-primary btn-lg" role="button" data-toggle="tooltip" data-placement="bottom" title="Requires a set of markers placed on the map.">Travelling agent solver</button>
+                </div>
+            </div>
 
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-       </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-      </div>
+            </div>
 
-      <hr>
 
-      <footer>
-        <p>&copy; Company 2015</p>
-      </footer>
-    </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+           
 
-        <script src="js/vendor/bootstrap.min.js"></script>
+                  
+        <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+            <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
-        <script src="js/main.js"></script>
+            <script src="js/vendor/bootstrap.min.js"></script>
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
-        </script>
+            <script src="js/main.js"></script>
+
+            <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+            <script>
+                (function (b, o, i, l, e, r) {
+                    b.GoogleAnalyticsObject = l;
+                    b[l] || (b[l] =
+                            function () {
+                                (b[l].q = b[l].q || []).push(arguments)
+                            });
+                    b[l].l = +new Date;
+                    e = o.createElement(i);
+                    r = o.getElementsByTagName(i)[0];
+                    e.src = '//www.google-analytics.com/analytics.js';
+                    r.parentNode.insertBefore(e, r)
+                }(window, document, 'script', 'ga'));
+                ga('create', 'UA-XXXXX-X', 'auto');
+                ga('send', 'pageview');
+            </script>
     </body>
 </html>
