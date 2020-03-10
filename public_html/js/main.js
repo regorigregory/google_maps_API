@@ -15,10 +15,11 @@ class GMAP {
     constructor() {
         this.mapHolder = document.getElementById("map");
         this.initialZoom = 4;
-        var startCoordinates = {lat: this.getRandomLatitude(), lng: this.getRandomLongitude()};
-        this.startingOpts = {zoom: 4, position: startCoordinates};
-        this.startCoordinates = startCoordinates;
-
+        this.startCoordinates = {lat: this.getRandomLatitude(), lng: this.getRandomLongitude()};
+        //this.startingOpts = {zoom: 4, position: startCoordinates};
+        this.mapTypes = ["terrain", "hybrid", "satellite", "roadmap"];
+        this.londonCoords = {lat: 51.5074, lng:0.1278};
+        this.currentMapTypeIndex = 0;
         GMAP.instance = this;
     };
     
@@ -45,10 +46,20 @@ class GMAP {
     
     
     initMap() {
-        var instance = GMAP.getInstance();
-        instance.map = new google.maps.Map(instance.mapHolder,instance.startingOpts );
+        //var instance = GMAP.getInstance();
+        //instance.map = new google.maps.Map(instance.mapHolder,instance.startingOpts );
         //instance.startingMarker = new google.maps.Marker({position: instance.gLoc, map: instance.map});
+        console.log("I have been called");
+            var instance = GMAP.getInstance();
+            var startCoordinates = instance.startCoordinates;
+            //var startCoordinates = {lat: 51.50, lng:0};
 
+            var mapDomElement = document.getElementById("map")
+
+           var map = new google.maps.Map(mapDomElement, {zoom:instance.initialZoom, center: startCoordinates});
+
+            var markerTest =new google.maps.Marker({position:startCoordinates, map:map});
+        this.mapObjectRef = map
     }
     addMarker() {
         throw "Yet to be implemented.";
@@ -60,22 +71,38 @@ class GMAP {
 
     }
     moveToLondon() {
-
-        throw "Yet to be implemented.";
+        var instance = GMAP.getInstance();     
+        var londonCoords = instance.londonCoords;
+        instance.mapObjectRef.setCenter(londonCoords);
+        var newMarker = new google.maps.Marker({position: londonCoords, map: instance.mapObjectRef});
+       // throw "Yet to be implemented.";
 
     }
     zoomIn() {
-
-        throw "Yet to be implemented.";
-
+        console.log("I have been clicked");
+           var instance = GMAP.getInstance();     
+        var currentZoom = instance.mapObjectRef.zoom;
+        instance.mapObjectRef.setZoom(++currentZoom);
     }
     zoomOut() {
-
-        throw "Yet to be implemented.";
+                console.log("I have been clicked");
+        var instance = GMAP.getInstance();     
+        var currentZoom = instance.mapObjectRef.zoom;
+        instance.mapObjectRef.setZoom(--currentZoom);
 
     }
     toggleMapStyle() {
-        throw "Yet to be implemented.";
+                console.log("I have been clicked");
+       var instance = GMAP.getInstance();             
+       var currentIndex = instance.currentMapTypeIndex;
+       var nextMapType = instance.mapTypes[currentIndex];
+       
+       if(instance.currentMapTypeIndex==instance.mapTypes.length-1){
+           instance.currentMapTypeIndex = -1;
+       }
+       instance.currentMapTypeIndex++;
+       
+       instance.mapObjectRef.setMapTypeId(nextMapType);
 
     }
 
@@ -84,22 +111,35 @@ class GMAP {
 GMAP.getInstance().initMap();
 
 
+userControls = {};
+userControls["moveToElement"] = document.getElementById("moveTo");
+userControls["moveToLondonElement"] = document.getElementById("moveToLondon");
+userControls["addMarkerElement"] = document.getElementById("addMarker");
+userControls["zoomInElement"] = document.getElementById("zoomIn");
+userControls["zoomOutElement"] = document.getElementById("zoomOut");
+userControls["toggleMapElement"] = document.getElementById("toggleMapStyle");
+
+
+//userControls["moveToElement"].onclick(GMAP.getInstance().moveTo);
+userControls["moveToLondonElement"].addEventListener("click", GMAP.getInstance().moveToLondon);
+userControls["addMarkerElement"].addEventListener("click", GMAP.getInstance().addMarker);
+userControls["zoomInElement"].addEventListener("click", GMAP.getInstance().zoomIn);
+userControls["zoomOutElement"].addEventListener("click", GMAP.getInstance().zoomOut);
+userControls["toggleMapElement"].addEventListener("click", GMAP.getInstance().toggleMapStyle);
+
+
+//function initMap(){
+//    console.log("I have been called");
+//    var startCoordinates = {lat: 51.50, lng:0};
+//    
+//    var mapDomElement = document.getElementById("map")
+//    
+//    var map = new google.maps.Map(mapDomElement, {zoom:4, center: startCoordinates});
+//    var markerTest =new google.maps.Marker({position:startCoordinates, map:map});
+//return map
+//    
+//}
 
 
 
-function initMap(){
-    console.log("I have been called");
-    var startCoordinates = {lat: 51.50, lng:0};
-    
-    var mapDomElement = document.getElementById("map")
-    
-    var map = new google.maps.Map(mapDomElement, {zoom:4, center: startCoordinates});
-    var markerTest =new google.maps.Marker({position:startCoordinates, map:map});
-    
-    
-}
-
-
-
-//GMAP.getInstance()
-initMap();
+GMAP.getInstance().initMap();
