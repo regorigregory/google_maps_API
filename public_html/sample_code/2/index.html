@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!---
+    Programming III - Google Maps API
+    Workshop 1, 2 and 3 - 5th February 2014
+    authors: Paul Climent and Paolo Remagnino
+--->
+
+<html>
+<head>
+    
+    <style>
+        html {height:300px}
+        body {height:400px; width: 400px; margin:0;padding:0}
+        #map {height:100%}
+    </style>
+
+    <title> Workshops 1 to 3 </title>
+    <script type="text/javascript" 
+                src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD3Ok02Xgv_0Ht4-b--gWrc8jtz2CzQwns&sensor=false&v=3.exp"></script>
+    <script type="text/javascript" src="./2/sampleJs.js"></script>
+
+</head>
+<body>
+<div id="map"></div>
+<button onclick="zoomPingPong(1)">  ACTION  </button>
+<button onclick="moveToLocationANDCircle(0,0)"> CIRCLE </button>
+</body>
+</html>
