@@ -11,14 +11,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <style>
-            body {
-                padding-top: 50px;
-                padding-bottom: 20px;
-            }
+
         </style>
-        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <!--<link rel="stylesheet" href="css/bootstrap-theme.min.css">-->
         <link rel="stylesheet" href="css/main.css">
 
     </head>
@@ -26,20 +23,32 @@
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">k1721863 - Gergo Endresz - Google Maps 2020 Assignment</a>
-                </div>
 
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">Google Maps</a>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </div>
         </nav>
+
         <div class="jumbotron">
             <div class="container">
                 <h1>Dear Visitor,</h1>
@@ -48,24 +57,36 @@
 
             </div>
         </div>
+        <div class="">
 
-        <div class="container" id="google_maps_iframe_container">
-            <div class="row" id="the_map_itself_container">
-                <div class="col-12">
-                    <div id="map"></div>
+            <div class="container-fluid" id="google_maps_iframe_container">
+                <div class="row" id="the_map_itself_container">
+                    <div class="col-12">
+                        <div id="map"></div>
+
+                    </div>
 
                 </div>
-
             </div>
-
+        </div>
+        <div class="container-fluid">
             <div class="row" id="map_controls">
                 <div class="col-12">
-                    <button class="btn btn-primary btn-lg" id="moveTo" role="button"  data-toggle="tooltip" data-placement="bottom" title="Move to a specific coordinate.">Move to</button>
-                    <button class="btn btn-primary btn-lg" id="moveToLondon" role="button"  data-toggle="tooltip" data-placement="bottom" title="Move to london." id="moveToLondon">Move to London</button>
-                    <button class="btn btn-primary btn-lg" id="addMarker" role="button" data-toggle="tooltip" data-placement="bottom" title="Add a marker to the map at a specific coordinate." >Add marker</button>
+                    <button class="btn btn-primary btn-lg" id="moveTo" role="button"   data-placement="bottom" title="Move to a specific coordinate." data-toggle="modal" data-target="#travelToModal">Move to</button>
+                    <button class="btn btn-primary btn-lg" id="moveToLondon" role="button"  data-toggle="tooltip" data-placement="bottom" title="Move to london.">Move to London</button>
+                    <button class="btn btn-primary btn-lg" id="addMarker" role="button" data-toggle="modal"  data-target="#addMarkerAt" title="Add a marker to the map at a specific coordinate." >Add marker</button>
                     <button class="btn btn-primary btn-lg" id="zoomIn" role="button" data-toggle="tooltip" data-placement="bottom" title="Zoom in." >Zoom in</button>
                     <button class="btn btn-primary btn-lg" id="zoomOut" role="button" data-toggle="tooltip" data-placement="bottom" title="Zoom out.">Zoom out</button>
                     <button class="btn btn-primary btn-lg" id="toggleMapStyle" role="button" data-toggle="tooltip" data-placement="bottom" title="Press for different map styles.">Toggle map style</button>
+                    <button class="btn btn-primary btn-lg" id="pingPongEffect" role="button" data-toggle="tooltip" data-placement="bottom" title="Press to start/stop the pingpong effect.">Ping-pong start/stop</button>
+
+                </div>
+            </div>
+            <div class="row" id="additional_map_controls">
+                <div class="col-12">
+                    <div id="mapStyleSelectContainer">
+                    </div>
+
                 </div>
             </div>
 
@@ -73,19 +94,89 @@
 
 
 
+        <!-- /container -->  
+        <div class="modal" tabindex="-1" role="dialog" id="addMarkerAt">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Select the latitude and longitude values you want to travel to!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>                              
+
+                    <div class="modal-body form-group">
+                        <div class="col">
+                            <label class="form-fontrol col-4" for="markerLatitudeInput">Latitude: </label>
+                            <input class="form-fontrol col-4" id="markerLatitudeInput" name="markerLatitudeInput" type="number" min="-90" max="90" value="0">
+                        </div>
+
+                        <div class="col">
+                            <label class="form-fontrol col-4" for="markerLongitudeInput">Longitude: </label>
+                            <input class="form-fontrol col-4" id="markerLongitudeInput" name="markerLongitudeInput" type="number" min="-180" max="180" value="0">
+                        </div>
+
+                        <div class="col">
+                            <label class="form-fontrol col-4" for="markerLongitudeInput">Title: </label>
+                            <input class="form-fontrol col-4" id="markerTitleInput" name="markerTitleInput" type="text">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="addMarkerTo">Add marker</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" role="dialog" id="travelToModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Select the latitude and longitude values you want to travel to!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>                              
+
+                    <div class="modal-body form-group">
+                        <div class="col">
+                            <label class="form-fontrol col-4" for="latitudeInput">Latitude: </label>
+                            <input class="form-fontrol col-4" id="latitudeInput" name="latitudeInput" type="number" min="-90" max="90" value="0">
+                        </div>
+                        <div class="invalid-feedback">
+                            The provided value has to be between -90 and 90
+                        </div>
+                        <div class="col">
+                            <label class="form-fontrol col-4" for="longitudeInput">Longitude: </label>
+                            <input class="form-fontrol col-4" id="longitudeInput" name="longitudeInput" type="number" min="-180" max="180" value="0">
+                        </div>
+                        <div class="invalid-feedback">
+                            The provided value has to be between -180 and 180
+                        </div>
 
 
-        <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="travelTo">Travel</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
 
-        <script src="js/vendor/bootstrap.min.js"></script>
-        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
         <!-- google api and main js is here -->
         <script type="text/javascript" 
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD3Ok02Xgv_0Ht4-b--gWrc8jtz2CzQwns&sensor=false&v=3.exp"></script>
 
         <script type="text/javascript" src="js/main.js"></script>
+
 
 
     </body>

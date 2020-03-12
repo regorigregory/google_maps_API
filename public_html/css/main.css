@@ -4,11 +4,19 @@
    Author's custom styles
    ========================================================================== */
 
+#google_maps_iframe_container{
+/*    position:relative;
+    padding-bottom:21px;*/
+}
+#map {
+    height:500px;
+    width:100%;
 
-        #map {height:500px;
-              width:100%;
-        }
 
+}
+.row {
+/*    padding-bottom:21px;*/
+}
 
 
 
