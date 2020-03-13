@@ -24,7 +24,7 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+        <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-light bg-light" style="background-color: #e3f2fd;">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -33,159 +33,122 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
+
+
+
+                        <form id="menuForm" class="form-inline my-1 my-md-0 form-group" onsubmit="return false">
+                            <button class="btn btn-primary btn-sm mr-2" id="putMarkerHere" role="button"   data-placement="bottom" title="Put a marker at the centre of the map." data-toggle="tooltip" >Marker, please!</button>
+
+
+                            <button class="btn btn-danger  btn-sm mr-2" id="route" role="button"   data-placement="bottom" title="Define locations to travel from and to." data-toggle="tooltip" data-target="">Route</button>
+                            &nbsp; | &nbsp;
+                            <label for="userInputLAT" class="">Lat &nbsp;</label>
+                            <input name="userInputLAT" id="userInputLAT" class="mr-2" type="number" min="-90" max="90" />
+
+                            <label for="userInputLNG" class="mr-2">Lng: &nbsp;</label>
+                            <input name="userInputLNG" id="userInputLNG" class="mr-2" type="number" min="-180" max="180" />
+
+                            &nbsp; | &nbsp;
+
+                            <label for="userFrom" class="mr-2">From: &nbsp;</label>
+                            <input name="userFrom" id="userFrom" class="mr-2" type="text" />
+                            <label for="userTo" class="">To: &nbsp;</label>
+                            <input name="userTo" id="userTo" class="mr-2" type="text" />
+
+                            <br/>
+                            <button class="btn btn-danger btn-sm mr-2" id="antipode" role="button"   data-placement="bottom" title="Move to the antipode and place a marker there." data-toggle="tooltip" >Antipode</button>
+                            <button class="btn btn-warning  btn-sm mr-2" id="drawCircle" role="button"   data-placement="bottom" title="Get a random location within 300km of the last marker." data-toggle="tooltip" >Circle</button>
+                            <button class="btn btn-success  btn-sm mr-2" id="drawSquare" role="button"   data-placement="bottom" title="Place a random marker in the current bounds." data-toggle="tooltip">Square</button>
+                            <button class="btn btn-info  btn-sm mr-2" id="drawCircle" role="button"   data-placement="bottom" title="Draw a polygon and place a random element in there" data-toggle="tooltip" data-target="">Draw Square</button>
+
+
+
+
+                        </form>
                     </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
             </div>
         </nav>
 
-        <div class="jumbotron">
-            <div class="container">
-                <h1>Dear Visitor,</h1>
-                <p>This is a website created for the assignment xyz in 2020 by Gergo Endresz (k1721863).</p>
-                <p>The responsive design and the styling was built by using <a href="https://getbootstrap.com/" target="_blank" title="Bootstrap documentation"> BootStrap.</a></p>
 
-            </div>
-        </div>
 
         <div class="container-fluid" id="map_controls">
             <div class="row pb-2" >
                 <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="userInputLNG" class="col-md-2">Longitude:</label>
 
-                        <input name="userInputLNG" id="userInputLNG" class="form-control col-md-6 float-right" type="number" min="-180" max="180" 
-                               placehodler="Latitude" >
-                    </div>
                     <div class="form-group">
-                        <label for="userInputLAT" class="col-md-2">Latitude</label>
-                        <input name="userInputLAT" id="userInputLAT" class="form-control col-md-6 float-right" type="number" min="-90" max="90" />
 
                     </div>
-                    <div class="form-group">
-                        <div id="mapStyleSelectContainer">
+                </div>
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+            <div class="row pb-2">
+
+
+            </div>
+
+
+
+
+            <!--<button class="btn btn-secondary btn-md" id="moveToLondon" role="button"  data-toggle="tooltip" data-placement="bottom" title="Move to london.">Move to London</button>
+            <button class="btn btn-primary btn-md" id="addMarker" role="button" data-toggle="modal"  data-target="#addMarkerAt" title="Add a marker to the map at a specific coordinate." >Add marker</button>
+            <button class="btn btn-primary btn-md" id="zoomIn" role="button" data-toggle="tooltip" data-placement="bottom" title="Zoom in." >Zoom in</button>
+            <button class="btn btn-primary btn-md" id="zoomOut" role="button" data-toggle="tooltip" data-placement="bottom" title="Zoom out.">Zoom out</button>
+            <button class="btn btn-primary btn-md" id="toggleMapStyle" role="button" data-toggle="tooltip" data-placement="bottom" title="Press for different map styles.">Toggle map style</button>
+            <button class="btn btn-primary btn-md" id="pingPongEffect" role="button" data-toggle="tooltip" data-placement="bottom" title="Press to start/stop the pingpong effect.">Ping-pong start/stop</button>
+            -->
+            <div class="row" id="additional_map_controls">
+                <div class="col-12">
+
+
+                </div>
+            </div>
+
+
+
+            <div class="">
+
+                <div class="container-fluid" id="google_maps_iframe_container">
+                    <div class="row" id="the_map_itself_container">
+                        <div class="col-12">
+                            <div id="map"></div>
+
                         </div>
 
                     </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-md" id="putMarkerHere" role="button"   data-placement="bottom" title="Move to a specific coordinate." data-toggle="modal" data-target="#travelToModal">Place marker at</button>
-                        <button class="btn btn-primary btn-md" id="putMarkerHere" role="button"   data-placement="bottom" title="Move to the antipode" data-toggle="modal" data-target="#travelToAntipode">Travel to antipode</button>
-
-                    </div>
-                </div>
-
-
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <button class="btn btn-warning btn-md" id="putMarkerHere" role="button"   data-placement="bottom" title="Activate radius selector" data-toggle="modal" data-target="#activateRadius">Place  marker within radius</button>
-
-                    </div>  
-                    <div class="form-group">
-                        <label for="selectRadius" class="">Select range</label>
-
-                    </div>
-                    <div class="form-group">
-                        <input id="selectRadius" class="custom-range form-control" name="selectRadius" type="range" data-slider-handle="custom" min="10" max="500" step="10"/>
-
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-md" id="putMarkerHere" role="button"   data-placement="bottom" title="Move to a specific coordinate." data-toggle="modal" data-target="#travelToModal">Random marker within radius</button>
-
-                    </div>
-
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <button class="btn btn-warning btn-md" id="putMarkerHere" role="button"   data-placement="bottom" title="Activate radius selector" data-toggle="modal" data-target="#activateRadius">Set radius for random marker</button>
-
-                    </div>  
-                    <div class="form-group">
-                        <label for="selectRadius" class="">Select range</label>
-
-                    </div>
-                    <div class="form-group">
-                        <input id="selectRadius" class="custom-range form-control" name="selectRadius" type="range" data-slider-handle="custom" min="10" max="500" step="10"/>
-
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-md" id="drawCircle" role="button"   data-placement="bottom" title="Move to a specific coordinate." data-toggle="tooltip" data-target="">Draw circle</button>
-
-                    </div>
-
                 </div>
             </div>
-        </div>
 
 
 
 
+            <!-- /container -->  
 
 
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+            <!-- google api and main js is here -->
+            <script type="text/javascript" 
+            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD3Ok02Xgv_0Ht4-b--gWrc8jtz2CzQwns&sensor=false&v=3.exp"></script>
 
-        <div class="row pb-2">
-
-
-        </div>
-
-
-
-
-        <!--<button class="btn btn-secondary btn-md" id="moveToLondon" role="button"  data-toggle="tooltip" data-placement="bottom" title="Move to london.">Move to London</button>
-        <button class="btn btn-primary btn-md" id="addMarker" role="button" data-toggle="modal"  data-target="#addMarkerAt" title="Add a marker to the map at a specific coordinate." >Add marker</button>
-        <button class="btn btn-primary btn-md" id="zoomIn" role="button" data-toggle="tooltip" data-placement="bottom" title="Zoom in." >Zoom in</button>
-        <button class="btn btn-primary btn-md" id="zoomOut" role="button" data-toggle="tooltip" data-placement="bottom" title="Zoom out.">Zoom out</button>
-        <button class="btn btn-primary btn-md" id="toggleMapStyle" role="button" data-toggle="tooltip" data-placement="bottom" title="Press for different map styles.">Toggle map style</button>
-        <button class="btn btn-primary btn-md" id="pingPongEffect" role="button" data-toggle="tooltip" data-placement="bottom" title="Press to start/stop the pingpong effect.">Ping-pong start/stop</button>
-        -->
-        <div class="row" id="additional_map_controls">
-            <div class="col-12">
-
-
-            </div>
-        </div>
-
-
-
-        <div class="">
-
-            <div class="container-fluid" id="google_maps_iframe_container">
-                <div class="row" id="the_map_itself_container">
-                    <div class="col-12">
-                        <div id="map"></div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-
-
-
-        <!-- /container -->  
-
-
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-        <!-- google api and main js is here -->
-        <script type="text/javascript" 
-        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD3Ok02Xgv_0Ht4-b--gWrc8jtz2CzQwns&sensor=false&v=3.exp"></script>
-
-        <script type="text/javascript" src="js/main.js"></script>
-
+            <script type="text/javascript" src="js/main.js"></script>
+            <script type="text/javascript">
+                var menuForm = document.getElementById("menuForm");
+                menuForm.addEventListener("submit", function(e){e.preventDefault()});
+                </script>
 
 
     </body>
