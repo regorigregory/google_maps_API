@@ -234,42 +234,28 @@ class GMAP {
         instance.lastCircle = newCircle;
     }
     drawSquare() {
-        debugger;
         var instance = GMAP.getInstance();
         var bounds = instance.mapObjectRef.getBounds();
         //Ua: longitude
         var lng1 = bounds.Ua.i
         var lng2 = bounds.Ua.j
 
-        var sign_lng1 = Math.sign(lng1);
-        var sign_lng2 = Math.sign(lng2);
-        
-        var diff_lng = 0
-        if (sign_lng1 == sign_lng2) {
-            diff_lng = Math.abs(lng1 - lng2);
-        } else {
-            diff_lng = (180 - Math.abs(lng1)) + (180 - Math.abs(lng2))
-
-        }
 
         //Za: latitude
         var lat1 = bounds.Za.i
         var lat2 = bounds.Za.j
 
-        var sign_lat1 = Math.sign(lat1);
-        var sign_lat2 = Math.sign(lat2);
-        
-        var diff_lat = 0;
-        if (sign_lat1 == sign_lat2) {
-            diff_lat = Math.abs(lat1 - lat2);
-        } else {
-            diff_lat = (90 - Math.abs(lat1)) + (90 - Math.abs(lat2))
-        }
 
-        var newLat1 = lat1 + 0.1 * diff_lat*sign_lat1;
-        var newLat2 = lat2 - 0.1 * diff_lat*sign_lat2;
-        var newLng1 = lng1 + 0.1 * diff_lng*sign_lng1;
-        var newLng2 = lng2 - 0.1 * diff_lng*sign_lng2;
+
+        var diff_lat = 0;
+
+        diff_lat = Math.abs(lat2 - lat1);
+
+
+        var newLat1 = lat1 + 0.1 * diff_lat;
+        var newLat2 = lat2 - 0.1 * diff_lat;
+        var newLng1 = lng1 + 0.1 * diff_lng;
+        var newLng2 = lng2 + 0.1 * diff_lng;
 
         var rectangle = new google.maps.Rectangle({
             strokeColor: "green",
@@ -290,7 +276,7 @@ class GMAP {
         var rectangleBounds = new google.maps.LatLngBounds(sw, ne);
         rectangle.setBounds(rectangleBounds);
         instance.colorIndex = 0;
-        
+
         instance.placeMarkerAt(sw);
         instance.colorIndex = 0;
 
@@ -298,7 +284,7 @@ class GMAP {
         instance.colorIndex = 0;
 
         instance.placeMarkerAt(nw);
-        
+
         instance.colorIndex = 0;
 
         instance.placeMarkerAt(ne);
@@ -350,6 +336,31 @@ class GMAP {
     static round_to_precision(x, precision) {
         var y = +x + (precision === undefined ? 0.5 : precision / 2);
         return y - (y % (precision === undefined ? 1 : +precision));
+    }
+    
+    distance(lat1, lon1, lat2, lon2, unit) {
+        if ((lat1 == lat2) && (lon1 == lon2)) {
+            return 0;
+        } else {
+            var radlat1 = Math.PI * lat1 / 180;
+            var radlat2 = Math.PI * lat2 / 180;
+            var theta = lon1 - lon2;
+            var radtheta = Math.PI * theta / 180;
+            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            if (dist > 1) {
+                dist = 1;
+            }
+            dist = Math.acos(dist);
+            dist = dist * 180 / Math.PI;
+            dist = dist * 60 * 1.1515;
+            if (unit == "K") {
+                dist = dist * 1.609344
+            }
+            if (unit == "N") {
+                dist = dist * 0.8684
+            }
+            return dist;
+        }
     }
 }
 
