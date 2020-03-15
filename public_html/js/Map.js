@@ -30,26 +30,19 @@ class GMAP {
         return GMAP.instance;
     }
 
-    placeMarkerAt(passedLoc, markerColor) {
-        var instance = GMAP.getInstance();
-        instance.markerCounter++;
 
-        var newMarker = new InfoMarker(passedLoc, markerColor);
-        instance.lastMarker = passedLoc;
-        instance.markers.push(newMarker);
-    }
     startLuckyInsights() {
         var instance = GMAP.getInstance();
         var center = instance.mapObjectRef.getCenter();
         instance.placeMarkerAt(center, "red");
-        instance.markers[instance.markers.length-1].setDraggable(false);
+        instance.markers[instance.markers.length - 1].setDraggable(false);
         instance.setLuckySquare();
     }
     setLuckySquare() {
         var instance = GMAP.getInstance();
-        instance.mapObjectRef.setCenter(instance.lastMarker);
-        instance.drawSquare(instance.lastMarker)
-        
+        instance.mapObjectRef.setCenter(instance.lastMarkerLocation);
+        instance.drawSquare(instance.lastMarkerLocation)
+
 
     }
 
@@ -57,8 +50,8 @@ class GMAP {
         var instance = GMAP.getInstance();
         instance.lastSquare.setEditable(false);
         instance.placeLuckyInsightsCorners();
-        for(var i =0; i<10; i++){
-           instance.getAnotherLuckyMarker();
+        for (var i = 0; i < 10; i++) {
+            instance.getAnotherLuckyMarker();
 
         }
         //place four rich markers
@@ -79,13 +72,44 @@ class GMAP {
         var y2 = ne.lat();
 
         var coords = [new google.maps.LatLng(y1, x1),
-            new google.maps.LatLng(y2, x1),
-            new google.maps.LatLng(y2, x2),
-            new google.maps.LatLng(y1, x2)];
+        new google.maps.LatLng(y2, x1),
+        new google.maps.LatLng(y2, x2),
+        new google.maps.LatLng(y1, x2)];
 
-        for (var i = 0; i < 4; i++)
-        {
+        for (var i = 0; i < 4; i++) {
             instance.placeMarkerAt(coords[i], "green");
+            var content = `
+                        <div class="infoWindow">
+                        <table class="table table-hover">
+                        <thead>
+                        <tr>
+                          <th colspan=2>Exact location:</th>
+                         
+                        </tr>
+                <tbody>
+                    <tr>
+                        <td>Latitude: </td>
+                        <td>
+                        `;
+            content += coords[i].lat();
+            content+=`
+                        </td>
+
+                    </tr>
+                    <tr>
+                    <td>Longitude:</td>
+                    <td>
+                    `;
+        content += coords[i].lng();
+        content+=`</td>
+                    </tr> 
+                </tbody>
+                </table>
+                                        </div> 
+            `;
+
+
+            instance.lastMarker.addInfoWindow(content);
 
         }
     }
@@ -161,25 +185,30 @@ class GMAP {
         }
         return true;
     }
+    placeMarkerAt(passedLoc, markerColor) {
+        var instance = GMAP.getInstance();
+        instance.markerCounter++;
 
+        var newMarker = new InfoMarker(passedLoc, markerColor);
+        instance.lastMarkerLocation = passedLoc;
+        instance.lastMarker = newMarker;
+        instance.markers.push(newMarker);
+    }
     addMarker() {
         var instance = GMAP.getInstance();
         instance.antipodeSwitch = 0;
-        if (instance.checkIFCoordsAreValid())
-        {
+        if (instance.checkIFCoordsAreValid()) {
             var latitude = parseInt(instance.latInput.value);
             var longitude = parseInt(instance.lngInput.value);
             var newCoords = new google.maps.LatLng(latitude, longitude);
             instance.mapObjectRef.setCenter(newCoords);
             instance.placeMarkerAt(newCoords, instance.getRandomMarkerColour());
-            instance.lastMarker = newCoords;
         }
     }
 
     moveTo() {
         var instance = GMAP.getInstance();
-        if (instance.checkIFCoordsAreValid())
-        {
+        if (instance.checkIFCoordsAreValid()) {
             var latitude = parseInt(instance.latInput.value);
             var longitude = parseInt(instance.lngInput.value);
             var coords = new google.maps.LatLng(latitude, longitude);
@@ -190,7 +219,7 @@ class GMAP {
     moveToAntipode() {
         var instance = GMAP.getInstance();
         instance.antipodeSwitch++;
-        var markerCoords = instance.lastMarker;
+        var markerCoords = instance.lastMarkerLocation;
         var newLat = 0 - markerCoords.lat();
         var isPositive = markerCoords.lng() >= 0 ? true : false;
         var newLong = 180 - Math.abs(markerCoords.lng());
@@ -202,7 +231,7 @@ class GMAP {
         if (instance.antipodeSwitch == 1) {
             instance.placeMarkerAt(newCoords, instance.getRandomMarkerColour());
         } else {
-            instance.lastMarker = newCoords;
+            instance.lastMarkerLocation = newCoords;
         }
     }
 
@@ -247,13 +276,13 @@ class GMAP {
 
     drawCircle() {
         var instance = GMAP.getInstance();
-        var lastMarkerCoords = instance.lastMarker;
+        var lastMarkerLocationCoords = instance.lastMarkerLocation;
         var userRadius = 300 * 1000;
         var newCircle = new google.maps.Circle({
             map: instance.mapObjectRef,
             fillOpacity: 0.3,
             fillColor: "red",
-            center: lastMarkerCoords,
+            center: lastMarkerLocationCoords,
             radius: 300000
         });
         var bounds = newCircle.getBounds();
@@ -286,7 +315,7 @@ class GMAP {
             bounds: mapBounds,
             fillColor: "yellow",
             fillOpacity: 0.5,
-            strokeWeight:1,
+            strokeWeight: 1,
 
             center: instance.mapObjectRef.getCenter()
         });
@@ -302,7 +331,7 @@ class GMAP {
 
     notTooFar() {
         var instance = GMAP.getInstance();
-        var center = instance.lastMarker;
+        var center = instance.lastMarkerLocation;
         instance.drawCircle();
         var newLocation = google.maps.geometry.spherical.computeOffset(center, instance.getRandom(300000, 0), instance.getRandom(360, 0));
         instance.placeMarkerAt(newLocation, instance.getRandomMarkerColour());
@@ -320,18 +349,18 @@ class GMAP {
         instance.lngInput.addEventListener("input", GMAP.getInstance().moveTo);
     }
 
-    initMap()
-    {
+    initMap() {
 
         var instance = GMAP.getInstance();
         var startCoordinates = instance.startCoordinates;
         //var startCoordinates = {lat: 51.50, lng:0};
-        instance.lastMarker = startCoordinates;
+        instance.lastMarkerLocation = startCoordinates;
         var mapDomElement = document.getElementById("map")
 
         var map = new google.maps.Map(mapDomElement, {
             zoom: instance.initialZoom,
-            center: startCoordinates, });
+            center: startCoordinates,
+        });
 
         instance.mapObjectRef = map;
         instance.mapObjectRef.addListener('center_changed', GMAP.getInstance().updateLatLngInputs);

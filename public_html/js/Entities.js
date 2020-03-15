@@ -45,7 +45,7 @@ class InfoMarker extends google.maps.Marker {
 
         this.setIcon(icon);
 
-        instance.lastMarker = passedLoc;
+        instance.lastMarkerLocation = passedLoc;
         instance.markers.push(this);
     }
 
