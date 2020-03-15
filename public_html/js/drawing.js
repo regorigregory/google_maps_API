@@ -42,13 +42,6 @@ google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event
     newPoly = event.overlay;
     eve = event;
     google.maps.event.addListener(mapInstance, "mouseover", function () {
-
-
-
-
-
-        console.log("I have entered the area.");
-
         newPoly.setOptions({fillColor: incolor})
     });
     google.maps.event.addListener(mapInstance, "mousemove", function (e) {

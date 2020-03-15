@@ -1,15 +1,38 @@
+class MapSymbol {
+    constructor(color) {
+        this.path =
+                "M454.848,198.848c0,159.225-179.751,306.689-179.751,306.689c-10.503,8.617-27.692,8.617-38.195,0	c0,0-179.751-147.464-179.751-306.689C57.153,89.027,146.18,0,256,0S454.848,89.027,454.848,198.848z " +
+                "M256,298.89c-55.164,0-100.041-44.879-100.041-100.041S200.838,98.806,256,98.806	s100.041,44.879,100.041,100.041S311.164,298.89,256,298.89z";
+        this.fillOpacity = 0.7;
+        this.scale = 0.1;
+        this.strokeColor = "black";
+        this.strokeWeight = 1;
+        this.fillColor = color;
+        this.anchor = new google.maps.Point(260, 540);
+        this.labelOrigin = new google.maps.Point(240, 200);
 
+    }
 
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-})
+}
+class LuckyInsigthsHelper {
+    constructor() {
+        this.numberOfStates = 4;
+        this.currentState = 0;
+        this.stateFunctions = [GMAP.getInstance().placeLuckyMarker,
+            GMAP.getInstance().setLuckySquare,
+            GMAP.getInstance().finalizeLuckyInsightsEdit,
+            GMAP.getInstance().getAnotherLuckyMarker
+        ];
+    }
 
-
-
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-})
-
+    callMe() {
+        if (this.numberOfStates <= this.currentState) {
+            this.currentState = 0;
+        }
+        this.stateFunctions[this.currentState]();
+        this.currentState++;
+    }
+}
 class GMAP {
     instance;
     constructor() {
@@ -19,11 +42,13 @@ class GMAP {
         //this.startingOpts = {zoom: 4, position: startCoordinates};
         this.mapTypes = ["terrain", "hybrid", "satellite", "roadmap"];
         this.londonCoords = new google.maps.LatLng(51.5074, 0.1278);
-
         this.currentMapTypeIndex = 0;
         this.markerCounter = 0;
         this.colorIndex = 0;
         this.antipodeSwitch = 0;
+        this.circles = [];
+        this.squares = [];
+        this.markers = [];
         GMAP.instance = this;
     }
 
@@ -40,8 +65,119 @@ class GMAP {
         return GMAP.instance;
     }
 
+    placeMarkerAt(passedLoc, markerColor) {
+        var instance = GMAP.getInstance();
+        instance.markerCounter++;
+        console.log(instance.defaultColorUrl)
+        var newMarker = new google.maps.Marker({
+            position: passedLoc,
+            map: instance.mapObjectRef,
+            draggable: true,
+            animation: google.maps.Animation.DROP,
+            //label: "#"+instance.markerCounter,
+            title: "This is #" + instance.markerCounter + " marker, my friend.",
+
+            icon: new MapSymbol(markerColor)
+
+        });
+        newMarker.setLabel("" + instance.markerCounter);
+        instance.lastMarker = passedLoc;
+    }
+
+    placeLuckyMarker() {
+        var instance = GMAP.getInstance();
+        var center = instance.mapObjectRef.getCenter();
+        instance.placeMarkerAt(center, "red");
+
+    }
+
+    setLuckySquare() {
+        var instance = GMAP.getInstance();
+        instance.drawSquare(instance.lastMarker)
+
+    }
+
+    finalizeLuckyInsightsEdit() {
+        var instance = GMAP.getInstance();
+        instance.lastSquare.setEditable(false);
+        instance.placeLuckyInsightsCorners();
+        instance.getAnotherLuckyMarker();
+        //place four rich markers
+
+        //place random markers
+
+    }
+    placeLuckyInsightsCorners() {
+        var instance = GMAP.getInstance();
+        var squareBounds = instance.lastSquare.getBounds();
+        var sw = squareBounds.getSouthWest();
+        var ne = squareBounds.getNorhEast();
+
+        var x1 = sw.Lng();
+        var y1 = sw.Lat();
+        var x2 = ne.LNG();
+        var y2 = ne.Lat();
+
+        var coords = [new google.maps.LatLng(y1, x1),
+            new google.maps.LatLng(y2, x1),
+            new google.maps.LatLng(y2, x2),
+            new google.maps.LatLng(y1, x2 )];
+
+        for (var i = 0; i < 4; i++)
+        {
+            instance.placeMarkerAt(coords[i], "green");
+
+        }
+    }
+    getAnotherLuckyMarker() {
+        
+        var instance = GMAP.getInstance();
+        var instance = GMAP.getInstance();
+        var squareBounds = instance.lastSquare.getBounds();
+
+        var center = instance.lastSquare.getCenter();
+        var sw = squareBounds.getSouthWest();
+        var ne = squareBounds.getNorhEast();
+
+        var cx = center.Lng();
+        var cy = center.Lat();
+
+        var x1 = sw.Lng();
+        var y1 = sw.Lat();
+
+        var x2 = ne.LNG();
+        var y2 = ne.Lat();
+
+        var x_diff = google.maps.geometry.spherical.computeDistanceBetween(
+                new google.maps.LatLng(), new google.maps.LatLng()
+
+
+                );
+
+        var y_diff = google.maps.geometry.spherical.computeDistanceBetween(
+                new google.maps.LatLng(), new google.maps.LatLng()
+
+
+                );
+        var new_x_dist = instance.getRandom(x_diff, 0);
+        var new_y_dist = instance.getRandom(y_diff, 0);
+
+        var new_x = google.maps.geometry.spherical.computeOffset();
+        var new_y = google.maps.geometry.spherical.computeOffset();
+        
+        
+        instance.placeMarkerAt(new google.maps.LatLng(new_y, new_x));
+        
+       
+    }
     getRandom(range, minimum) {
         return Math.floor(Math.random() * range + minimum);
+    }
+
+    getRandomMarkerColour(range, minimum) {
+        var instance = GMAP.getInstance();
+        var markerColor = "rgb(" + Math.round(instance.getRandom(205, 50)) + "," + Math.round(instance.getRandom(205, 50)) + "," + Math.round(instance.getRandom(205, 50)) + ")";
+        return markerColor;
     }
 
     getRandomLatitude() {
@@ -84,6 +220,7 @@ class GMAP {
         }
         return true;
     }
+
     addMarker() {
         var instance = GMAP.getInstance();
         instance.antipodeSwitch = 0;
@@ -93,29 +230,12 @@ class GMAP {
             var longitude = parseInt(instance.lngInput.value);
             var newCoords = new google.maps.LatLng(latitude, longitude);
             instance.mapObjectRef.setCenter(newCoords);
-            instance.placeMarkerAt(newCoords, false);
+
+            instance.placeMarkerAt(newCoords, instance.getRandomMarkerColour());
             instance.lastMarker = newCoords;
         }
     }
-    placeMarkerAt(passedLoc, defaultColor) {
-        var instance = GMAP.getInstance();
-        instance.markerCounter++;
-        console.log(instance.defaultColorUrl)
-        var colorURL = (defaultColor == true) ? instance.defaultColorURL : instance.getNextColorUrl();
-        var newMarker = new google.maps.Marker({
-            position: passedLoc,
-            map: instance.mapObjectRef,
-            draggable: true,
-            animation: google.maps.Animation.DROP,
-            //label: "#"+instance.markerCounter,
-            title: "This is #" + instance.markerCounter + " marker, my friend.",
-            icon: {url: colorURL}
 
-        });
-        instance.lastMarker = passedLoc;
-
-
-    }
     moveTo() {
         var instance = GMAP.getInstance();
         if (instance.checkIFCoordsAreValid())
@@ -127,27 +247,6 @@ class GMAP {
         }
     }
 
-    zoomIn() {
-        console.log("I have been clicked");
-        var instance = GMAP.getInstance();
-        var currentZoom = instance.mapObjectRef.zoom;
-        instance.mapObjectRef.setZoom(++currentZoom);
-    }
-    zoomOut() {
-        console.log("I have been clicked");
-        var instance = GMAP.getInstance();
-        var currentZoom = instance.mapObjectRef.zoom;
-        instance.mapObjectRef.setZoom(--currentZoom);
-    }
-    setMapStyle(e) {
-        //con
-        //var selectedIndex = parseInt(selectedIndex.value)
-
-        var instance = GMAP.getInstance();
-        instance.currentMapTypeIndex = e.target.value;
-        var nextMapType = instance.mapTypes[e.target.value];
-        instance.toggleMapStyle();
-    }
     moveToAntipode() {
         var instance = GMAP.getInstance();
         instance.antipodeSwitch++;
@@ -157,16 +256,22 @@ class GMAP {
         var newLong = 180 - Math.abs(markerCoords.lng());
         var signOfNewLong = Math.sign(markerCoords.lng());
         newLong = newLong * (0 - signOfNewLong);
-
         var newCoords = new google.maps.LatLng(newLat, newLong);
         //var newGoogleCoords = new google.maps.LatLng(newCoords);
         instance.mapObjectRef.panTo(newCoords);
-
         if (instance.antipodeSwitch == 1) {
-            instance.placeMarkerAt(newCoords);
+            instance.placeMarkerAt(newCoords, instance.getRandomMarkerColour());
         } else {
             instance.lastMarker = newCoords;
         }
+    }
+
+    setMapStyle(e) {
+
+        var instance = GMAP.getInstance();
+        instance.currentMapTypeIndex = e.target.value;
+        var nextMapType = instance.mapTypes[e.target.value];
+        instance.toggleMapStyle();
     }
 
     toggleMapStyle() {
@@ -199,6 +304,7 @@ class GMAP {
         selectElement.addEventListener("change", instance.setMapStyle);
         container.appendChild(selectElement);
     }
+
     drawCircle() {
         var instance = GMAP.getInstance();
         var lastMarkerCoords = instance.lastMarker;
@@ -215,13 +321,9 @@ class GMAP {
 
         var x_i_neg = bounds.Za.i < 0 ? true : false;
         var x_j_neg = bounds.Za.i < 0 ? true : false;
-
-
         var diff_x = Math.abs(bounds.Za.i) - Math.abs(bounds.Za.j);
-
         //longitude
         var diff_y = Math.abs(bounds.Ua.i - bounds.Ua.j);
-
         var ratio = diff_x / diff_y
 
         var randomLat = instance.getRandom(diff_x, bounds.Za.i)
@@ -230,99 +332,55 @@ class GMAP {
 
         console.log("x diff:" + Math.abs(bounds.Za.i - bounds.Za.j));
         console.log("y diff:" + Math.abs(bounds.Ua.i - bounds.Ua.j));
-
         instance.lastCircle = newCircle;
+        instance.circles.push(newCircle);
     }
-    notTooFar(){
+
+    drawSquare(center) {
+        var instance = GMAP.getInstance();
+        instance.mapObjectRef.setCenter(center);
+        var mapBounds = instance.mapObjectRef.getBounds();
+
+        var newSqure = new google.maps.Rectangle({
+            editable: true,
+            bounds: mapBounds,
+            fillColor: "yellow",
+            fillOpacity: 0.5,
+
+            center: instance.mapObjectRef.getCenter()
+        });
+        instance.mapObjectRef.setZoom(instance.mapObjectRef.getZoom() - 1);
+
+
+        newSqure.setMap(instance.mapObjectRef);
+        instance.lastSquare = newSqure;
+        instance.squares.push(newSqure);
+
+
+    }
+    notTooFar() {
         var instance = GMAP.getInstance();
         var center = instance.lastMarker;
         instance.drawCircle();
-        var newLocation = google.maps.geometry.spherical.computeOffset(center, instance.getRandom(300000,0), instance.getRandom(360, 0));
-        instance.placeMarkerAt(newLocation);
+        var newLocation = google.maps.geometry.spherical.computeOffset(center, instance.getRandom(300000, 0), instance.getRandom(360, 0));
+        instance.placeMarkerAt(newLocation, instance.getRandomMarkerColour());
         instance.mapObjectRef.panTo(newLocation);
     }
-    
-    
-    drawSquare() {
-        var instance = GMAP.getInstance();
-        var bounds = instance.mapObjectRef.getBounds();
-        //Ua: longitude
-        var lng1 = bounds.Ua.i
-        var lng2 = bounds.Ua.j
 
-
-        //Za: latitude
-        var lat1 = bounds.Za.i
-        var lat2 = bounds.Za.j
-
-
-
-        var diff_lat = 0;
-
-        diff_lat = Math.abs(lat2 - lat1);
-
-
-        var newLat1 = lat1 + 0.1 * diff_lat;
-        var newLat2 = lat2 - 0.1 * diff_lat;
-        var newLng1 = lng1 + 0.1 * diff_lng;
-        var newLng2 = lng2 + 0.1 * diff_lng;
-
-        var rectangle = new google.maps.Rectangle({
-            strokeColor: "green",
-            strokeOpacity: 0.8,
-            strokeWeight: 3,
-            fillColor: "red",
-            fillOpacity: 0.35,
-            map: instance.mapObjectRef
-        });
-
-
-        var sw = new google.maps.LatLng(newLat1, newLng1);
-        var se = new google.maps.LatLng(newLat1, newLng2);
-        var nw = new google.maps.LatLng(newLat2, newLng1);
-        var ne = new google.maps.LatLng(newLat2, newLng2);
-
-
-        var rectangleBounds = new google.maps.LatLngBounds(sw, ne);
-        rectangle.setBounds(rectangleBounds);
-        instance.colorIndex = 0;
-
-        instance.placeMarkerAt(sw);
-        instance.colorIndex = 0;
-
-        instance.placeMarkerAt(se);
-        instance.colorIndex = 0;
-
-        instance.placeMarkerAt(nw);
-
-        instance.colorIndex = 0;
-
-        instance.placeMarkerAt(ne);
-
-
-
-
-    }
     updateLatLngInputs() {
         var instance = GMAP.getInstance();
         var coords = new google.maps.LatLng(instance.mapObjectRef.getCenter().lat(), instance.mapObjectRef.getCenter().lng());
-
         instance.latInput.removeEventListener("input", GMAP.getInstance().moveTo);
         instance.lngInput.removeEventListener("input", GMAP.getInstance().moveTo);
-
         instance.latInput.value = Math.round(coords.lat());
         instance.lngInput.value = Math.round(coords.lng());
-
         instance.latInput.addEventListener("input", GMAP.getInstance().moveTo);
         instance.lngInput.addEventListener("input", GMAP.getInstance().moveTo);
-
     }
 
     initMap()
     {
-        //var instance = GMAP.getInstance();
-        //instance.map = new google.maps.Map(instance.mapHolder,instance.startingOpts );
-        //instance.startingMarker = new google.maps.Marker({position: instance.gLoc, map: instance.map});
+
         var instance = GMAP.getInstance();
         var startCoordinates = instance.startCoordinates;
         //var startCoordinates = {lat: 51.50, lng:0};
@@ -333,18 +391,14 @@ class GMAP {
             zoom: instance.initialZoom,
             center: startCoordinates, });
         instance.mapObjectRef = map;
-
         instance.mapObjectRef.addListener('center_changed', GMAP.getInstance().updateLatLngInputs);
-
         instance.updateLatLngInputs();
-
         //var markerTest = new google.maps.Marker({position: startCoordinates, map: map});
-        instance.placeMarkerAt(startCoordinates, true);
+        instance.placeMarkerAt(startCoordinates, instance.getRandomMarkerColour());
         instance.lngInput.value = Math.round(startCoordinates.lng());
         instance.latInput.value = Math.round(startCoordinates.lat());
     }
- 
-   
+
 }
 
 
@@ -361,20 +415,15 @@ userControls["addAndMove"] = document.getElementById("putMarkerHere");
 userControls["drawCircle"] = document.getElementById("drawCircle");
 userControls["drawSquare"] = document.getElementById("drawSquare");
 userControls["notTooFar"] = document.getElementById("notTooFar");
-
 userControls["antipode"] = document.getElementById("antipode");
-
 //bound actions
 
 
 userControls["latInput"].addEventListener("input", GMAP.getInstance().moveTo);
 userControls["lngInput"].addEventListener("input", GMAP.getInstance().moveTo);
-
 userControls["addAndMove"].addEventListener("click", GMAP.getInstance().addMarker);
 userControls["notTooFar"].addEventListener("click", GMAP.getInstance().notTooFar);
-
 userControls["drawSquare"].addEventListener("click", GMAP.getInstance().drawSquare);
-
 userControls["antipode"].addEventListener("click", GMAP.getInstance().moveToAntipode);
 //buttons
 
