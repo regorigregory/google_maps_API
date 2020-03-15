@@ -20,11 +20,7 @@ class GMAP {
     static getInstance() {
         if (GMAP.instance == undefined) {
             GMAP.instance = new GMAP();
-            GMAP.instance.availableColors = ["red", "green", "blue", "orange", "pink", "yellow", "gray", "purple"];
-            GMAP.instance.defaultColorURL = "https://maps.google.com/mapfiles/ms/icons/blue-dot.png";
-            GMAP.instance.mapIconBaseUrl = "https://maps.google.com/mapfiles/ms/icons/COLOR-dot.png";
-            GMAP.instance.latInput = document.getElementById("userInputLAT");
-            GMAP.instance.lngInput = document.getElementById("userInputLNG");
+           
             GMAP.instance.requiredRadius = 300000;
         }
         return GMAP.instance;

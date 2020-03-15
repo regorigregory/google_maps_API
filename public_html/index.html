@@ -77,7 +77,16 @@
                                 <button class="btn btn-secondary  btn-sm mr-2 " id="drawSquare" role="button"
                                 data-placement="bottom" title="Place a random marker in the current bounds."
                                 data-toggle="tooltip">Rain markers</button>
-
+                                <div id="mode-selector" class="controls">
+                                    <input type="radio" name="type" id="changemode-walking" checked="checked">
+                                    <label for="changemode-walking">Walking</label>
+                          
+                                    <input type="radio" name="type" id="changemode-transit">
+                                    <label for="changemode-transit">Transit</label>
+                          
+                                    <input type="radio" name="type" id="changemode-driving">
+                                    <label for="changemode-driving">Driving</label>
+                                  </div>
                             <div class="dropdown mr-2">
                                 <button class="btn btn-primary dropdown-toggle" type="button"
                                     data-toggle="dropdown">
@@ -86,11 +95,11 @@
                                 <ul class="dropdown-menu">
                                    
                          
-                                    <li class="btn btn-outline-success btn-md mr-2 mb-2 btn-block mb-0" id="antipode" role="button"
+                                    <li class="btn btn-outline-primary btn-md mr-2 mb-2 btn-block mb-0" id="antipode" role="button"
                                         data-placement="bottom" title="Move to the antipode and place a marker there."
                                         data-toggle="tooltip">Antipode
                                     </li>
-                                    <li class="btn btn-outline-success btn-block btn-md mr-2" id="notTooFar" role="button"
+                                    <li class="btn btn-outline-primary btn-block btn-md mr-2" id="notTooFar" role="button"
                                     data-placement="bottom" title="Get a random location within 300km of the last marker."
                                     data-toggle="tooltip">
                                        Not too far...
@@ -192,10 +201,11 @@
 
         <!-- google api and main js is here -->
         <script type="text/javascript"
-            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD3Ok02Xgv_0Ht4-b--gWrc8jtz2CzQwns&libraries=drawing,geometry"></script>
+            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD3Ok02Xgv_0Ht4-b--gWrc8jtz2CzQwns&libraries=drawing,geometry,directions,places"></script>
 
         <script type="text/javascript" src="js/Entities.js"></script>
         <script type="text/javascript" src="js/Map.js"></script>
+        <script type="text/javascript" src="js/Directions.js"></script>
 
         <script type="text/javascript" src="js/App.js"></script>
 
