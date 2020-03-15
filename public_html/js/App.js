@@ -1,8 +1,34 @@
-/* 
+
+LuckyInsigthsHelper.getInstance().init("drawSquare");
+GMAP.getInstance().initMap();
+GMAP.getInstance().initMapTypeSelect("menuForm")
+
+userControls = {};
+userControls["latInput"] = document.getElementById("userInputLAT");
+userControls["lngInput"] = document.getElementById("userInputLNG");
+userControls["addAndMove"] = document.getElementById("putMarkerHere");
+userControls["drawCircle"] = document.getElementById("drawCircle");
+userControls["drawSquare"] = document.getElementById("drawSquare");
+userControls["notTooFar"] = document.getElementById("notTooFar");
+userControls["antipode"] = document.getElementById("antipode");
+//bound actions
+
+
+
+userControls["latInput"].addEventListener("input", GMAP.getInstance().moveTo);
+userControls["lngInput"].addEventListener("input", GMAP.getInstance().moveTo);
+userControls["addAndMove"].addEventListener("click", GMAP.getInstance().addMarker);
+userControls["notTooFar"].addEventListener("click", GMAP.getInstance().notTooFar);
+
+userControls["drawSquare"].addEventListener("click", LuckyInsigthsHelper.getInstance().nextPhase);
+
+userControls["antipode"].addEventListener("click", GMAP.getInstance().moveToAntipode);/* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+
 var mapInstance = GMAP.getInstance().mapObjectRef;
 
 var outcolor = '#ffff00';
@@ -49,12 +75,12 @@ google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event
         var iAmIn = google.maps.geometry.poly.containsLocation(e.latLng, newPoly);
         if (iAmIn)
         {
-           newPoly.setOptions({fillColor: incolor});
-           new google.maps.Marker({
-               position: e.latLng,
-               map: mapInstance,
-               icon:{url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png"} 
-           });
+            newPoly.setOptions({fillColor: incolor});
+            new google.maps.Marker({
+                position: e.latLng,
+                map: mapInstance,
+                icon: {url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png"}
+            });
 
         } else {
             newPoly.setOptions({fillColor: outcolor})
@@ -62,7 +88,6 @@ google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event
 
 
     });
-    
+
 
 });
-

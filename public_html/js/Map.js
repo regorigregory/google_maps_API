@@ -1,38 +1,3 @@
-class MapSymbol {
-    constructor(color) {
-        this.path =
-                "M454.848,198.848c0,159.225-179.751,306.689-179.751,306.689c-10.503,8.617-27.692,8.617-38.195,0	c0,0-179.751-147.464-179.751-306.689C57.153,89.027,146.18,0,256,0S454.848,89.027,454.848,198.848z " +
-                "M256,298.89c-55.164,0-100.041-44.879-100.041-100.041S200.838,98.806,256,98.806	s100.041,44.879,100.041,100.041S311.164,298.89,256,298.89z";
-        this.fillOpacity = 0.7;
-        this.scale = 0.1;
-        this.strokeColor = "black";
-        this.strokeWeight = 1;
-        this.fillColor = color;
-        this.anchor = new google.maps.Point(260, 540);
-        this.labelOrigin = new google.maps.Point(240, 200);
-
-    }
-
-}
-class LuckyInsigthsHelper {
-    constructor() {
-        this.numberOfStates = 4;
-        this.currentState = 0;
-        this.stateFunctions = [GMAP.getInstance().placeLuckyMarker,
-            GMAP.getInstance().setLuckySquare,
-            GMAP.getInstance().finalizeLuckyInsightsEdit,
-            GMAP.getInstance().getAnotherLuckyMarker
-        ];
-    }
-
-    callMe() {
-        if (this.numberOfStates <= this.currentState) {
-            this.currentState = 0;
-        }
-        this.stateFunctions[this.currentState]();
-        this.currentState++;
-    }
-}
 class GMAP {
     instance;
     constructor() {
@@ -68,32 +33,23 @@ class GMAP {
     placeMarkerAt(passedLoc, markerColor) {
         var instance = GMAP.getInstance();
         instance.markerCounter++;
-        console.log(instance.defaultColorUrl)
-        var newMarker = new google.maps.Marker({
-            position: passedLoc,
-            map: instance.mapObjectRef,
-            draggable: true,
-            animation: google.maps.Animation.DROP,
-            //label: "#"+instance.markerCounter,
-            title: "This is #" + instance.markerCounter + " marker, my friend.",
 
-            icon: new MapSymbol(markerColor)
-
-        });
-        newMarker.setLabel("" + instance.markerCounter);
+        var newMarker = new InfoMarker(passedLoc, markerColor);
         instance.lastMarker = passedLoc;
+        instance.markers.push(newMarker);
     }
-
-    placeLuckyMarker() {
+    startLuckyInsights() {
         var instance = GMAP.getInstance();
         var center = instance.mapObjectRef.getCenter();
         instance.placeMarkerAt(center, "red");
-
+        instance.markers[instance.markers.length-1].setDraggable(false);
+        instance.setLuckySquare();
     }
-
     setLuckySquare() {
         var instance = GMAP.getInstance();
+        instance.mapObjectRef.setCenter(instance.lastMarker);
         instance.drawSquare(instance.lastMarker)
+        
 
     }
 
@@ -101,7 +57,10 @@ class GMAP {
         var instance = GMAP.getInstance();
         instance.lastSquare.setEditable(false);
         instance.placeLuckyInsightsCorners();
-        instance.getAnotherLuckyMarker();
+        for(var i =0; i<10; i++){
+           instance.getAnotherLuckyMarker();
+
+        }
         //place four rich markers
 
         //place random markers
@@ -111,17 +70,18 @@ class GMAP {
         var instance = GMAP.getInstance();
         var squareBounds = instance.lastSquare.getBounds();
         var sw = squareBounds.getSouthWest();
-        var ne = squareBounds.getNorhEast();
+        var ne = squareBounds.getNorthEast();
 
-        var x1 = sw.Lng();
-        var y1 = sw.Lat();
-        var x2 = ne.LNG();
-        var y2 = ne.Lat();
+        var x1 = sw.lng();
+        var y1 = sw.lat();
+
+        var x2 = ne.lng();
+        var y2 = ne.lat();
 
         var coords = [new google.maps.LatLng(y1, x1),
             new google.maps.LatLng(y2, x1),
             new google.maps.LatLng(y2, x2),
-            new google.maps.LatLng(y1, x2 )];
+            new google.maps.LatLng(y1, x2)];
 
         for (var i = 0; i < 4; i++)
         {
@@ -130,45 +90,25 @@ class GMAP {
         }
     }
     getAnotherLuckyMarker() {
-        
-        var instance = GMAP.getInstance();
         var instance = GMAP.getInstance();
         var squareBounds = instance.lastSquare.getBounds();
 
-        var center = instance.lastSquare.getCenter();
         var sw = squareBounds.getSouthWest();
-        var ne = squareBounds.getNorhEast();
+        var ne = squareBounds.getNorthEast();
+        var nw = new google.maps.LatLng(ne.lat(), sw.lng());
+        var se = new google.maps.LatLng(sw.lat(), ne.lng());
 
-        var cx = center.Lng();
-        var cy = center.Lat();
-
-        var x1 = sw.Lng();
-        var y1 = sw.Lat();
-
-        var x2 = ne.LNG();
-        var y2 = ne.Lat();
-
-        var x_diff = google.maps.geometry.spherical.computeDistanceBetween(
-                new google.maps.LatLng(), new google.maps.LatLng()
+        var xFraction = Math.random();
+        var yFraction = Math.random();
 
 
-                );
+        var newLng = google.maps.geometry.spherical.interpolate(sw, se, xFraction).lng();
+        var newLat = google.maps.geometry.spherical.interpolate(sw, nw, yFraction).lat();
 
-        var y_diff = google.maps.geometry.spherical.computeDistanceBetween(
-                new google.maps.LatLng(), new google.maps.LatLng()
+        var newMarkerCoords = new google.maps.LatLng(newLat, newLng);
+        instance.placeMarkerAt(newMarkerCoords, instance.getRandomMarkerColour());
 
 
-                );
-        var new_x_dist = instance.getRandom(x_diff, 0);
-        var new_y_dist = instance.getRandom(y_diff, 0);
-
-        var new_x = google.maps.geometry.spherical.computeOffset();
-        var new_y = google.maps.geometry.spherical.computeOffset();
-        
-        
-        instance.placeMarkerAt(new google.maps.LatLng(new_y, new_x));
-        
-       
     }
     getRandom(range, minimum) {
         return Math.floor(Math.random() * range + minimum);
@@ -187,6 +127,7 @@ class GMAP {
     getRandomLongitude() {
         return this.getRandom(360, -180);
     }
+
     getNextColorUrl() {
         var instance = GMAP.getInstance();
         instance.colorIndex++;
@@ -230,7 +171,6 @@ class GMAP {
             var longitude = parseInt(instance.lngInput.value);
             var newCoords = new google.maps.LatLng(latitude, longitude);
             instance.mapObjectRef.setCenter(newCoords);
-
             instance.placeMarkerAt(newCoords, instance.getRandomMarkerColour());
             instance.lastMarker = newCoords;
         }
@@ -341,23 +281,25 @@ class GMAP {
         instance.mapObjectRef.setCenter(center);
         var mapBounds = instance.mapObjectRef.getBounds();
 
-        var newSqure = new google.maps.Rectangle({
+        var newSquare = new google.maps.Rectangle({
             editable: true,
             bounds: mapBounds,
             fillColor: "yellow",
             fillOpacity: 0.5,
+            strokeWeight:1,
 
             center: instance.mapObjectRef.getCenter()
         });
         instance.mapObjectRef.setZoom(instance.mapObjectRef.getZoom() - 1);
 
 
-        newSqure.setMap(instance.mapObjectRef);
-        instance.lastSquare = newSqure;
-        instance.squares.push(newSqure);
+        newSquare.setMap(instance.mapObjectRef);
+        instance.lastSquare = newSquare;
+        instance.squares.push(newSquare);
 
 
     }
+
     notTooFar() {
         var instance = GMAP.getInstance();
         var center = instance.lastMarker;
@@ -390,6 +332,7 @@ class GMAP {
         var map = new google.maps.Map(mapDomElement, {
             zoom: instance.initialZoom,
             center: startCoordinates, });
+
         instance.mapObjectRef = map;
         instance.mapObjectRef.addListener('center_changed', GMAP.getInstance().updateLatLngInputs);
         instance.updateLatLngInputs();
@@ -402,29 +345,6 @@ class GMAP {
 }
 
 
-
-
-
-GMAP.getInstance().initMap();
-GMAP.getInstance().initMapTypeSelect("menuForm")
-
-userControls = {};
-userControls["latInput"] = document.getElementById("userInputLAT");
-userControls["lngInput"] = document.getElementById("userInputLNG");
-userControls["addAndMove"] = document.getElementById("putMarkerHere");
-userControls["drawCircle"] = document.getElementById("drawCircle");
-userControls["drawSquare"] = document.getElementById("drawSquare");
-userControls["notTooFar"] = document.getElementById("notTooFar");
-userControls["antipode"] = document.getElementById("antipode");
-//bound actions
-
-
-userControls["latInput"].addEventListener("input", GMAP.getInstance().moveTo);
-userControls["lngInput"].addEventListener("input", GMAP.getInstance().moveTo);
-userControls["addAndMove"].addEventListener("click", GMAP.getInstance().addMarker);
-userControls["notTooFar"].addEventListener("click", GMAP.getInstance().notTooFar);
-userControls["drawSquare"].addEventListener("click", GMAP.getInstance().drawSquare);
-userControls["antipode"].addEventListener("click", GMAP.getInstance().moveToAntipode);
 //buttons
 
 //userControls["addMarkerElement"] = document.getElementById("addMarkerTo");
