@@ -2,171 +2,218 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <style>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-        </style>
-        <!--<link rel="stylesheet" href="css/bootstrap-theme.min.css">-->
-        <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
 
-    </head>
-    <body id="wrapper">
-        <!--[if lt IE 8]>
+    </style>
+    <!--<link rel="stylesheet" href="css/bootstrap-theme.min.css">-->
+    <link rel="stylesheet" href="css/main.css">
+
+</head>
+
+<body id="wrapper">
+    <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <div id="sidebar-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-light bg-light" style="background-color: #e3f2fd;">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <a class="navbar-brand" href="#">Google Maps</a>
+    <div id="sidebar-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-light bg-light" style="background-color: #e3f2fd;">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">Google Maps</a>
 
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                        <li class="nav-item active">
-
-
-
-                            <form id="menuForm" class="form-inline my-1 my-md-0 form-group" onsubmit="return false">
-                                <button class="btn btn-secondary btn-sm mr-2" id="putMarkerHere" role="button"   data-placement="bottom" title="Put a marker at the centre of the map." data-toggle="tooltip" >Marker, please!</button>
-
-
-                                <button class="btn btn-secondary  btn-sm mr-2" id="route" role="button"   data-placement="bottom" title="Define locations to travel from and to." data-toggle="tooltip" data-target="">Route</button>
-                                &nbsp; | &nbsp;
-                                <label for="userInputLAT" class="">Lat &nbsp;</label>
-                                <input name="userInputLAT" id="userInputLAT" class="mr-2" type="number" min="-90" max="90" />
-
-                                <label for="userInputLNG" class="mr-2">Lng: &nbsp;</label>
-                                <input name="userInputLNG" id="userInputLNG" class="mr-2" type="number" min="-180" max="180" />
-
-                                &nbsp; | &nbsp;
-
-                                <label for="userFrom" class="mr-2">From: &nbsp;</label>
-                                <input name="userFrom" id="userFrom" class="mr-2" type="text" />
-                                <label for="userTo" class="">To: &nbsp;</label>
-                                <input name="userTo" id="userTo" class="mr-2" type="text" />
-
-                                <br/>
-                                <button class="btn btn-secondary btn-sm mr-2" id="antipode" role="button"   data-placement="bottom" title="Move to the antipode and place a marker there." data-toggle="tooltip" >Antipode</button>
-                                <button class="btn btn-secondary  btn-sm mr-2" id="notTooFar" role="button"   data-placement="bottom" title="Get a random location within 300km of the last marker." data-toggle="tooltip" >Not too far...</button>
-                                <button class="btn btn-secondary  btn-sm mr-2" id="drawSquare" role="button"   data-placement="bottom" title="Place a random marker in the current bounds." data-toggle="tooltip">Square</button>
-                                <button class="btn btn-secondary  animated btn-sm mr-2" id="drawPoly" role="button"   data-placement="bottom" title="Draw a polygon and place a random element in there" data-toggle="tooltip" data-target="">Draw</button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
 
 
 
+                        <form id="menuForm" class="form-inline my-1 my-md-0 form-group" onsubmit="return false">
+                           
+                            &nbsp; | &nbsp;
+                            <label for="userInputLAT" class="">Lat &nbsp;</label>
+                            <input name="userInputLAT" id="userInputLAT" class="mr-2" type="number" min="-90"
+                                max="90" />
 
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-        <div class="not-sidebar">
+                            <label for="userInputLNG" class="mr-2">Lng: &nbsp;</label>
+                            <input name="userInputLNG" id="userInputLNG" class="mr-2" type="number" min="-180"
+                                max="180" />
+
+                            &nbsp; | &nbsp;
+
+                            <label for="userFrom" class="mr-2">From: &nbsp;</label>
+                            <input name="userFrom" id="userFrom" class="mr-2" type="text" />
+                            <label for="userTo" class="">To: &nbsp;</label>
+                            <input name="userTo" id="userTo" class="mr-2" type="text" />
+
+                            <br />
+                            <button class="btn btn-secondary btn-sm mr-2" id="putMarkerHere" role="button"
+                            data-placement="bottom" title="Put a marker at the centre of the map."
+                            data-toggle="tooltip">Marker, please!</button>
+
+
+                        <button class="btn btn-secondary  btn-sm mr-2" id="route" role="button"
+                            data-placement="bottom" title="Define locations to travel from and to."
+                            data-toggle="tooltip" data-target="">Route</button>
+                      
+                           
+                                <button class="btn btn-danger  animated btn-sm mr-2" id="drawPoly" role="button"
+                                data-placement="bottom" title="Draw a polygon and place a random element in there"
+                                data-toggle="tooltip" data-target="">Draw</button>
+                                <button class="btn btn-secondary  btn-sm mr-2 " id="drawSquare" role="button"
+                                data-placement="bottom" title="Place a random marker in the current bounds."
+                                data-toggle="tooltip">Rain markers</button>
+
+                            <div class="dropdown mr-2">
+                                <button class="btn btn-primary dropdown-toggle" type="button"
+                                    data-toggle="dropdown">
+                                    <span class="caret">+</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                   
+                         
+                                    <li class="btn btn-outline-success btn-md mr-2 mb-2 btn-block mb-0" id="antipode" role="button"
+                                        data-placement="bottom" title="Move to the antipode and place a marker there."
+                                        data-toggle="tooltip">Antipode
+                                    </li>
+                                    <li class="btn btn-outline-success btn-block btn-md mr-2" id="notTooFar" role="button"
+                                    data-placement="bottom" title="Get a random location within 300km of the last marker."
+                                    data-toggle="tooltip">
+                                       Not too far...
+                                    </li>
+                                  
+                                </ul>
+                            </div>
+                            <div id="mapTypeSelect"></div>
+
+
+
+
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="not-sidebar">
 
 
 
 
 
-            <div class="container-fluid" id="map_controls">
-                <div class="row pb-2" >
-                    <div class="col-md-4">
+        <div class="container-fluid" id="map_controls">
+            <div class="row pb-2">
+                <div class="col-md-4">
 
-                        <div class="form-group">
+                    <div class="form-group">
 
-                        </div>
                     </div>
-
-
-
-
                 </div>
 
 
 
 
+            </div>
 
 
 
 
-                <div class="row pb-2">
-
-
-                </div>
 
 
 
 
-                <!--<button class="btn btn-secondary btn-md" id="moveToLondon" role="button"  data-toggle="tooltip" data-placement="bottom" title="Move to london.">Move to London</button>
+            <div class="row pb-2">
+
+
+            </div>
+
+
+
+
+            <!--<button class="btn btn-secondary btn-md" id="moveToLondon" role="button"  data-toggle="tooltip" data-placement="bottom" title="Move to london.">Move to London</button>
                 <button class="btn btn-primary btn-md" id="addMarker" role="button" data-toggle="modal"  data-target="#addMarkerAt" title="Add a marker to the map at a specific coordinate." >Add marker</button>
                 <button class="btn btn-primary btn-md" id="zoomIn" role="button" data-toggle="tooltip" data-placement="bottom" title="Zoom in." >Zoom in</button>
                 <button class="btn btn-primary btn-md" id="zoomOut" role="button" data-toggle="tooltip" data-placement="bottom" title="Zoom out.">Zoom out</button>
                 <button class="btn btn-primary btn-md" id="toggleMapStyle" role="button" data-toggle="tooltip" data-placement="bottom" title="Press for different map styles.">Toggle map style</button>
                 <button class="btn btn-primary btn-md" id="pingPongEffect" role="button" data-toggle="tooltip" data-placement="bottom" title="Press to start/stop the pingpong effect.">Ping-pong start/stop</button>
                 -->
-                <div class="row" id="additional_map_controls">
-                    <div class="col-12">
+            <div class="row" id="additional_map_controls">
+                <div class="col-12">
 
 
-                    </div>
-                </div>
-
-
-
-                <div class="">
-
-                    <div class="container-fluid" id="google_maps_iframe_container">
-                        <div class="row" id="the_map_itself_container">
-                            <div class="col-12">
-                                <div id="map"></div>
-
-                            </div>
-
-                        </div>
-                    </div>
                 </div>
             </div>
 
 
 
+            <div class="">
 
-            <!-- /container -->  
+                <div class="container-fluid" id="google_maps_iframe_container">
+                    <div class="row" id="the_map_itself_container">
+                        <div class="col-12">
+                            <div id="map"></div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
-            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-            <!-- google api and main js is here -->
-            <script type="text/javascript" 
+
+        <!-- /container -->
+
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+        <!-- google api and main js is here -->
+        <script type="text/javascript"
             src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD3Ok02Xgv_0Ht4-b--gWrc8jtz2CzQwns&libraries=drawing,geometry"></script>
 
-            <script type="text/javascript" src="js/Entities.js"></script>
+        <script type="text/javascript" src="js/Entities.js"></script>
         <script type="text/javascript" src="js/Map.js"></script>
 
-            <script type="text/javascript" src="js/App.js"></script>
+        <script type="text/javascript" src="js/App.js"></script>
 
 
-            <script type="text/javascript" src="js/drawing.js"></script>
 
-<script type="text/javascript">
-        var drawButton = document.getElementById("drawPoly");
-        
-        $("#drawPoly").click(function () {
-                                        $(this).toggleClass("btn-danger", 3000, "fadeIn");
-        });
+        <script type="text/javascript">
+            var drawButton = document.getElementById("drawPoly");
+
+            $("#drawPoly").click(function () {
+                $(this).toggleClass("btn-success", 3000, "fadeIn");
+                $(this).toggleClass("btn-danger", 3000, "fadeIn");
+
+            });
         </script>
 
 
 
 
-    </body>
+</body>
+
 </html>

@@ -87,10 +87,10 @@ class LuckyInsigthsHelper {
     init(id){
         var luckyInstance = LuckyInsigthsHelper.getInstance();
         
-        luckyInstance.numberOfStates = 4;
+        luckyInstance.numberOfStates = 2;
         luckyInstance.currentState = 0;
         luckyInstance.buttonInstance = document.getElementById(id);
-        luckyInstance.classes = ["btn-success", "btn-warning", "btn-danger", "btn-default"];
+        luckyInstance.classes = [ "btn-secondary", "btn-primary"];
 
         luckyInstance.stateFunctions = [
             GMAP.getInstance().startLuckyInsights,

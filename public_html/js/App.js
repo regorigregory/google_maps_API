@@ -1,7 +1,7 @@
 
 LuckyInsigthsHelper.getInstance().init("drawSquare");
 GMAP.getInstance().initMap();
-GMAP.getInstance().initMapTypeSelect("menuForm")
+GMAP.getInstance().initMapTypeSelect("mapTypeSelect")
 
 userControls = {};
 userControls["latInput"] = document.getElementById("userInputLAT");
