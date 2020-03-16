@@ -15,7 +15,12 @@ class MapSymbol {
 
 }
 
-
+class StreetViewMarker extends google.maps.Marker{
+    constructor(passedLocation){
+        var options = {position: passedLocation};
+        super(options);
+    }
+}
 class InfoWindow extends google.maps.InfoWindow {
     constructor(passedContent) {
         super({

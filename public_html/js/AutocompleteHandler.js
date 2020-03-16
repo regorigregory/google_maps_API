@@ -41,9 +41,14 @@ class AutoCompleteHandler {
             function (response, status) {
                 if (status === 'OK') {
                     AutoCompleteHandler.instance.directionsRenderer.setDirections(response);
+                    AutoCompleteHandler.instance.addStreetViewMarkers(response);
                 } else {
                     window.alert('Directions request failed due to ' + status);
                 }
             });
+    }
+
+    addStreetViewMarkers(response){
+
     }
 }

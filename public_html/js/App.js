@@ -22,7 +22,7 @@ userControls["toHere"] = document.getElementById("toHere");
 
 userControls["routeTrigger"] = document.getElementById("routeTrigger");
 userControls["modeSelector"] = document.getElementById("modeSelector");
-
+userControls["streetviewContainer"] = document.getElementById("streetviewContainer");
 
 
 GMAP.getInstance().userControls = userControls;

@@ -55,53 +55,58 @@
 
                         </select>
 
-                        
+
                     </div>
-                    <button class="btn btn-secondary  btn-block mt-3" id="routeTrigger" role="button" data-placement="bottom"
-                            title="Define locations to travel from and to." data-toggle="tooltip" data-target="">Get
-                            route!</button>
+                    <button class="btn btn-secondary  btn-block mt-3" id="routeTrigger" role="button"
+                        data-placement="bottom" title="Define locations to travel from and to." data-toggle="tooltip"
+                        data-target="">Get
+                        route!</button>
                 </div>
             </div>
         </nav>
     </div>
 
+    <div class="container-fluid" id="streetviewContainer" style="display: none"></div>
 
-        <div class="container-fluid" id="google_maps_iframe_container">
-                    <div id="map"></div>
+    <div class="container-fluid" id="google_maps_iframe_container">
+        <div id="map"></div>
 
 
     </div>
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-12">
-            <form id="menuForm" class="form-inline my-1 my-md-0 form-group" onsubmit="return false">
-                <label for="userInputLAT" class="">Lat &nbsp;</label>
-                <input name="userInputLAT" id="userInputLAT" class="col-1 mr-2" type="number" min="-90" max="90" />
+                <form id="menuForm" class="form-inline my-1 my-md-0 form-group" onsubmit="return false">
+                    <label for="userInputLAT" class="">Lat &nbsp;</label>
+                    <input name="userInputLAT" id="userInputLAT" class="col-1 mr-2" type="number" min="-90" max="90" />
 
-                <label for="userInputLNG" class="mr-2">Lng: &nbsp;</label>
-                <input name="userInputLNG" id="userInputLNG" class="col-1 mr-2" type="number" min="-180" max="180" />
+                    <label for="userInputLNG" class="mr-2">Lng: &nbsp;</label>
+                    <input name="userInputLNG" id="userInputLNG" class="col-1 mr-2" type="number" min="-180"
+                        max="180" />
 
 
-                <button class="btn btn-secondary btn-sm mr-2" id="putMarkerHere" role="button" data-placement="bottom"
-                    title="Put a marker at the centre of the map." data-toggle="tooltip">Marker, please!</button>
+                    <button class="btn btn-secondary btn-sm mr-2" id="putMarkerHere" role="button"
+                        data-placement="bottom" title="Put a marker at the centre of the map."
+                        data-toggle="tooltip">Marker, please!</button>
 
-                <button class="btn btn-danger  animated btn-sm mr-2" id="drawPoly" role="button" data-placement="bottom"
-                    title="Draw a polygon and place a random element in there" data-toggle="tooltip"
-                    data-target="">Draw</button>
-                <button class="btn btn-secondary  btn-sm mr-2 " id="drawSquare" role="button" data-placement="bottom"
-                    title="Place a random marker in the current bounds." data-toggle="tooltip">Rain markers</button>
+                    <button class="btn btn-danger  animated btn-sm mr-2" id="drawPoly" role="button"
+                        data-placement="bottom" title="Draw a polygon and place a random element in there"
+                        data-toggle="tooltip" data-target="">Draw</button>
+                    <button class="btn btn-secondary  btn-sm mr-2 " id="drawSquare" role="button"
+                        data-placement="bottom" title="Place a random marker in the current bounds."
+                        data-toggle="tooltip">Rain markers</button>
 
-                <button class="btn btn-secondary  btn-sm mr-2" id="antipode" role="button" data-placement="bottom"
-                    title="Move to the antipode and place a marker there." data-toggle="tooltip">
-                    Antipode
-                </button>
-                <button class="btn btn-secondary  btn-sm mr-2" id="notTooFar" role="button" data-placement="bottom"
-                    title="Get a random location within 300km of the last marker." data-toggle="tooltip">
-                    Not too far...
-                </button>
-            </form>
+                    <button class="btn btn-secondary  btn-sm mr-2" id="antipode" role="button" data-placement="bottom"
+                        title="Move to the antipode and place a marker there." data-toggle="tooltip">
+                        Antipode
+                    </button>
+                    <button class="btn btn-secondary  btn-sm mr-2" id="notTooFar" role="button" data-placement="bottom"
+                        title="Get a random location within 300km of the last marker." data-toggle="tooltip">
+                        Not too far...
+                    </button>
+                </form>
+            </div>
         </div>
-    </div>
 
     </div>
 
@@ -127,7 +132,6 @@
 
     <script type="text/javascript" src="js/Entities.js"></script>
     <script type="text/javascript" src="js/Map.js"></script>
-    <script type="text/javascript" src="js/Directions.js"></script>
     <script type="text/javascript" src="js/DrawingHandler.js"></script>
     <script type="text/javascript" src="js/AutocompleteHandler.js"></script>
 
