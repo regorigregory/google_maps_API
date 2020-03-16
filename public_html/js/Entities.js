@@ -38,7 +38,7 @@ class InfoMarker extends google.maps.Marker {
         var defaultSettings = {
             map: instance.mapObjectRef,
             draggable: true,
-            //animation: google.maps.Animation.DROP,
+            animation: google.maps.Animation.DROP,
             title: "This is #" + instance.markerCounter + " marker, my friend.",
             label: "" + instance.markerCounter
         };

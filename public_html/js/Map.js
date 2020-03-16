@@ -46,8 +46,10 @@ class GMAP {
         var instance = GMAP.getInstance();
         instance.lastSquare.setEditable(false);
         instance.placeLuckyInsightsCorners();
-        for (var i = 0; i < 10; i++) {
-            instance.getAnotherLuckyMarker();
+        for (var i = 0; i < 500; i++) {
+            var timeout = Math.round(Math.random()*10000);
+            setTimeout(instance.getAnotherLuckyMarker, timeout);
+       
 
         }
         //place four rich markers
