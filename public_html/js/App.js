@@ -20,6 +20,11 @@ userControls["antipode"] = document.getElementById("antipode");
 userControls["fromHere"] = document.getElementById("fromHere");
 userControls["toHere"] = document.getElementById("toHere");
 
+userControls["routeTrigger"] = document.getElementById("routeTrigger");
+userControls["modeSelector"] = document.getElementById("modeSelector");
+
+
+
 GMAP.getInstance().userControls = userControls;
 
 //initializing map and its components...
@@ -28,7 +33,7 @@ GMAP.getInstance().initMap();
 GMAP.getInstance().LIH = LuckyInsigthsHelper.getInstance();
 GMAP.getInstance().LIH.init(GMAP.getInstance().userControls.drawSquare);
 
-GMAP.getInstance().initMapTypeSelect("mapTypeSelect")
+GMAP.getInstance().initMapTypeSelect("upperControls")
 GMAP.getInstance().DH = new DrawingHandler(GMAP.getInstance().userControls.drawPoly);
 GMAP.getInstance().AH = new AutoCompleteHandler();
 
@@ -277,7 +282,7 @@ var testStyles = [
   }
 ];
 
-GMAP.getInstance().setOptions({ styles: testStyles });
+GMAP.getInstance().mapObjectRef.setOptions({ styles: testStyles });
 
 //UI styling
 

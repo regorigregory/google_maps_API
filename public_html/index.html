@@ -27,146 +27,111 @@
     <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <div id="sidebar-wrapper">
+    <div id="container-fluid">
         <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-light bg-light" style="background-color: #e3f2fd;">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
-                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggled"
+                aria-controls="navbarToggled" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand" href="#">Google Maps</a>
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
-                        <form id="menuForm" class="form-inline my-1 my-md-0 form-group" onsubmit="return false">
+            <div class="collapse navbar-collapse" id="navbarToggled">
+                <div class="container mr-auto mt-2 mt-lg-0">
+                    <div id="upperControls" class="row mt-2">
+                        <label for="fromHere" class="form-control-plaintext mr-2">From: &nbsp;</label>
 
-                            &nbsp; | &nbsp;
-                            <label for="userInputLAT" class="">Lat &nbsp;</label>
-                            <input name="userInputLAT" id="userInputLAT" class="mr-2" type="number" min="-90"
-                                max="90" />
+                        <input name="fromHere" id="fromHere" class="form-control mr-1" type="text"
+                            placeholder="Start typing for suggestions" />
 
-                            <label for="userInputLNG" class="mr-2">Lng: &nbsp;</label>
-                            <input name="userInputLNG" id="userInputLNG" class="mr-2" type="number" min="-180"
-                                max="180" />
+                        <label for="toHere" class="form-control-plaintext">To: &nbsp;</label>
 
-                            &nbsp; | &nbsp;
-
-                            <label for="fromHere" class="mr-2">From: &nbsp;</label>
-                            <input name="fromHere" id="fromHere" class="mr-2" type="text"
-                                placeholder="Start typing for suggestions" />
-                            <label for="toHere" class="">To: &nbsp;</label>
-                            <input name="toHere" id="toHere" class="mr-2" type="text"
-                                placeholder="Start typing for suggestions" />
-                            <select id="" name="">
-                                <option value="">
-                                </option>
-                            </select>
-                            <br />
-                            <button class="btn btn-secondary btn-sm mr-2" id="putMarkerHere" role="button"
-                                data-placement="bottom" title="Put a marker at the centre of the map."
-                                data-toggle="tooltip">Marker, please!</button>
+                        <input name="toHere" id="toHere" class="form-control mr-1" type="text"
+                            placeholder="Start typing for suggestions" />
+                        <select id="modeSelector" name="travelMode" class="form-control mt-3">
+                            <option value="WALKING">Walking</option>
+                            <option value="TRANSIT">Public transport</option>
+                            <option value="DRIVING">Driving</option>
+                            <option value="BICYCLING">Cycling</option>
 
 
-                            <button class="btn btn-secondary  btn-sm mr-2" id="route" role="button"
-                                data-placement="bottom" title="Define locations to travel from and to."
-                                data-toggle="tooltip" data-target="">Route</button>
+                        </select>
 
-
-                            <button class="btn btn-danger  animated btn-sm mr-2" id="drawPoly" role="button"
-                                data-placement="bottom" title="Draw a polygon and place a random element in there"
-                                data-toggle="tooltip" data-target="">Draw</button>
-                            <button class="btn btn-secondary  btn-sm mr-2 " id="drawSquare" role="button"
-                                data-placement="bottom" title="Place a random marker in the current bounds."
-                                data-toggle="tooltip">Rain markers</button>
-                            <div class="dropdown mr-2">
-                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                    <span class="caret">+</span>
-                                </button>
-                                <ul class="dropdown-menu">
-
-
-                                    <li class="btn btn-outline-primary btn-md mr-2 mb-2 btn-block mb-0" id="antipode"
-                                        role="button" data-placement="bottom"
-                                        title="Move to the antipode and place a marker there." data-toggle="tooltip">
-                                        Antipode
-                                    </li>
-                                    <li class="btn btn-outline-primary btn-block btn-md mr-2" id="notTooFar"
-                                        role="button" data-placement="bottom"
-                                        title="Get a random location within 300km of the last marker."
-                                        data-toggle="tooltip">
-                                        Not too far...
-                                    </li>
-
-                                </ul>
-                            </div>
-                            <div id="mapTypeSelect"></div>
-                        </form>
-                    </li>
-                </ul>
+                        
+                    </div>
+                    <button class="btn btn-secondary  btn-block mt-3" id="routeTrigger" role="button" data-placement="bottom"
+                            title="Define locations to travel from and to." data-toggle="tooltip" data-target="">Get
+                            route!</button>
+                </div>
             </div>
         </nav>
     </div>
-    <div class="not-sidebar">
-        <div class="container-fluid" id="map_controls">
-            <div class="row pb-2">
-                <div class="col-md-4">
-
-                    <div class="form-group">
-
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row pb-2">
 
 
-            </div>
-
-            <div class="row" id="additional_map_controls">
-                <div class="col-12">
+        <div class="container-fluid" id="google_maps_iframe_container">
+                    <div id="map"></div>
 
 
-                </div>
-            </div>
-            <div class="">
-                <div class="container-fluid" id="google_maps_iframe_container">
-                    <div class="row" id="the_map_itself_container">
-                        <div class="col-12">
-                            <div id="map"></div>
+    </div>
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-12">
+            <form id="menuForm" class="form-inline my-1 my-md-0 form-group" onsubmit="return false">
+                <label for="userInputLAT" class="">Lat &nbsp;</label>
+                <input name="userInputLAT" id="userInputLAT" class="col-1 mr-2" type="number" min="-90" max="90" />
 
-                        </div>
+                <label for="userInputLNG" class="mr-2">Lng: &nbsp;</label>
+                <input name="userInputLNG" id="userInputLNG" class="col-1 mr-2" type="number" min="-180" max="180" />
 
-                    </div>
-                </div>
-            </div>
+
+                <button class="btn btn-secondary btn-sm mr-2" id="putMarkerHere" role="button" data-placement="bottom"
+                    title="Put a marker at the centre of the map." data-toggle="tooltip">Marker, please!</button>
+
+                <button class="btn btn-danger  animated btn-sm mr-2" id="drawPoly" role="button" data-placement="bottom"
+                    title="Draw a polygon and place a random element in there" data-toggle="tooltip"
+                    data-target="">Draw</button>
+                <button class="btn btn-secondary  btn-sm mr-2 " id="drawSquare" role="button" data-placement="bottom"
+                    title="Place a random marker in the current bounds." data-toggle="tooltip">Rain markers</button>
+
+                <button class="btn btn-secondary  btn-sm mr-2" id="antipode" role="button" data-placement="bottom"
+                    title="Move to the antipode and place a marker there." data-toggle="tooltip">
+                    Antipode
+                </button>
+                <button class="btn btn-secondary  btn-sm mr-2" id="notTooFar" role="button" data-placement="bottom"
+                    title="Get a random location within 300km of the last marker." data-toggle="tooltip">
+                    Not too far...
+                </button>
+            </form>
         </div>
+    </div>
+
+    </div>
 
 
 
 
-        <!-- /container -->
+    <!-- /container -->
 
 
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
-        <!-- google api and main js is here -->
-        <script type="text/javascript"
-            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD3Ok02Xgv_0Ht4-b--gWrc8jtz2CzQwns&libraries=maps,drawing,geometry,directions,places"></script>
+    <!-- google api and main js is here -->
+    <script type="text/javascript"
+        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD3Ok02Xgv_0Ht4-b--gWrc8jtz2CzQwns&libraries=maps,drawing,geometry,directions,places"></script>
 
-        <script type="text/javascript" src="js/Entities.js"></script>
-        <script type="text/javascript" src="js/Map.js"></script>
-        <script type="text/javascript" src="js/Directions.js"></script>
-        <script type="text/javascript" src="js/DrawingHandler.js"></script>
-        <script type="text/javascript" src="js/AutocompleteHandler.js"></script>
+    <script type="text/javascript" src="js/Entities.js"></script>
+    <script type="text/javascript" src="js/Map.js"></script>
+    <script type="text/javascript" src="js/Directions.js"></script>
+    <script type="text/javascript" src="js/DrawingHandler.js"></script>
+    <script type="text/javascript" src="js/AutocompleteHandler.js"></script>
 
-        <script type="text/javascript" src="js/App.js"></script>
+    <script type="text/javascript" src="js/App.js"></script>
 </body>
+
 </html>

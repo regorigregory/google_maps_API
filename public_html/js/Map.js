@@ -254,6 +254,7 @@ class GMAP {
         var selectElement = document.createElement("select")
         instance.mapTypeSelect = selectElement;
         selectElement.classList.add("form-control");
+        selectElement.classList.add("mt-3");
         selectElement.name = "mapTypeSelect"
         for (var i = 0; i < instance.mapTypes.length; i++) {
             var option = document.createElement("option");
