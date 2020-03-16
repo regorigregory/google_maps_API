@@ -148,17 +148,6 @@ class GMAP {
         return this.getRandom(360, -180);
     }
 
-    getNextColorUrl() {
-        var instance = GMAP.getInstance();
-        instance.colorIndex++;
-        if (!(instance.colorIndex < instance.availableColors.length)) {
-            instance.colorIndex = 0;
-        }
-        var nextIndex = instance.colorIndex
-        var nextColorUrl = instance.mapIconBaseUrl.replace("COLOR", instance.availableColors[nextIndex]);
-        return nextColorUrl;
-    }
-
     checkIFCoordsAreValid() {
         var instance = GMAP.getInstance();
         var latitude = parseInt(instance.latInput.value);
@@ -200,6 +189,14 @@ class GMAP {
             instance.mapObjectRef.setCenter(newCoords);
             instance.placeMarkerAt(newCoords, instance.getRandomMarkerColour());
         }
+    }
+
+    addSuggestionsMarker(newCoords){
+        var instance = GMAP.getInstance();
+        instance.mapObjectRef.setCenter(newCoords);
+        instance.updateLatLngInputs();
+        instance.placeMarkerAt(newCoords, instance.getRandomMarkerColour());
+        
     }
 
     moveTo() {

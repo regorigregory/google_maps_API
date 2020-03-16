@@ -84,12 +84,12 @@ class LuckyInsigthsHelper {
         }
         return LuckyInsigthsHelper.luckyInstance;
     }
-    init(id){
+    init(objectRef){
         var luckyInstance = LuckyInsigthsHelper.getInstance();
         
         luckyInstance.numberOfStates = 2;
         luckyInstance.currentState = 0;
-        luckyInstance.buttonInstance = document.getElementById(id);
+        luckyInstance.buttonInstance = objectRef;
         luckyInstance.classes = [ "btn-secondary", "btn-primary"];
 
         luckyInstance.stateFunctions = [

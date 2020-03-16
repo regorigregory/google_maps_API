@@ -1,4 +1,4 @@
-class AutocompleteDirectionsHandler {
+/*class AutocompleteDirectionsHandler {
   constructor(map){
     this.map = map;
     this.originPlaceId = null;
@@ -89,4 +89,4 @@ class AutocompleteDirectionsHandler {
           }
         });
   
-    }    };
+    }    };*/
