@@ -15,12 +15,6 @@ class MapSymbol {
 
 }
 
-class StreetViewMarker extends google.maps.Marker{
-    constructor(passedLocation){
-        var options = {position: passedLocation};
-        super(options);
-    }
-}
 class InfoWindow extends google.maps.InfoWindow {
     constructor(passedContent) {
         super({
@@ -30,10 +24,12 @@ class InfoWindow extends google.maps.InfoWindow {
 }
 
 class InfoMarker extends google.maps.Marker {
-
+    instanceCounter=0;
     constructor(passedLoc, markerColor) {
 
         var instance = GMAP.getInstance();
+
+        InfoMarker.instanceCounter++;
 
         var defaultSettings = {
             map: instance.mapObjectRef,
@@ -60,6 +56,55 @@ class InfoMarker extends google.maps.Marker {
         this.addListener('click', function () {
             infoWindow.open(instance.mapObjectRef, this);
         });
+    }
+    addPanoramaViewWindow(){
+        var myself=this;
+        
+        var response = StreetViewHanlder.getInstance().getStreetViewData(myself.getPosition());
+
+        if (response !=null){
+            var elementId = response.location.pano;
+            
+            var panoramaWrapper = myself.getPanoramaViewWrapper(elementId);
+
+            myself.title = response.location.description;
+            myself.position = data.location.latLng;
+
+            var myPanorama = new google.maps.StreetViewPanorama(panoramaWrapper);
+            myPanorama.setPano(elementId);
+            myPanorama.setPov({
+                heading: 270,
+                pitch: 0
+              });
+              panorama.setVisible(true);
+              myself.addInfoWindow(panoramaWrapper);
+        } else {
+            console.log("Something went wrong. Come here and check me please.");
+        }
+
+        var newID = "pv_container_"+InfoMarker.instanceCounter;
+
+        var viewContainer = this.getPanoramaViewWrapper(newID);
+        this.addInfoWindowContent(viewContainer);
+
+        var newPanorama = new google.maps.StreetViewPanorama(
+            viewContainer, {
+              position: me.getPosition(),
+              pov: {
+                heading: 34,
+                pitch: 10
+              }
+            });
+        GMAP.getInstance().mapObjectRef.setStreetView(newPanorama);
+
+
+    }
+    getPanoramaViewWrapper(newID){
+        var panoramaWrapper = document.createElement("div");
+        panoramaWrapper.classList.add(streetViewMarkerImage);
+        panoramaWrapper.id = newID;
+        return panoramaWrapper;
+
     }
 
     static getRandomColoured(passedLocation) {
