@@ -26,6 +26,8 @@ class StreetViewHandler extends google.maps.StreetViewService{
             var activeMarker = PanoramaViewMarker.active;
             var infoWindow = activeMarker.getPanoramaViewWindow(responseData);
             infoWindow.open(GMAP.getInstance().mapObjectRef, activeMarker);
+            PanoramaViewMarker.getPanorama().setVisible(true);
+
             var content = infoWindow.getContent();
             PanoramaViewMarker.active.infoWindow = infoWindow;
         

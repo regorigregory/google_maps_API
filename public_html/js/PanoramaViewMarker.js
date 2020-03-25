@@ -39,16 +39,7 @@ class PanoramaViewMarker extends google.maps.Marker {
         PanoramaViewMarker.active = this;
 
         StreetViewHandler.getInstance().getStreetViewData(this.getPosition());
-        var canvases = document.getElementsByTagName("canvas");
-        console.log(canvases.length)
-        for( let i =0; i<canvases.length; i++){
-            if(canvases[i].classList.contains("widget-scene-canvas")){
-                canvases[i].width=280;
-                canvases[i].height = 280;
-                console.log("I have set the width and height!");
-            }
-           
-        }
+       
     }
 
  
@@ -59,13 +50,14 @@ class PanoramaViewMarker extends google.maps.Marker {
             myself.title = response.location.description;
             //myself.position = response.location.latLng;
             var myPanorama = PanoramaViewMarker.getPanorama();
+      
+
             myPanorama.setPano(elementId);
             myPanorama.setPov({
                 heading: 270,
                 pitch: 0
             });
 
-            myPanorama.setVisible(true);
             return new InfoWindow(PanoramaViewMarker.getPanoramaViewWrapper());
         } else {
             return new InfoWindow("There is no Sreetview Panorama available for this location.");
@@ -84,9 +76,9 @@ class PanoramaViewMarker extends google.maps.Marker {
     static getPanorama(){
         PanoramaViewMarker.panoramaHandler = null;
         delete PanoramaViewMarker.panoramaHandler;
-       // if(PanoramaViewMarker.panoramaHandler == undefined) {
+      // if(PanoramaViewMarker.panoramaHandler == undefined) {
         PanoramaViewMarker.panoramaHandler = new google.maps.StreetViewPanorama(PanoramaViewMarker.getPanoramaViewWrapper());
-        //} 
+       //} 
         return PanoramaViewMarker.panoramaHandler;
     }
 
