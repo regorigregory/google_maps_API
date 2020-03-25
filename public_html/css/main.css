@@ -19,10 +19,13 @@
 }
 
 .streetViewMarkerImage{
-    width:200px;
-    height:200px;
+    width:280px;
+    height:280px;
 }
-
+.widget-scene-canvas{
+    width:280px !important;
+    height:280px !important;
+}
 
 
 

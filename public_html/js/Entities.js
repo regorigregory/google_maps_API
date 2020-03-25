@@ -1,10 +1,9 @@
 class MapSymbol {
     constructor(color) {
         this.path =
-                "M454.848,198.848c0,159.225-179.751,306.689-179.751,306.689c-10.503,8.617-27.692,8.617-38.195,0	c0,0-179.751-147.464-179.751-306.689C57.153,89.027,146.18,0,256,0S454.848,89.027,454.848,198.848z " +
-                "M256,298.89c-55.164,0-100.041-44.879-100.041-100.041S200.838,98.806,256,98.806	s100.041,44.879,100.041,100.041S311.164,298.89,256,298.89z";
+            "M454.848,198.848c0,159.225-179.751,306.689-179.751,306.689c-10.503,8.617-27.692,8.617-38.195,0	c0,0-179.751-147.464-179.751-306.689C57.153,89.027,146.18,0,256,0S454.848,89.027,454.848,198.848z ";
         this.fillOpacity = 0.7;
-        this.scale = 0.12;
+        this.scale = 0.1;
         this.strokeColor = "black";
         this.strokeWeight = 1;
         this.fillColor = color;
@@ -12,7 +11,6 @@ class MapSymbol {
         this.labelOrigin = new google.maps.Point(240, 200);
 
     }
-
 }
 
 class InfoWindow extends google.maps.InfoWindow {
@@ -24,18 +22,19 @@ class InfoWindow extends google.maps.InfoWindow {
 }
 
 class InfoMarker extends google.maps.Marker {
-    instanceCounter=0;
+    instanceCounter = 0;
+
     constructor(passedLoc, markerColor) {
 
         var instance = GMAP.getInstance();
 
-        InfoMarker.instanceCounter++;
+        InfoMarker.instanceCounter += 1;
 
         var defaultSettings = {
             map: instance.mapObjectRef,
             draggable: true,
             animation: google.maps.Animation.DROP,
-            title: "This is #" + instance.markerCounter + " marker, my friend.",
+            title: "This is #" + InfoMarker.instanceCounter + " marker, my friend.",
             label: "" + instance.markerCounter
         };
         super(defaultSettings);
@@ -54,57 +53,9 @@ class InfoMarker extends google.maps.Marker {
         var instance = GMAP.getInstance();
         var infoWindow = new InfoWindow(infoWindowContent);
         this.addListener('click', function () {
+            console.log("Stop clicking me, please.")
             infoWindow.open(instance.mapObjectRef, this);
         });
-    }
-    addPanoramaViewWindow(){
-        var myself=this;
-        
-        var response = StreetViewHanlder.getInstance().getStreetViewData(myself.getPosition());
-
-        if (response !=null){
-            var elementId = response.location.pano;
-            
-            var panoramaWrapper = myself.getPanoramaViewWrapper(elementId);
-
-            myself.title = response.location.description;
-            myself.position = data.location.latLng;
-
-            var myPanorama = new google.maps.StreetViewPanorama(panoramaWrapper);
-            myPanorama.setPano(elementId);
-            myPanorama.setPov({
-                heading: 270,
-                pitch: 0
-              });
-              panorama.setVisible(true);
-              myself.addInfoWindow(panoramaWrapper);
-        } else {
-            console.log("Something went wrong. Come here and check me please.");
-        }
-
-        var newID = "pv_container_"+InfoMarker.instanceCounter;
-
-        var viewContainer = this.getPanoramaViewWrapper(newID);
-        this.addInfoWindowContent(viewContainer);
-
-        var newPanorama = new google.maps.StreetViewPanorama(
-            viewContainer, {
-              position: me.getPosition(),
-              pov: {
-                heading: 34,
-                pitch: 10
-              }
-            });
-        GMAP.getInstance().mapObjectRef.setStreetView(newPanorama);
-
-
-    }
-    getPanoramaViewWrapper(newID){
-        var panoramaWrapper = document.createElement("div");
-        panoramaWrapper.classList.add(streetViewMarkerImage);
-        panoramaWrapper.id = newID;
-        return panoramaWrapper;
-
     }
 
     static getRandomColoured(passedLocation) {
@@ -122,53 +73,5 @@ class InfoMarker extends google.maps.Marker {
     }
 
 }
-
-class LuckyInsigthsHelper {
-    luckyInstance;
-    constructor(){
-        
-    }
-      static getInstance() {
-        if (LuckyInsigthsHelper.luckyInstance == undefined) {
-            LuckyInsigthsHelper.luckyInstance = new LuckyInsigthsHelper();
-        }
-        return LuckyInsigthsHelper.luckyInstance;
-    }
-    init(objectRef){
-        var luckyInstance = LuckyInsigthsHelper.getInstance();
-        
-        luckyInstance.numberOfStates = 2;
-        luckyInstance.currentState = 0;
-        luckyInstance.buttonInstance = objectRef;
-        luckyInstance.classes = [ "btn-secondary", "btn-primary"];
-
-        luckyInstance.stateFunctions = [
-            GMAP.getInstance().startLuckyInsights,
-            GMAP.getInstance().finalizeLuckyInsightsEdit,
-            GMAP.getInstance().getAnotherLuckyMarker
-        ];
-
-    }
-
-    nextPhase() {
-        var luckyInstance = LuckyInsigthsHelper.getInstance();
-
-        var functionPointer = luckyInstance.stateFunctions[luckyInstance.currentState];
-        
-        functionPointer();
-        
-        luckyInstance.currentState++;
-
-        luckyInstance.buttonInstance.classList.remove(luckyInstance.classes[luckyInstance.currentState - 1]);
-
-        if (luckyInstance.numberOfStates <= luckyInstance.currentState) {
-            luckyInstance.currentState = 0;
-        }
-
-        luckyInstance.buttonInstance.classList.add(luckyInstance.classes[luckyInstance.currentState]);
-
-    }
-}
-
 
 

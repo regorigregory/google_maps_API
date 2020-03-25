@@ -1,5 +1,53 @@
+class LuckyInsigthsHelper {
+    luckyInstance;
+    constructor() {
+
+    }
+    static getInstance() {
+        if (LuckyInsigthsHelper.luckyInstance == undefined) {
+            LuckyInsigthsHelper.luckyInstance = new LuckyInsigthsHelper();
+        }
+        return LuckyInsigthsHelper.luckyInstance;
+    }
+    init(objectRef) {
+        var luckyInstance = LuckyInsigthsHelper.getInstance();
+
+        luckyInstance.numberOfStates = 2;
+        luckyInstance.currentState = 0;
+        luckyInstance.buttonInstance = objectRef;
+        luckyInstance.classes = ["btn-secondary", "btn-primary"];
+
+        luckyInstance.stateFunctions = [
+            GMAP.getInstance().startLuckyInsights,
+            GMAP.getInstance().finalizeLuckyInsightsEdit,
+            GMAP.getInstance().getAnotherLuckyMarker
+        ];
+
+    }
+
+    nextPhase() {
+        var luckyInstance = LuckyInsigthsHelper.getInstance();
+
+        var functionPointer = luckyInstance.stateFunctions[luckyInstance.currentState];
+
+        functionPointer();
+
+        luckyInstance.currentState++;
+
+        luckyInstance.buttonInstance.classList.remove(luckyInstance.classes[luckyInstance.currentState - 1]);
+
+        if (luckyInstance.numberOfStates <= luckyInstance.currentState) {
+            luckyInstance.currentState = 0;
+        }
+
+        luckyInstance.buttonInstance.classList.add(luckyInstance.classes[luckyInstance.currentState]);
+
+    }
+}
+
 class GMAP {
-    instance;
+    instance =null;
+
     constructor() {
         this.mapHolder = document.getElementById("map");
         this.initialZoom = 4;
@@ -46,8 +94,8 @@ class GMAP {
         var instance = GMAP.getInstance();
         instance.lastSquare.setEditable(false);
         instance.placeLuckyInsightsCorners();
-        for (var i = 0; i < 500; i++) {
-            var timeout = Math.round(Math.random()*10000);
+        for (var i = 0; i < Math.floor(Math.random()*100+10); i++) {
+            var timeout = Math.round(Math.random()*1000);
             setTimeout(instance.getAnotherLuckyMarker, timeout);
        
 
@@ -269,7 +317,46 @@ class GMAP {
         selectElement.addEventListener("change", instance.setMapStyle);
         container.appendChild(selectElement);
     }
+    getShrunkenBounds(){
+        var instance = GMAP.getInstance();
+        var mapBounds = instance.mapObjectRef.getBounds();
 
+        var sw = mapBounds.getSouthWest();
+        var ne = mapBounds.getNorthEast();
+        var nw = new google.maps.LatLng(ne.lat(), sw.lng());
+        var se = new google.maps.LatLng(sw.lat(), ne.lng());
+
+        var y_distance = google.maps.geometry.spherical.computeDistanceBetween(sw, nw);
+        var x_distance = google.maps.geometry.spherical.computeDistanceBetween(sw, se);
+
+        var new_sw = new google.maps.LatLng({
+            lat: google.maps.geometry.spherical.computeOffset(sw, y_distance*0.2, 0).lat(),
+            lng: google.maps.geometry.spherical.computeOffset(sw, x_distance*0.2, 90).lng()
+        });
+        // the buuuug is somewhere here...
+        var new_ne = new google.maps.LatLng({
+            lat: google.maps.geometry.spherical.computeOffset(sw, y_distance*0.8, 0).lat(),
+            lng: google.maps.geometry.spherical.computeOffset(sw, x_distance*0.8, 90).lng()
+        });
+      
+        //var new_sw = google.maps.geometry.spherical.computeOffset(sw, distance*0.2, heading);
+        //var new_ne = google.maps.geometry.spherical.computeOffset(sw, distance*0.8, heading);
+
+        console.log("SW: "+sw.toString());
+        console.log("SE"+se.toString());
+
+        console.log("NW:"+nw.toString());
+        console.log("NE: "+ne.toString());
+
+        console.log("The x distance is: "+x_distance);
+        console.log("The u distance is: "+y_distance);
+
+        console.log("new SW: "+new_sw.toString());
+        console.log("new NE:"+new_ne.toString());
+        //var new_sw = google.maps.geometry.spherical.interpolate(sw, ne, 0.2)
+        //var new_ne = google.maps.geometry.spherical.interpolate(sw, ne, 0.8)
+        return new google.maps.LatLngBounds(new_sw, new_ne);
+    }
     drawCircle() {
         var instance = GMAP.getInstance();
         var lastMarkerLocationCoords = instance.lastMarkerLocation;
@@ -304,7 +391,7 @@ class GMAP {
     drawSquare(center) {
         var instance = GMAP.getInstance();
         instance.mapObjectRef.setCenter(center);
-        var mapBounds = instance.mapObjectRef.getBounds();
+        var mapBounds = instance.getShrunkenBounds(0.2);
 
         var newSquare = new google.maps.Rectangle({
             editable: true,
@@ -313,9 +400,9 @@ class GMAP {
             fillOpacity: 0.5,
             strokeWeight: 1,
 
-            center: instance.mapObjectRef.getCenter()
+            center: new google.maps.LatLng(instance.mapObjectRef.getCenter().lat(), instance.mapObjectRef.getCenter().lng())
         });
-        instance.mapObjectRef.setZoom(instance.mapObjectRef.getZoom() - 1);
+        //instance.mapObjectRef.setZoom(instance.mapObjectRef.getZoom() - 1);
 
 
         newSquare.setMap(instance.mapObjectRef);
@@ -368,19 +455,3 @@ class GMAP {
     }
 
 }
-
-
-//buttons
-
-//userControls["addMarkerElement"] = document.getElementById("addMarkerTo");
-//userControls["zoomInElement"] = document.getElementById("zoomIn");
-//userControls["zoomOutElement"] = document.getElementById("zoomOut");
-//userControls["toggleMapElement"] = document.getElementById("toggleMapStyle");
-
-
-//userControls["moveToElement"].addEventListener("click", GMAP.getInstance().moveTo);
-//userControls["moveToLondonElement"].addEventListener("click", GMAP.getInstance().moveToLondon);
-//userControls["addMarkerElement"].addEventListener("click", GMAP.getInstance().addMarker);
-//userControls["zoomInElement"].addEventListener("click", GMAP.getInstance().zoomIn);
-//userControls["zoomOutElement"].addEventListener("click", GMAP.getInstance().zoomOut);
-//userControls["toggleMapElement"].addEventListener("click", GMAP.getInstance().toggleMapStyle);

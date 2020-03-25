@@ -1,12 +1,10 @@
 class StreetViewHandler extends google.maps.StreetViewService{
-    static #instance =null;
-
-    #constructor(){
+    constructor(){
         super();
+       
     }
-    
     static getInstance(){
-        if (StreetViewHandler.instance == null){
+        if(StreetViewHandler.instance == undefined){
             StreetViewHandler.instance = new StreetViewHandler();
         }
         return StreetViewHandler.instance;
@@ -20,18 +18,25 @@ class StreetViewHandler extends google.maps.StreetViewService{
     }
 
     getStreetViewData(latlong){
-        
-        var requestObj = this.getNewRequestObject(latlong)
-        var response = null;
-        this.getPanorama(requestObj, function(responseData, streetViewStatus){
-
-            if(streetViewStatus == google.maps.StreetViewStatus.OK){
-                response = responseData;
-            } else if (streetViewStatus == google.maps.StreetViewStatus.UNKNOWN_ERROR){
-                alert("There has been an error when trying to retrieve the street view data for the last location.")
-            } 
-
-        });
-        return response;
+        var requestObj = this.getNewRequestObject(latlong);
+        this.getPanorama(requestObj, this.panoramaCallback);
     }
+    panoramaCallback(responseData, streetViewStatus){
+        if(streetViewStatus == google.maps.StreetViewStatus.OK){
+            var activeMarker = PanoramaViewMarker.active;
+            var infoWindow = activeMarker.getPanoramaViewWindow(responseData);
+            infoWindow.open(GMAP.getInstance().mapObjectRef, activeMarker);
+            var content = infoWindow.getContent();
+            PanoramaViewMarker.active.infoWindow = infoWindow;
+        
+
+            
+        } else if (streetViewStatus == google.maps.StreetViewStatus.UNKNOWN_ERROR){
+            alert("There has been an error when trying to retrieve the street view data for the last location.")
+        } 
+         
+          
+    }
+
 }
+

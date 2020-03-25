@@ -23,6 +23,12 @@ class DrawingHandler {
 
     }
 
+    static getInstance(){
+        return DrawingHandler.instance;
+    }
+
+
+
     myClickEvent() {
         var drawingMode = google.maps.drawing.OverlayType.POLYGON;
         if (DrawingHandler.instance.clickedMe == true) {
