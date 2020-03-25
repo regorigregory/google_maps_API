@@ -37,7 +37,8 @@ class AutoCompleteHandler {
             {
                 origin: { query: GMAP.getInstance().userControls.fromHere.value },
                 destination: { query: GMAP.getInstance().userControls.toHere.value },
-                travelMode: AutoCompleteHandler.instance.modeSelector.value
+                travelMode: AutoCompleteHandler.instance.modeSelector.value,
+                provideRouteAlternatives: true
             },
             function (response, status) {
                 if (status === 'OK') {

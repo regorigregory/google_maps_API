@@ -26,13 +26,10 @@ class StreetViewHandler extends google.maps.StreetViewService{
             var activeMarker = PanoramaViewMarker.active;
             var infoWindow = activeMarker.getPanoramaViewWindow(responseData);
             infoWindow.open(GMAP.getInstance().mapObjectRef, activeMarker);
-            PanoramaViewMarker.getPanorama().setVisible(true);
 
             var content = infoWindow.getContent();
             PanoramaViewMarker.active.infoWindow = infoWindow;
-        
-
-            
+   
         } else if (streetViewStatus == google.maps.StreetViewStatus.UNKNOWN_ERROR){
             alert("There has been an error when trying to retrieve the street view data for the last location.")
         } 
