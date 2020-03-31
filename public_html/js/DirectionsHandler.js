@@ -10,18 +10,8 @@ class DirectionsHandler{
             componentREstrictions:  {'country': 'uk'}
         }
         this.autoCompleteElements = [];
-        this.directionsService = new google.maps.DirectionsService;
-        this.directionsRenderer = new google.maps.DirectionsRenderer;
-        this.directionsRenderer.setMap(GMAP.getInstance().mapObjectRef);
-        this.directionsRenderer.setOptions({
-            draggable: true,
-            polyLineOptions: {
-                draggable:true,
-                editable:true
-            }
-
-
-        });
+        this.directionsService = new google.maps.DirectionsService();
+        this.directionsRenderer = google.maps.DirectionsRenderer;
         this.markers = [];
 
     }
@@ -145,16 +135,35 @@ class DirectionsHandler{
     addStreetViewMarkers(response) {
         var me = DirectionsHandler.getInstance();
         me.markers = [];
-        me.directionsRenderer.setDirections(response)
+       
         GMAP.getInstance().lastResponse = response;
+        var j = 0;
+        var map = GMAP.getInstance().mapObjectRef;
         response.routes.forEach(function(r){
+            var color = InfoMarker.getRandomMarkerColour()
+
+        var tempDirectionsRenderer = new google.maps.DirectionsRenderer({
+                map: map,
+                directions: response,
+                routeIndex:j,
+                
+                polylineOptions: {
+                    strokeColor: color
+                },
+                supressMarkers: true
+            });
+
+        
+            //debugger;
+
+            j++;
             let myRoute = r.legs[0];
             PanoramaViewMarker.active = null;
             PanoramaViewMarker.instances = [];
             PanoramaViewMarker.markerCounter = 0;
             for (var i = 0; i < myRoute.steps.length; i++) {
     
-                PanoramaViewMarker.addNewMarker(myRoute.steps[i].start_location);  
+                PanoramaViewMarker.addNewMarker(myRoute.steps[i].start_location, color);  
                 //https://developers.google.com/maps/documentation/javascript/examples/directions-complex
              } 
             }

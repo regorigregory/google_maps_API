@@ -82,8 +82,11 @@ class PanoramaViewMarker extends google.maps.Marker {
         return PanoramaViewMarker.panoramaHandler;
     }
 
-    static addNewMarker(latlng) {
-        new PanoramaViewMarker(latlng, "blue");
+    static addNewMarker(latlng, color) {
+        if(color==undefined){
+            color="blue"
+        }
+        new PanoramaViewMarker(latlng, color);
     }
 
     

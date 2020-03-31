@@ -251,7 +251,7 @@ function startUp(){
   GMAP.instance.latInput = document.getElementById("userInputLAT");
   GMAP.instance.lngInput = document.getElementById("userInputLNG");
   GMAP.getInstance().initMap();
-  GMAP.getInstance().mapObjectRef.setOptions({ styles: testStyles });
+  //GMAP.getInstance().mapObjectRef.setOptions({ styles: testStyles });
 
 
   //specyfying user controls
