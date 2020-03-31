@@ -85,7 +85,12 @@ class GMAP {
     setLuckySquare() {
         var instance = GMAP.getInstance();
         instance.mapObjectRef.setCenter(instance.lastMarkerLocation);
+        var m= instance.mapObjectRef;
+        //Well, this is becouse gmap gets the bounds of the map erroneously using the getBounds function if zoom level is <4
+        m.setZoom(m.getZoom()+1);
         instance.drawSquare(instance.lastMarkerLocation)
+        m.setZoom(m.getZoom()-1);
+
 
 
     }
@@ -124,7 +129,14 @@ class GMAP {
 
         for (var i = 0; i < 4; i++) {
             instance.placeMarkerAt(coords[i], "green");
-            var content = `
+            var content = GMAP.getCoordsWindowContent(coords[i]);
+
+            instance.lastMarker.addInfoWindow(content);
+
+        }
+    }
+    static getCoordsWindowContent(coords){
+        var content = `
                         <div class="infoWindow">
                         <table class="table table-hover">
                         <thead>
@@ -137,7 +149,7 @@ class GMAP {
                         <td>Latitude: </td>
                         <td>
                         `;
-            content += coords[i].lat();
+            content += coords.lat();
             content+=`
                         </td>
 
@@ -146,18 +158,14 @@ class GMAP {
                     <td>Longitude:</td>
                     <td>
                     `;
-        content += coords[i].lng();
+        content += coords.lng();
         content+=`</td>
                     </tr> 
                 </tbody>
                 </table>
                                         </div> 
             `;
-
-
-            instance.lastMarker.addInfoWindow(content);
-
-        }
+            return content;
     }
     getAnotherLuckyMarker() {
         var instance = GMAP.getInstance();
@@ -248,7 +256,11 @@ class GMAP {
         instance.placeMarkerAt(newCoords, instance.getRandomMarkerColour());
         
     }
-
+    addLocationInfoMarker(){
+        var coords =GMAP.getInstance().mapObjectRef.getCenter();
+        var marker = new InfoMarker(coords, "red");
+        marker.addLocationWindow();
+    }
     moveTo() {
         var instance = GMAP.getInstance();
         if (instance.checkIFCoordsAreValid()) {
@@ -341,12 +353,13 @@ class GMAP {
       
         //var new_sw = google.maps.geometry.spherical.computeOffset(sw, distance*0.2, heading);
         //var new_ne = google.maps.geometry.spherical.computeOffset(sw, distance*0.8, heading);
-
+        console.log("|-----------------------------------------------------------------------------------------------|")
         console.log("SW: "+sw.toString());
+        console.log("NE: "+ne.toString());
+
         console.log("SE"+se.toString());
 
         console.log("NW:"+nw.toString());
-        console.log("NE: "+ne.toString());
 
         console.log("The x distance is: "+x_distance);
         console.log("The u distance is: "+y_distance);
@@ -391,7 +404,8 @@ class GMAP {
     drawSquare(center) {
         var instance = GMAP.getInstance();
         instance.mapObjectRef.setCenter(center);
-        var mapBounds = instance.getShrunkenBounds(0.2);
+        var mapBounds = instance.mapObjectRef.getBounds();
+        //var mapBounds = instance.getShrunkenBounds(0.2);
 
         var newSquare = new google.maps.Rectangle({
             editable: true,

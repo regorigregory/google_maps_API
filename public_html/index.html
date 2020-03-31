@@ -36,41 +36,60 @@
             <a class="navbar-brand" href="#">Google Maps</a>
             <div class="collapse navbar-collapse" id="navbarToggled">
                 <div class="container mr-auto mt-2 mt-lg-0">
+                 <h2>Navigation</h2>
+                    <div id="dateTimeInputs" class="row mt-2">
+                        <label class="formControl mr-2" for="dateSelector">Select the date of your departure</label>
+                        <input class="formControl mr-2" id="dateSelector" name="dateSelector" type="date" value="">
+                        <label class="formControl mr-2" for="timeSelector">Select the time of your departure</label>
+                        <input class="formControl mr-2" id="timeSelector" name="timeSelector" type="time">
+                    </div>
+                    <script type="text/javascript">
+                        var currentDateTime = new Date();
+                     
+                        document.getElementById("dateSelector").value=currentDateTime.toISOString().split("T")[0];
+                        document.getElementById("timeSelector").value=currentDateTime.toISOString().split("T")[1].split(".")[0];
+                    </script>
+                    <div id="autocompleteInputs" class="row mt-2"></div>
                     <div id="upperControls" class="row mt-2">
-                        <label for="fromHere" class="form-control-plaintext mr-2">From: &nbsp;</label>
+                        <button class="btn btn-primary  btn-block mt-3" id="addWaypointTrigger" role="button"
+                            data-placement="bottom" title="Define locations to travel from and to."
+                            data-toggle="tooltip" data-target="">Add new waypoint!</button>
 
-                        <input name="fromHere" id="fromHere" class="form-control mr-1" type="text"
-                            placeholder="Start typing for suggestions" />
+                    </div>
+                    <div id="routeTriggers" class="row mt-2">
 
-                        <label for="toHere" class="form-control-plaintext">To: &nbsp;</label>
-
-                        <input name="toHere" id="toHere" class="form-control mr-1" type="text"
-                            placeholder="Start typing for suggestions" />
                         <select id="modeSelector" name="travelMode" class="form-control mt-3">
                             <option value="WALKING">Walking</option>
-                            <option value="TRANSIT">Public transport</option>
+                            <option value="TRANSIT">Transit</option>
                             <option value="DRIVING">Driving</option>
                             <option value="BICYCLING">Cycling</option>
 
-
                         </select>
+
+                        <button class="btn btn-danger  btn-block mt-3" id="routeRequestTrigger" role="button"
+                            data-placement="bottom" title="Define locations to travel from and to."
+                            data-toggle="tooltip" data-target="">Get
+                            route!</button>
+
+                    </div>
+                    <div>
 
 
                     </div>
-                    <button class="btn btn-secondary  btn-block mt-3" id="routeTrigger" role="button"
-                        data-placement="bottom" title="Define locations to travel from and to." data-toggle="tooltip"
-                        data-target="">Get
-                        route!</button>
                 </div>
-            </div>
         </nav>
     </div>
 
     <div class="container-fluid" id="streetviewContainer" style="display: none"></div>
 
     <div class="container-fluid" id="google_maps_iframe_container">
-        <div id="map"></div>
 
+        <div id="map"></div>
+        <script>
+            var outerWidth = window.outerWidth;
+            var map = document.getElementById("map");
+            map.style.width = outerWidth + "px";
+        </script>
 
     </div>
     <div class="container-fluid mt-3">
@@ -104,6 +123,11 @@
                         title="Get a random location within 300km of the last marker." data-toggle="tooltip">
                         Not too far...
                     </button>
+                    <button class="btn btn-secondary  btn-sm mr-2" id="getDynamicMarker" role="button"
+                        data-placement="bottom" title="Get a marker which updates its location data in the infowindow"
+                        data-toggle="tooltip">
+                        Dynamic marker
+                    </button>
                 </form>
             </div>
         </div>
@@ -129,14 +153,14 @@
     <!-- google api and main js is here -->
     <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD3Ok02Xgv_0Ht4-b--gWrc8jtz2CzQwns&libraries=maps,drawing,geometry,directions,places"></script>
-        <script type="text/javascript" src="js/StreetViewHandler.js"></script>
+    <script type="text/javascript" src="js/StreetViewHandler.js"></script>
 
     <script type="text/javascript" src="js/Entities.js"></script>
     <script type="text/javascript" src="js/PanoramaViewMarker.js"></script>
 
     <script type="text/javascript" src="js/Map.js"></script>
     <script type="text/javascript" src="js/DrawingHandler.js"></script>
-    <script type="text/javascript" src="js/AutocompleteHandler.js"></script>
+    <script type="text/javascript" src="js/DirectionsHandler.js"></script>
 
     <script type="text/javascript" src="js/App.js"></script>
 </body>

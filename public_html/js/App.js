@@ -1,54 +1,4 @@
-window.onload = function () {
-  GMAP.getInstance();
-  GMAP.instance.availableColors = ["red", "green", "blue", "orange", "pink", "yellow", "gray", "purple"];
-  GMAP.instance.defaultColorURL = "https://maps.google.com/mapfiles/ms/icons/blue-dot.png";
-  GMAP.instance.mapIconBaseUrl = "https://maps.google.com/mapfiles/ms/icons/COLOR-dot.png";
-  GMAP.instance.latInput = document.getElementById("userInputLAT");
-  GMAP.instance.lngInput = document.getElementById("userInputLNG");
-
-  //specyfying user controls
-
-  userControls = {};
-  userControls["latInput"] = document.getElementById("userInputLAT");
-  userControls["lngInput"] = document.getElementById("userInputLNG");
-  userControls["addAndMove"] = document.getElementById("putMarkerHere");
-  userControls["drawCircle"] = document.getElementById("drawCircle");
-  userControls["drawPoly"] = document.getElementById("drawPoly");
-
-  userControls["drawSquare"] = document.getElementById("drawSquare");
-  userControls["notTooFar"] = document.getElementById("notTooFar");
-  userControls["antipode"] = document.getElementById("antipode");
-  userControls["fromHere"] = document.getElementById("fromHere");
-  userControls["toHere"] = document.getElementById("toHere");
-
-  userControls["routeTrigger"] = document.getElementById("routeTrigger");
-  userControls["modeSelector"] = document.getElementById("modeSelector");
-  userControls["streetviewContainer"] = document.getElementById("streetviewContainer");
-
-
-  GMAP.getInstance().userControls = userControls;
-
-  //initializing map and its components...
-
-  GMAP.getInstance().initMap();
-  GMAP.getInstance().LIH = LuckyInsigthsHelper.getInstance();
-  GMAP.getInstance().LIH.init(GMAP.getInstance().userControls.drawSquare);
-
-  GMAP.getInstance().initMapTypeSelect("upperControls")
-  GMAP.getInstance().DH = new DrawingHandler(GMAP.getInstance().userControls.drawPoly);
-  GMAP.getInstance().AH = new AutoCompleteHandler();
-
-  //binding the actions
-
-  userControls["latInput"].addEventListener("input", GMAP.getInstance().moveTo);
-  userControls["lngInput"].addEventListener("input", GMAP.getInstance().moveTo);
-  userControls["addAndMove"].addEventListener("click", GMAP.getInstance().addMarker);
-  userControls["notTooFar"].addEventListener("click", GMAP.getInstance().notTooFar);
-
-  userControls["drawSquare"].addEventListener("click", LuckyInsigthsHelper.getInstance().nextPhase);
-
-  userControls["antipode"].addEventListener("click", GMAP.getInstance().moveToAntipode);
-
+function startUp(){
   var testStyles = [
     {
       "elementType": "geometry",
@@ -283,7 +233,6 @@ window.onload = function () {
     }
   ];
 
-  GMAP.getInstance().mapObjectRef.setOptions({ styles: testStyles });
 
   //UI styling
 
@@ -294,8 +243,78 @@ window.onload = function () {
   });
 
 
+  GMAP.getInstance();
+
+  GMAP.instance.availableColors = ["red", "green", "blue", "orange", "pink", "yellow", "gray", "purple"];
+  GMAP.instance.defaultColorURL = "https://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+  GMAP.instance.mapIconBaseUrl = "https://maps.google.com/mapfiles/ms/icons/COLOR-dot.png";
+  GMAP.instance.latInput = document.getElementById("userInputLAT");
+  GMAP.instance.lngInput = document.getElementById("userInputLNG");
+  GMAP.getInstance().initMap();
+  GMAP.getInstance().mapObjectRef.setOptions({ styles: testStyles });
 
 
+  //specyfying user controls
+
+  userControls = {};
+  userControls["latInput"] = document.getElementById("userInputLAT");
+  userControls["lngInput"] = document.getElementById("userInputLNG");
+  userControls["addAndMove"] = document.getElementById("putMarkerHere");
+  userControls["drawCircle"] = document.getElementById("drawCircle");
+  userControls["drawPoly"] = document.getElementById("drawPoly");
+
+  userControls["drawSquare"] = document.getElementById("drawSquare");
+  userControls["notTooFar"] = document.getElementById("notTooFar");
+  userControls["antipode"] = document.getElementById("antipode");
+  userControls["fromHere"] = document.getElementById("fromHere");
+  userControls["toHere"] = document.getElementById("toHere");
+
+  userControls["routeTrigger"] = document.getElementById("routeTrigger");
+  userControls["modeSelector"] = document.getElementById("modeSelector");
+  userControls["streetviewContainer"] = document.getElementById("streetviewContainer");
+  userControls["locationInfoMarker"] = document.getElementById("getDynamicMarker");
+
+  
+  GMAP.getInstance().userControls = userControls;
+  var dirHandler = DirectionsHandler.getInstance();
+  dirHandler.setAutocompleteContainer("autocompleteInputs");
+  dirHandler.setAddWaypointTrigger("addWaypointTrigger");
+  dirHandler.setRouteRequestTrigger("routeRequestTrigger");
+  dirHandler.setModeSelector("modeSelector");
+  dirHandler.setDateSelector("dateSelector");
+  dirHandler.setTimeSelector("timeSelector");
+  
+  dirHandler.addWaypointInput();
+  dirHandler.addWaypointInput();
+  
+  //initializing map and its components...
+
+  GMAP.getInstance().LIH = LuckyInsigthsHelper.getInstance();
+  GMAP.getInstance().LIH.init(GMAP.getInstance().userControls.drawSquare);
+
+  GMAP.getInstance().initMapTypeSelect("upperControls")
+  GMAP.getInstance().DH = new DrawingHandler(GMAP.getInstance().userControls.drawPoly);
+  GMAP.getInstance().DIRH = DirectionsHandler.getInstance();
+
+  //binding the actions
+
+  userControls["latInput"].addEventListener("input", GMAP.getInstance().moveTo);
+  userControls["lngInput"].addEventListener("input", GMAP.getInstance().moveTo);
+  userControls["addAndMove"].addEventListener("click", GMAP.getInstance().addMarker);
+  userControls["notTooFar"].addEventListener("click", GMAP.getInstance().notTooFar);
+
+
+  userControls["drawSquare"].addEventListener("click", LuckyInsigthsHelper.getInstance().nextPhase);
+
+  userControls["antipode"].addEventListener("click", GMAP.getInstance().moveToAntipode);
+  userControls["locationInfoMarker"].addEventListener("click", GMAP.getInstance().addLocationInfoMarker)
+  GMAP.userControls = userControls;
 }
+
+google.maps.event.addDomListener(window, 'load', startUp);
+
+
+
+
 
 
