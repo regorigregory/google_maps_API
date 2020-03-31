@@ -52,11 +52,13 @@ class DirectionsHandler{
         var me = DirectionsHandler.getInstance();
         var no = me.elementCounter++;
         var id = me.id_prefix+no;
-
+        var containerDiv = document.createElement("div");
+        containerDiv.classList.add("col-4");
         var labelElement = document.createElement("label");
             labelElement.setAttribute("for", id);
             labelElement.classList.add("form-control-plaintext");
             labelElement.classList.add("mr-2");
+
             labelElement.innerHTML = "Waypoint #"+no
 
         var inputElement = document.createElement("input");
@@ -68,9 +70,10 @@ class DirectionsHandler{
             inputElement.classList.add("mr-2");
             inputElement.classList.add("directionsInput");
 
+            containerDiv.appendChild(labelElement);
+            containerDiv.appendChild(inputElement);
         me.bindAutoCompleteToNewInput(inputElement);
-        me.inputContainer.appendChild(labelElement);
-        me.inputContainer.appendChild(inputElement);
+        me.inputContainer.appendChild(containerDiv);
     }
 
     bindAutoCompleteToNewInput(element){
