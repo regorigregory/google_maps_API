@@ -311,23 +311,8 @@ class GMAP {
 
     initMapTypeSelect(selectedContainerID) {
         var instance = GMAP.getInstance();
-        instance.mapTypeSelectID = selectedContainerID;
-        var container = document.getElementById(selectedContainerID);
-        var selectElement = document.createElement("select")
-        instance.mapTypeSelect = selectElement;
-        selectElement.classList.add("form-control");
-        selectElement.classList.add("mt-3");
-        selectElement.name = "mapTypeSelect"
-        for (var i = 0; i < instance.mapTypes.length; i++) {
-            var option = document.createElement("option");
-            option.value = parseInt(i)
-            option.id = "map_type_" + i
-            option.text = instance.mapTypes[i]
-            selectElement.add(option)
-        }
-
+        var selectElement = document.getElementById("mapTypeSelect");
         selectElement.addEventListener("change", instance.setMapStyle);
-        container.appendChild(selectElement);
     }
     getShrunkenBounds(){
         var instance = GMAP.getInstance();
