@@ -50,8 +50,6 @@ class PanoramaViewMarker extends google.maps.Marker {
             myself.title = response.location.description;
             //myself.position = response.location.latLng;
             var myPanorama = PanoramaViewMarker.getPanorama();
-      
-
             myPanorama.setPano(elementId);
             myPanorama.setPov({
                 heading: 270,
@@ -86,7 +84,8 @@ class PanoramaViewMarker extends google.maps.Marker {
         if(color==undefined){
             color="blue"
         }
-        new PanoramaViewMarker(latlng, color);
+        var pm = new PanoramaViewMarker(latlng, color);
+        return pm;
     }
 
     

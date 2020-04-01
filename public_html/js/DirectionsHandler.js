@@ -28,14 +28,42 @@ class DirectionsHandler {
         me.configObject = opts;
         var ids = opts.elementIDS;
         me.addUIElementReference(ids.autoCompleteContainer, "autoCompleteContainer");
-        me.addUIElementReference(ids.routeMode, "routeMode");
         me.addUIElementReference(ids.routeDate, "routeDate");
         me.addUIElementReference(ids.routeTime, "routeTime");
 
         me.configUIElement(ids.waypoint, "waypoint", "click", me.addWaypointInput);
         me.configUIElement(ids.routeRequest, "routeRequest", "click", me.requestAndRenderRoute);
+        me.configUIElement(ids.routeMode, "routeMode", "change", me.monitorSelect);
+
+
+
         me.addWaypointInput();
         me.addWaypointInput();
+
+    }
+    monitorSelect() {
+        var me = DirectionsHandler.getInstance();
+        var waypointTrigger = me.uiElementPointers.waypoint;
+
+        if (me.uiElementPointers.routeMode.value == "TRANSIT") {
+            var childNodes = me.uiElementPointers.autoCompleteContainer.childNodes;
+            var childNodesNo = childNodes.length;
+
+            if (childNodesNo > 2) {
+                for (var i = 2; i < childNodesNo; i++) {
+                    me.uiElementPointers.autoCompleteContainer.removeChild(childNodes[i]);
+                }
+                alert("If Transit mode is chosen, only two waypoints are allowed. The additional ones will be removed.");
+            }
+            waypointTrigger.setAttribute("disabled", true);
+
+
+        } else {
+            waypointTrigger.removeAttribute("disabled");
+
+
+        }
+
 
     }
     addUIElementReference(stringID, key) {
@@ -111,14 +139,14 @@ class DirectionsHandler {
             provideRouteAlternatives: true,
             drivingOptions: {
                 departureTime: new Date(
-                    me.uiElementPointers.routeDate.value 
-                    + "T" 
+                    me.uiElementPointers.routeDate.value
+                    + "T"
                     + me.uiElementPointers.routeTime.value)
             },
             transitOptions: {
                 departureTime: new Date(
-                    me.uiElementPointers.routeDate.value 
-                    + "T" 
+                    me.uiElementPointers.routeDate.value
+                    + "T"
                     + me.uiElementPointers.routeTime.value)
             }
         };
@@ -164,11 +192,11 @@ class DirectionsHandler {
                 map: map,
                 directions: response,
                 routeIndex: j,
+                suppressMarkers: true,
 
                 polylineOptions: {
                     strokeColor: color
-                },
-                supressMarkers: true
+                }
             });
 
 
@@ -180,8 +208,15 @@ class DirectionsHandler {
             PanoramaViewMarker.instances = [];
             PanoramaViewMarker.markerCounter = 0;
             for (var i = 0; i < myRoute.steps.length; i++) {
-
-                PanoramaViewMarker.addNewMarker(myRoute.steps[i].start_location, color);
+                var panoMarker = PanoramaViewMarker.addNewMarker(myRoute.steps[i].start_location, color);
+                
+                if(i==0){
+                    panoMarker.setLabel("S");
+                }
+                if(i==myRoute.steps.length-1){
+                    panoMarker.setLabel("F");
+                }
+                
                 //https://developers.google.com/maps/documentation/javascript/examples/directions-complex
             }
         }
