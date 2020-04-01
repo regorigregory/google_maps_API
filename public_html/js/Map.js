@@ -187,9 +187,6 @@ class GMAP {
         }
         instance.drawSquare(instance.lastMarkerLocation)
         m.setZoom(m.getZoom() - 1);
-
-
-
     }
 
     finalizeLuckyInsightsEdit() {
