@@ -51,7 +51,7 @@ class GMAP {
     //*******************************************************************
     //** Init functions *************************************************
     //*******************************************************************
-    
+
     constructor() {
         this.mapHolder = document.getElementById("map");
         this.initialZoom = 4;
@@ -74,31 +74,31 @@ class GMAP {
         myself.configObject = opts;
         var ids = opts.elementIDS;
 
-        myself.configUIElement(ids.latInput,"latInput",  "input", myself.moveTo);
+        myself.configUIElement(ids.latInput, "latInput", "input", myself.moveTo);
         myself.configUIElement(ids.lngInput, "lngInput", "input", myself.moveTo);
-        
-
-        myself.configUIElement(ids.addAndMove,"addAndMove", "click", myself.addMarker);
-        myself.configUIElement(ids.notTooFar,"notTooFar", "click", myself.notTooFar);
-
-        myself.configUIElement(ids.antipode,"antipode", "click", myself.moveToAntipode);
 
 
-        myself.configUIElement(ids.locationInfoMarker,"locationInfoMarker", "click", myself.addLocationInfoMarker);
-        myself.configUIElement(ids.mapType,"mapTypeSelect", "change", myself.setMapStyle);
+        myself.configUIElement(ids.addAndMove, "addAndMove", "click", myself.addMarker);
+        myself.configUIElement(ids.notTooFar, "notTooFar", "click", myself.notTooFar);
+
+        myself.configUIElement(ids.antipode, "antipode", "click", myself.moveToAntipode);
+
+
+        myself.configUIElement(ids.locationInfoMarker, "locationInfoMarker", "click", myself.addLocationInfoMarker);
+        myself.configUIElement(ids.mapType, "mapTypeSelect", "change", myself.setMapStyle);
 
         myself.initMap();
 
 
         myself.LIH = LuckyInsigthsHelper.getInstance();
         myself.LIH.init(ids.drawSquare);
-       
 
-       
+
+
     }
 
 
-    configUIElement(stringID, key,  action, functionToBind){
+    configUIElement(stringID, key, action, functionToBind) {
         var myself = GMAP.getInstance();
         var element = document.getElementById(stringID);
         this.uiElementPointers[key] = element;
@@ -126,7 +126,7 @@ class GMAP {
         instance.uiElementPointers.lngInput.value = Math.round(startCoordinates.lng());
         instance.uiElementPointers.latInput.value = Math.round(startCoordinates.lat());
     }
-// Static functions ------------------------------------------------------
+    // Static functions ------------------------------------------------------
     static getInstance() {
         if (GMAP.instance == undefined) {
             GMAP.instance = new GMAP();
@@ -168,7 +168,7 @@ class GMAP {
         return content;
     }
 
-// Business logic --------------------------------------------------------
+    // Business logic --------------------------------------------------------
 
     startLuckyInsights() {
         var instance = GMAP.getInstance();
@@ -182,7 +182,9 @@ class GMAP {
         instance.mapObjectRef.setCenter(instance.lastMarkerLocation);
         var m = instance.mapObjectRef;
         //Well, this is becouse gmap gets the bounds of the map erroneously using the getBounds function if zoom level is <4
-        m.setZoom(m.getZoom() + 1);
+        if (m.getZoom() < 20) {
+            m.setZoom(m.getZoom() + 1);
+        }
         instance.drawSquare(instance.lastMarkerLocation)
         m.setZoom(m.getZoom() - 1);
 
@@ -225,11 +227,11 @@ class GMAP {
         for (var i = 0; i < 4; i++) {
             instance.placeMarkerAt(coords[i], "green");
 
-           // instance.lastMarker.addLocationWindow();
+            // instance.lastMarker.addLocationWindow();
 
         }
     }
-   
+
     getAnotherLuckyMarker() {
         var instance = GMAP.getInstance();
         var squareBounds = instance.lastSquare.getBounds();
