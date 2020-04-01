@@ -36,14 +36,14 @@
             <a class="navbar-brand" href="#">Google Maps</a>
             <div class="collapse navbar-collapse col-sm-12 col-md-12 mt-4" id="navbarToggled">
                 <ul class="nav nav-tabs nav-pills nav-fill">
-                    <li class="nav-item"><a class="nav-link" href="#DirectionsContainer">Directions</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="#MarkerActions">Marker actions</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#DirectionsContainer">Directions</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#MarkerActions">Marker actions</a></li>
                     <li class="nav-item"><a class="nav-link" href="#AdditionalControls">Additional actions</a></li>
 
                 </ul>
                 <div class="tab-content mb-4 mt-3">
 
-                    <div class="container mr-auto mt-2 mt-lg-0 tab-pane show" id="DirectionsContainer">
+                    <div class="container-fluid mr-auto mt-2 mt-lg-0 tab-pane active show" id="DirectionsContainer">
                         <div id="dateTimeInputs" class="row mt-2">
                             <div class="col-md-4 col-sm-12">
                                 <label class="form-control-paintext mr-2" for="dateSelector">Select the date of your
@@ -80,19 +80,36 @@
 
 
                         <div id="wayPointContainer" class="row mt-2">
-                            <button class="btn btn-primary  btn-block mt-3 col-6" id="addWaypointTrigger" role="button"
-                                data-placement="bottom" title="Define locations to travel from and to."
-                                data-toggle="tooltip" data-target="">Add new waypoint!</button>
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary blinker btn-block mt-3" id="addWaypointTrigger"
+                                role="button" data-placement="bottom" title="Add new Waypoint" data-toggle="tooltip"
+                                data-target="">Add new waypoint!</button>
 
-                            <button class="btn btn-danger  btn-block mt-3 col-6" id="routeRequestTrigger" role="button"
-                                data-placement="bottom" title="Define locations to travel from and to."
-                                data-toggle="tooltip" data-target="">Get
+                            </div>
+
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary blinker btn-block mt-3" id="removeWaypointTrigger"
+                                role="button" data-placement="bottom" title="Removes last waypoint."
+                                data-toggle="tooltip" data-target="">Remove waypoint!</button>
+
+                                
+                            </div>
+
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary blinker btn-block mt-3" id="routeRequestTrigger"
+                                role="button" data-placement="bottom" title="Get your routes!" data-toggle="tooltip"
+                                data-target="">Get
                                 route!</button>
+                                
+                            </div>
+  
+                         
+                           
                         </div>
                         <div>
                         </div>
                     </div>
-                    <div class="container mr-auto mt-2 mt-lg-0 tab-pane active show" id="MarkerActions">
+                    <div class="container-fluid mr-auto mt-2 mt-lg-0 tab-pane show" id="MarkerActions">
                         <div class="row mt-2">
                             <div class="col-md-6 col-sm-12">
                                 <label for="userInputLAT" class="form-control-plaintext mr-2">Latitude: &nbsp;</label>
@@ -204,15 +221,11 @@
     <!-- google api and main js is here -->
     <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD3Ok02Xgv_0Ht4-b--gWrc8jtz2CzQwns&libraries=maps,drawing,geometry,directions,places"></script>
-    <script type="text/javascript" src="js/StreetViewHandler.js"></script>
+  
 
     <script type="text/javascript" src="js/Entities.js"></script>
-    <script type="text/javascript" src="js/PanoramaViewMarker.js"></script>
-
     <script type="text/javascript" src="js/Map.js"></script>
-    <script type="text/javascript" src="js/PolygonDrawer.js"></script>
     <script type="text/javascript" src="js/DirectionsHandler.js"></script>
-
     <script type="text/javascript" src="js/App.js"></script>
 
     <script>
@@ -225,15 +238,15 @@
 
             $(".blinker").click(function (e) {
                 var myself = $(this);
-            
+
                 $(this).animate({ backgroundColor: "#218838" }, 10);
-                setTimeout(function(){
+                setTimeout(function () {
                     myself.animate({ backgroundColor: "#5a6268" }, 100);
 
                 }, 200);
 
             });
-       
+
         });
 
 

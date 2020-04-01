@@ -1,3 +1,8 @@
+//*******************************************************************
+//** This class is responsible for processing route responses *******
+//** and additionally, for rendering those routes *******************
+//*******************************************************************
+
 class DirectionsHandler {
 
     constructor() {
@@ -34,7 +39,7 @@ class DirectionsHandler {
         me.configUIElement(ids.waypoint, "waypoint", "click", me.addWaypointInput);
         me.configUIElement(ids.routeRequest, "routeRequest", "click", me.requestAndRenderRoute);
         me.configUIElement(ids.routeMode, "routeMode", "change", me.monitorSelect);
-
+        me.configUIElement(ids.removeWaypoint, "removeWaypoint", "click", me.removeWaypointInput);
 
 
         me.addWaypointInput();
@@ -79,7 +84,16 @@ class DirectionsHandler {
 
     }
 
-
+    removeWaypointInput(){
+        var me = DirectionsHandler.getInstance();
+        var elNum =me.uiElementPointers.autoCompleteContainer.childNodes.length;
+        var container = me.uiElementPointers.autoCompleteContainer;
+        if(elNum>2){
+            container.removeChild(container.childNodes[elNum-1]);
+        } else {
+            alert("The request could not be fulfilled. You need a minimum of two waypoints for every operation!")
+        }
+    }
     addWaypointInput() {
         var me = DirectionsHandler.getInstance();
         var no = me.elementCounter++;

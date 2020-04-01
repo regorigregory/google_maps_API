@@ -265,6 +265,8 @@ function startUp(){
   dirHandlerConfig.elementIDS = {};
   dirHandlerConfig.elementIDS.autoCompleteContainer = "autocompleteInputs";
   dirHandlerConfig.elementIDS.waypoint = "addWaypointTrigger";
+  dirHandlerConfig.elementIDS.removeWaypoint = "removeWaypointTrigger";
+
   dirHandlerConfig.elementIDS.routeRequest = "routeRequestTrigger";
   dirHandlerConfig.elementIDS.routeMode = "modeSelector";
   dirHandlerConfig.elementIDS.routeDate = "dateSelector";
@@ -274,7 +276,7 @@ function startUp(){
   dirHandler.configure(dirHandlerConfig);
 
   mapWrapperConfig.dirHandler = dirHandler;
-  
+
   mapWrapper.PD = PolygonDrawer.getInstance();
   mapWrapper.PD.setPolyTrigger(mapWrapperConfig.elementIDS.drawPoly);
 }

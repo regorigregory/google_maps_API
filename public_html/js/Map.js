@@ -1,51 +1,3 @@
-class LuckyInsigthsHelper {
-    constructor() {
-
-    }
-    static getInstance() {
-        if (LuckyInsigthsHelper.luckyInstance == undefined) {
-            LuckyInsigthsHelper.luckyInstance = new LuckyInsigthsHelper();
-        }
-        return LuckyInsigthsHelper.luckyInstance;
-    }
-    init(stringID) {
-        var luckyInstance = LuckyInsigthsHelper.getInstance();
-
-        luckyInstance.numberOfStates = 2;
-        luckyInstance.currentState = 0;
-        luckyInstance.buttonInstance = document.getElementById(stringID);
-        luckyInstance.buttonInstance.addEventListener("click", luckyInstance.nextPhase);
-
-        luckyInstance.classes = ["btn-secondary", "btn-primary"];
-
-        luckyInstance.stateFunctions = [
-            GMAP.getInstance().startLuckyInsights,
-            GMAP.getInstance().finalizeLuckyInsightsEdit,
-            GMAP.getInstance().getAnotherLuckyMarker
-        ];
-
-    }
-
-    nextPhase() {
-        var luckyInstance = LuckyInsigthsHelper.getInstance();
-
-        var functionPointer = luckyInstance.stateFunctions[luckyInstance.currentState];
-
-        functionPointer();
-
-        luckyInstance.currentState++;
-
-        luckyInstance.buttonInstance.classList.remove(luckyInstance.classes[luckyInstance.currentState - 1]);
-
-        if (luckyInstance.numberOfStates <= luckyInstance.currentState) {
-            luckyInstance.currentState = 0;
-        }
-
-        luckyInstance.buttonInstance.classList.add(luckyInstance.classes[luckyInstance.currentState]);
-
-    }
-}
-
 class GMAP {
 
     //*******************************************************************
@@ -116,6 +68,7 @@ class GMAP {
         var map = new google.maps.Map(mapDomElement, {
             zoom: instance.initialZoom,
             center: startCoordinates,
+            mapTypeId: "terrain"
         });
 
         instance.mapObjectRef = map;
@@ -168,8 +121,11 @@ class GMAP {
         return content;
     }
 
-    // Business logic --------------------------------------------------------
-
+    //*******************************************************************
+    //** Business logic**************************************************
+    //*******************************************************************
+    
+    //These functions might be better off in the helper class ... at least logically
     startLuckyInsights() {
         var instance = GMAP.getInstance();
         var center = instance.mapObjectRef.getCenter();
@@ -181,6 +137,7 @@ class GMAP {
         var instance = GMAP.getInstance();
         instance.mapObjectRef.setCenter(instance.lastMarkerLocation);
         var m = instance.mapObjectRef;
+
         //Well, this is becouse gmap gets the bounds of the map erroneously using the getBounds function if zoom level is <4
         if (m.getZoom() < 20) {
             m.setZoom(m.getZoom() + 1);
@@ -199,10 +156,7 @@ class GMAP {
 
 
         }
-        //place four rich markers
-
-        //place random markers
-
+      
     }
     placeLuckyInsightsCorners() {
         var instance = GMAP.getInstance();
