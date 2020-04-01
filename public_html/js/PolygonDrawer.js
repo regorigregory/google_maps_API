@@ -3,6 +3,8 @@ class PolygonDrawer {
         PolygonDrawer.instance = this;
         this.outcolor = '#ffff00';
         this.incolor = "red";
+        this.defaultDrawingMode =google.maps.drawing.OverlayType.POLYGON;
+
         this.drawingManager = new google.maps.drawing.DrawingManager({
             drawingControl: false,
             polygonOptions: {
@@ -15,7 +17,7 @@ class PolygonDrawer {
             }
         });
         this.drawingManager.setMap(GMAP.getInstance().mapObjectRef);
-        this.initializeGlobalListener();
+        this.initializeBusinessLogic();
     }
 
     static getInstance() {
@@ -24,7 +26,7 @@ class PolygonDrawer {
         }
         return PolygonDrawer.instance;
     }
-    setPolyContainer(id) {
+    setPolyTrigger(id) {
         var me = PolygonDrawer.getInstance();
         me.drawingHandle = document.getElementById(id);
         me.drawingHandle.addEventListener("click", PolygonDrawer.instance.myClickEvent);
@@ -49,7 +51,8 @@ class PolygonDrawer {
     }
   
     myClickEvent() {
-        var drawingMode = google.maps.drawing.OverlayType.POLYGON;
+
+        var drawingMode = PolygonDrawer.instance.defaultDrawingMode;
         if (PolygonDrawer.instance.clickedMe == true) {
             drawingMode = null;
             PolygonDrawer.instance.clickedMe = false;
@@ -59,7 +62,7 @@ class PolygonDrawer {
         PolygonDrawer.instance.drawingManager.setDrawingMode(drawingMode);
 
     };
-    initializeGlobalListener() {
+    initializeBusinessLogic() {
         var mapInstance = GMAP.getInstance().mapObjectRef;
         var newPoly = null;
         var outerEvent = null;

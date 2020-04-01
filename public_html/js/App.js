@@ -243,12 +243,14 @@ function startUp(){
   mapWrapperConfig.elementIDS["drawSquare"] = "drawSquare";
   mapWrapperConfig.elementIDS["notTooFar"] = "notTooFar";
   mapWrapperConfig.elementIDS["antipode"] ="antipode";
- 
+  mapWrapperConfig.elementIDS["mapType"] ="mapTypeSelect";
+
   mapWrapperConfig.elementIDS["streetviewContainer"] = "streetviewContainer";
   mapWrapperConfig.elementIDS["locationInfoMarker"] = "getDynamicMarker";
 
   
   var mapWrapper =  GMAP.getInstance();
+
   mapWrapper.configure(mapWrapperConfig);
   mapWrapper.initMap(mapWrapperConfig);
 
@@ -272,7 +274,8 @@ function startUp(){
   dirHandler.configure(dirHandlerConfig);
 
   mapWrapperConfig.dirHandler = dirHandler;
-  
+  mapWrapper.PD = PolygonDrawer.getInstance();
+  mapWrapper.PD.setPolyTrigger(mapWrapperConfig.elementIDS.drawPoly);
 }
 
 google.maps.event.addDomListener(window, 'load', startUp);

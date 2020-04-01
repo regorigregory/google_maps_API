@@ -85,16 +85,24 @@ class GMAP {
 
 
         myself.configUIElement(ids.locationInfoMarker,"locationInfoMarker", "click", myself.addLocationInfoMarker);
-    
+        myself.configUIElement(ids.mapType,"mapTypeSelect", "change", myself.setMapStyle);
+
         myself.initMap();
 
 
         myself.LIH = LuckyInsigthsHelper.getInstance();
         myself.LIH.init(ids.drawSquare);
-        myself.PD = PolygonDrawer.getInstance();
-        myself.PD.setPolyContainer(ids.drawPoly);
+       
 
        
+    }
+
+
+    configUIElement(stringID, key,  action, functionToBind){
+        var myself = GMAP.getInstance();
+        var element = document.getElementById(stringID);
+        this.uiElementPointers[key] = element;
+        element.addEventListener(action, functionToBind);
     }
 
     initMap() {
@@ -117,13 +125,6 @@ class GMAP {
         instance.placeMarkerAt(startCoordinates, instance.getRandomMarkerColour());
         instance.uiElementPointers.lngInput.value = Math.round(startCoordinates.lng());
         instance.uiElementPointers.latInput.value = Math.round(startCoordinates.lat());
-    }
-
-    configUIElement(stringID, key,  action, functionToBind){
-        var myself = GMAP.getInstance();
-        var element = document.getElementById(stringID);
-        this.uiElementPointers[key] = element;
-        element.addEventListener(action, functionToBind);
     }
 // Static functions ------------------------------------------------------
     static getInstance() {
@@ -320,9 +321,13 @@ class GMAP {
 
     }
     addLocationInfoMarker() {
-        var coords = GMAP.getInstance().mapObjectRef.getCenter();
+        var myself = GMAP.getInstance();
+        myself.markerCounter++;
+        var coords = myself.mapObjectRef.getCenter();
         var marker = new InfoMarker(coords, "red");
         marker.addLocationWindow();
+        myself.markers.push(marker);
+
     }
     moveTo() {
         var instance = GMAP.getInstance();
@@ -372,11 +377,6 @@ class GMAP {
         instance.mapObjectRef.setMapTypeId(nextMapType);
     }
 
-    initMapTypeSelect(selectedContainerID) {
-        var instance = GMAP.getInstance();
-        var selectElement = document.getElementById(selectedContainerID);
-        selectElement.addEventListener("change", instance.setMapStyle);
-    }
     getShrunkenBounds() {
         var instance = GMAP.getInstance();
         var mapBounds = instance.mapObjectRef.getBounds();
