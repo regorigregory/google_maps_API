@@ -42,7 +42,7 @@
 
                 </ul>
                 <div class="tab-content mb-4 mt-3">
-                 
+
                     <div class="container mr-auto mt-2 mt-lg-0 tab-pane show" id="DirectionsContainer">
                         <div id="dateTimeInputs" class="row mt-2">
                             <div class="col-md-4 col-sm-12">
@@ -103,44 +103,45 @@
                             <div class="col-md-6 col-sm-12">
                                 <label for="userInputLNG" class="mr-2 form-control-plaintext">Longitude: &nbsp;</label>
                                 <input name="userInputLNG" id="userInputLNG" class="mr-2 form-control" type="number"
-                                    min="-180" max="180" />             
-                                </div>
+                                    min="-180" max="180" />
+                            </div>
 
                         </div>
                         <div class="row mt-2">
                             <div class="col-md-4 col-sm-12">
-                                <button class="btn btn-secondary  btn-block mt-3" id="putMarkerHere" role="button"
-                                data-placement="bottom" title="Put a marker at the centre of the map."
-                                data-toggle="tooltip">Button 1  - "Marker, please!</button>
-                     
+                                <button class="btn btn-secondary btn-block mt-3 blinker" id="putMarkerHere"
+                                    role="button" data-placement="bottom" title="Put a marker at the centre of the map."
+                                    data-toggle="tooltip">Button 1 - "Marker, please!</button>
+
 
                             </div>
 
                             <div class="col-md-4 col-sm-12">
-                                <button class="btn btn-secondary  btn-block mt-3" id="notTooFar" role="button"
-                                data-placement="bottom" title="Get a random location within 300km of the last marker."
-                                data-toggle="tooltip">
-                                Button 2 - "not too far"
-                            </button>
+                                <button class="btn btn-secondary blinker btn-block mt-3" id="notTooFar" role="button"
+                                    data-placement="bottom"
+                                    title="Get a random location within 300km of the last marker."
+                                    data-toggle="tooltip">
+                                    Button 2 - "not too far"
+                                </button>
                             </div>
                             <div class="col-md-4 col-sm-12">
-                                <button class="btn btn-secondary  btn-block mt-3" id="antipode" role="button"
-                                data-placement="bottom" title="Move to the antipode and place a marker there."
-                                data-toggle="tooltip">
-                                Button 3 - "antipode"
-                            </button>
+                                <button class="btn btn-secondary blinker btn-block mt-3" id="antipode" role="button"
+                                    data-placement="bottom" title="Move to the antipode and place a marker there."
+                                    data-toggle="tooltip">
+                                    Button 3 - "antipode"
+                                </button>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <button class="btn btn-secondary  btn-block mt-3" id="drawSquare" role="button"
-                                data-placement="bottom" title="Place a random marker in the current bounds."
-                                data-toggle="tooltip">Button 4 - "Rain markers"</button>
+                                    data-placement="bottom" title="Place a random marker in the current bounds."
+                                    data-toggle="tooltip">Button 4 - "Rain markers"</button>
 
                             </div>
-                        
+
                             <div class="col-md-4 col-sm-12">
-                                <button class="btn btn-danger  btn-block mt-3" id="drawPoly" role="button"
-                                data-placement="bottom" title="Draw a polygon and place a random element in there"
-                                data-toggle="tooltip" data-target="">Button 5 - "Draw polygon"</button>
+                                <button class="btn btn-secondary  btn-block mt-3" id="drawPoly" role="button"
+                                    data-placement="bottom" title="Draw a polygon and place a random element in there"
+                                    data-toggle="tooltip" data-target="">Button 5 - "Draw polygon"</button>
 
                             </div>
 
@@ -158,14 +159,14 @@
                                     <option class="form-control mt-3" value="3" id="map_type_3">roadmap</option>
                                 </select>
                             </div>
-                       
+
                             <div class="col-md-6 col-sm-12">
                                 <button class="btn btn-secondary btn-block mt-3" id="getDynamicMarker" role="button"
-                                data-placement="bottom"
-                                title="Get a marker which updates its location data in the infowindow"
-                                data-toggle="tooltip">
-                                Dynamic marker
-                            </button>
+                                    data-placement="bottom"
+                                    title="Get a marker which updates its location data in the infowindow"
+                                    data-toggle="tooltip">
+                                    Dynamic marker
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -189,9 +190,10 @@
     <!-- /container -->
 
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+        integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
@@ -219,12 +221,22 @@
                 e.preventDefault();
                 $(this).tab('show');
             });
-            $("#drawPoly").click(function () {
-                $(this).toggleClass("btn-success", 3000, "fadeIn");
-                $(this).toggleClass("btn-danger", 3000, "fadeIn");
+
+
+            $(".blinker").click(function (e) {
+                var myself = $(this);
+            
+                $(this).animate({ backgroundColor: "#218838" }, 10);
+                setTimeout(function(){
+                    myself.animate({ backgroundColor: "#5a6268" }, 100);
+
+                }, 200);
 
             });
+       
         });
+
+
     </script>
     <footer class="footer font-small">
         <div class="container">

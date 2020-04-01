@@ -3,8 +3,8 @@ class PolygonDrawer {
         PolygonDrawer.instance = this;
         this.outcolor = '#ffff00';
         this.incolor = "red";
-        this.defaultDrawingMode =google.maps.drawing.OverlayType.POLYGON;
-
+        this.defaultDrawingMode = google.maps.drawing.OverlayType.POLYGON;
+        this.eventHandlers = []
         this.drawingManager = new google.maps.drawing.DrawingManager({
             drawingControl: false,
             polygonOptions: {
@@ -17,7 +17,7 @@ class PolygonDrawer {
             }
         });
         this.drawingManager.setMap(GMAP.getInstance().mapObjectRef);
-        this.initializeBusinessLogic();
+        this.clickedMe  = false;
     }
 
     static getInstance() {
@@ -26,10 +26,31 @@ class PolygonDrawer {
         }
         return PolygonDrawer.instance;
     }
+   
+    changeDrawingState() {
+        var me = PolygonDrawer.instance;
+        var drawingMode = PolygonDrawer.instance.defaultDrawingMode;
+        if(me.clickedMe==false){
+            me.startDrawingListeners();
+            me.clickedMe = true;
+            me.drawingManager.setDrawingMode(me.defaultDrawingMode);
+            me.drawingHandle.classList.remove("btn-default");
+            me.drawingHandle.classList.add("btn-danger");
+
+        } else {
+            me.drawingHandle.classList.remove("btn-success");
+            me.drawingHandle.classList.add("btn-secondary");
+
+            me.stopDrawingListeners();
+            me.clickedMe = false;
+        }
+
+    };
+
     setPolyTrigger(id) {
         var me = PolygonDrawer.getInstance();
         me.drawingHandle = document.getElementById(id);
-        me.drawingHandle.addEventListener("click", PolygonDrawer.instance.myClickEvent);
+        me.drawingHandle.addEventListener("click", PolygonDrawer.instance.changeDrawingState);
         me.clickedMe = false;
 
     }
@@ -40,7 +61,7 @@ class PolygonDrawer {
         me.drawingManager.setOptions({
             polygonOptions: {
                 fillColor: fillOut,
-                strokeColor:borderColor,
+                strokeColor: borderColor,
                 fillOpacity: 0.3,
                 strokeWeight: 5,
                 clickable: false,
@@ -49,30 +70,23 @@ class PolygonDrawer {
             }
         })
     }
-  
-    myClickEvent() {
-
-        var drawingMode = PolygonDrawer.instance.defaultDrawingMode;
-        if (PolygonDrawer.instance.clickedMe == true) {
-            drawingMode = null;
-            PolygonDrawer.instance.clickedMe = false;
-        } else {
-            PolygonDrawer.instance.clickedMe = true;
-        }
-        PolygonDrawer.instance.drawingManager.setDrawingMode(drawingMode);
-
-    };
-    initializeBusinessLogic() {
+    startDrawingListeners() {
+        var me = this;
         var mapInstance = GMAP.getInstance().mapObjectRef;
         var newPoly = null;
         var outerEvent = null;
-        google.maps.event.addListener(PolygonDrawer.instance.drawingManager, 'overlaycomplete', function (event) {
-            newPoly = event.overlay;
+        me.eventHandlers[0] =  google.maps.event.addListener(PolygonDrawer.instance.drawingManager, 'polygoncomplete', function (newPoly) {
+            //newPoly = event.overlay;
+            me.drawingManager.setDrawingMode(null);
+            me.drawingHandle.classList.remove("btn-danger");
+
+            me.drawingHandle.classList.add("btn-success");
+
             outerEvent = event;
-            google.maps.event.addListener(mapInstance, "mouseover", function () {
+            me.eventHandlers[1] = google.maps.event.addListener(mapInstance, "mouseover", function () {
                 newPoly.setOptions({ fillColor: PolygonDrawer.instance.incolor })
             });
-            google.maps.event.addListener(mapInstance, "mousemove", function (e) {
+            me.eventHandlers[2] = google.maps.event.addListener(mapInstance, "mousemove", function (e) {
                 console.log("I have entered the area.");
                 var iAmIn = google.maps.geometry.poly.containsLocation(e.latLng, newPoly);
                 if (iAmIn) {
@@ -89,7 +103,12 @@ class PolygonDrawer {
 
 
             });
-
+        });
+    }
+    stopDrawingListeners(){
+        var me = PolygonDrawer.instance;
+        me.eventHandlers.forEach(function(eh){
+            eh.remove();
 
         });
     }
