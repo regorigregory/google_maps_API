@@ -225,7 +225,7 @@ class GMAP {
         for (var i = 0; i < 4; i++) {
             instance.placeMarkerAt(coords[i], "green");
 
-            instance.lastMarker.addLocationWindow();
+           // instance.lastMarker.addLocationWindow();
 
         }
     }
@@ -300,6 +300,7 @@ class GMAP {
         instance.lastMarkerLocation = passedLoc;
         instance.lastMarker = newMarker;
         instance.markers.push(newMarker);
+        return newMarker;
     }
     addMarker() {
         var instance = GMAP.getInstance();

@@ -31,7 +31,6 @@ class InfoMarker extends google.maps.Marker {
         var instance = GMAP.getInstance();
 
         InfoMarker.instanceCounter += 1;
-
         var defaultSettings = {
             map: instance.mapObjectRef,
             draggable: true,
@@ -40,6 +39,7 @@ class InfoMarker extends google.maps.Marker {
             label: "" + instance.markerCounter
         };
         super(defaultSettings);
+        this.amIOpened = false;
 
         this.setPosition(passedLoc);
 
@@ -56,9 +56,17 @@ class InfoMarker extends google.maps.Marker {
         var instance = GMAP.getInstance();
         me.infoWindow = new InfoWindow(infoWindowContent);
         me.addListener('click', function () {
-            console.log("Stop clicking me, please.")
-            me.infoWindow.open(instance.mapObjectRef, this);
+            me.toggleFunction(me);
         });
+    }
+    toggleFunction(me){
+        if(me.amIOpened==false){
+            me.infoWindow.open(GMAP.getInstance().mapObjectRef, this);
+            me.amIOpened = true;
+        } else {
+            me.infoWindow.close();
+            me.amIOpened = false;
+        }
     }
     getOneLineLocation(){
         var locString = "Lat: " +this.getPosition().lat() + "Lng:"+this.getPosition().lng();
@@ -72,17 +80,25 @@ class InfoMarker extends google.maps.Marker {
         me.infoWindow = new google.maps.InfoWindow();
         me.addListener('click', function(){
             console.log("Stop clicking me, please.")
-            var content = GMAP.getCoordsWindowContent(me.getPosition());
-            me.infoWindow.setContent(content);
+            var newContent = GMAP.getCoordsWindowContent(me.getPosition());
+            if(me.amIOpened == false) {
+                me.infoWindow.setContent(newContent);
+            }
             me.setTitle(me.getOneLineLocation(me));
-            me.infoWindow.open(instance.mapObjectRef, this);
+            me.toggleFunction(me);
+
+
+
+
         });
 
         me.addListener('position_changed',
         function(){
             me.setTitle(me.getOneLineLocation());
-            var newContent = GMAP.getCoordsWindowContent(me.getPosition());
-            me.infoWindow.setContent(newContent);
+            if(me.amIOpened==true){
+                var newContent = GMAP.getCoordsWindowContent(me.getPosition());
+                me.infoWindow.setContent(newContent);
+            }
         });
 
     }
