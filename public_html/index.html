@@ -40,92 +40,38 @@
             <div class="collapse navbar-collapse col-sm-12 col-md-12 mt-4" id="navbarToggled">
                 <ul class="nav nav-tabs nav-pills nav-fill">
                     <li class="nav-item"><a class="nav-link" href="#DirectionsContainer">Directions</a></li>
-                    <li class="nav-item"><a  class="nav-link active" href="#MarkerActions">Marker actions</a></li>
-                    <li class="nav-item"><a  class="nav-link" href="#MarkerActions">Additional actions</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#MarkerActions">Marker actions</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#AdditionalControls">Additional actions</a></li>
 
                 </ul>
                 <div class="tab-content mb-4 mt-3">
-                    <div class="container mr-auto mt-2 mt-lg-0 tab-pane active show" id="MarkerActions">
-                        <div class="row mt-2">
-
-                            <label for="userInputLAT" class="form-control-plaintext mr-2">Lat &nbsp;</label>
-                            <input name="userInputLAT" id="userInputLAT" class="mr-2 form-control" type="number"
-                                min="-90" max="90" />
-                        </div>
-                        <div class="row mt-2">
-
-                            <label for="userInputLNG" class="mr-2 form-control-plaintext">Lng: &nbsp;</label>
-                            <input name="userInputLNG" id="userInputLNG" class="mr-2 form-control" type="number"
-                                min="-180" max="180" />
-
-                        </div>
-                        <div class="row mt-2">
-
-                            <button class="btn btn-secondary  btn-block mt-3" id="putMarkerHere" role="button"
-                                data-placement="bottom" title="Put a marker at the centre of the map."
-                                data-toggle="tooltip">Marker, please!</button>
-                        </div>
-                        <div class="row mt-2">
-
-                            <button class="btn btn-danger  btn-block mt-3" id="drawPoly" role="button"
-                                data-placement="bottom" title="Draw a polygon and place a random element in there"
-                                data-toggle="tooltip" data-target="">Draw</button>
-
-                            <button class="btn btn-secondary  btn-block mt-3" id="drawSquare" role="button"
-                                data-placement="bottom" title="Place a random marker in the current bounds."
-                                data-toggle="tooltip">Rain markers</button>
-
-                            <button class="btn btn-secondary  btn-block mt-3" id="antipode" role="button"
-                                data-placement="bottom" title="Move to the antipode and place a marker there."
-                                data-toggle="tooltip">
-                                Antipode
-                            </button>
-                            <button class="btn btn-secondary  btn-block mt-3" id="notTooFar" role="button"
-                                data-placement="bottom" title="Get a random location within 300km of the last marker."
-                                data-toggle="tooltip">
-                                Not too far...
-                            </button>
-                            <button class="btn btn-secondary btn-block mt-3" id="getDynamicMarker" role="button"
-                                data-placement="bottom"
-                                title="Get a marker which updates its location data in the infowindow"
-                                data-toggle="tooltip">
-                                Dynamic marker
-                            </button>
-                        </div>
-                            <div id="" class="row mt-2">
-                                <select class="form-control mt-3" name="mapTypeSelect" id="mapTypeSelect">
-                                    <option class="form-control mt-3" value="0" id="map_type_0">terrain</option>
-                                    <option class="form-control mt-3" value="1" id="map_type_1">hybrid</option>
-                                    <option class="form-control mt-3" value="2" id="map_type_2">satellite</option>
-                                    <option class="form-control mt-3" value="3" id="map_type_3">roadmap</option>
-                                </select>
-                            </div>
-                    </div>
+                 
                     <div class="container mr-auto mt-2 mt-lg-0 tab-pane show" id="DirectionsContainer">
                         <div id="dateTimeInputs" class="row mt-2">
-                            <div class="col-4">
+                            <div class="col-md-4 col-sm-12">
                                 <label class="form-control-paintext mr-2" for="dateSelector">Select the date of your
                                     departure</label>
-                                <input class="form-control mr-2" id="dateSelector" name="dateSelector" type="date" value="">
-                                
+                                <input class="form-control mr-2" id="dateSelector" name="dateSelector" type="date"
+                                    value="">
+
                             </div>
-                            <div class="col-4">
- 
+                            <div class="col-md-4 col-sm-12">
+
                                 <label class="form-control-plaintext mr-2" for="timeSelector">Select the time of your
                                     departure</label>
                                 <input class="form-control mr-2" id="timeSelector" name="timeSelector" type="time">
                             </div>
-                            <div class="col-4">
-                                <label for="modeSelector"  class="form-control-plaintext mr-2" >Mode of travel</label>
+                            <div class="col-md-4 col-sm-12">
+                                <label for="modeSelector" class="form-control-plaintext mr-2">Mode of travel</label>
                                 <select id="modeSelector" name="travelMode" class="form-control  mr-2">
                                     <option value="WALKING">Walking</option>
                                     <option value="TRANSIT">Transit</option>
                                     <option value="DRIVING">Driving</option>
                                     <option value="BICYCLING">Cycling</option>
-    
+
                                 </select>
                             </div>
-                          
+
                         </div>
                         <script type="text/javascript">
                             var currentDateTime = new Date();
@@ -134,14 +80,14 @@
                             document.getElementById("timeSelector").value = currentDateTime.toISOString().split("T")[1].split(".")[0];
                         </script>
                         <div id="autocompleteInputs" class="row mt-2"></div>
-                        
-                   
+
+
                         <div id="wayPointContainer" class="row mt-2">
                             <button class="btn btn-primary  btn-block mt-3 col-6" id="addWaypointTrigger" role="button"
                                 data-placement="bottom" title="Define locations to travel from and to."
                                 data-toggle="tooltip" data-target="">Add new waypoint!</button>
 
-                                <button class="btn btn-danger  btn-block mt-3 col-6" id="routeRequestTrigger" role="button"
+                            <button class="btn btn-danger  btn-block mt-3 col-6" id="routeRequestTrigger" role="button"
                                 data-placement="bottom" title="Define locations to travel from and to."
                                 data-toggle="tooltip" data-target="">Get
                                 route!</button>
@@ -153,6 +99,91 @@
 
                         </div>
                     </div>
+                    <div class="container mr-auto mt-2 mt-lg-0 tab-pane active show" id="MarkerActions">
+                        <div class="row mt-2">
+                            <div class="col-md-6 col-sm-12">
+                                <label for="userInputLAT" class="form-control-plaintext mr-2">Latitude: &nbsp;</label>
+                                <input name="userInputLAT" id="userInputLAT" class="mr-2 form-control" type="number"
+                                    min="-90" max="90" />
+
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <label for="userInputLNG" class="mr-2 form-control-plaintext">Longitude: &nbsp;</label>
+                                <input name="userInputLNG" id="userInputLNG" class="mr-2 form-control" type="number"
+                                    min="-180" max="180" />
+                     
+                                </div>
+                        
+
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary  btn-block mt-3" id="putMarkerHere" role="button"
+                                data-placement="bottom" title="Put a marker at the centre of the map."
+                                data-toggle="tooltip">Button 1  - "Marker, please!</button>
+                     
+
+                            </div>
+
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary  btn-block mt-3" id="notTooFar" role="button"
+                                data-placement="bottom" title="Get a random location within 300km of the last marker."
+                                data-toggle="tooltip">
+                                Button 2 - "not too far"
+                            </button>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary  btn-block mt-3" id="antipode" role="button"
+                                data-placement="bottom" title="Move to the antipode and place a marker there."
+                                data-toggle="tooltip">
+                                Button 3 - "antipode"
+                            </button>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary  btn-block mt-3" id="drawSquare" role="button"
+                                data-placement="bottom" title="Place a random marker in the current bounds."
+                                data-toggle="tooltip">Button 4 - "Rain markers"</button>
+
+                            </div>
+                        
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-danger  btn-block mt-3" id="drawPoly" role="button"
+                                data-placement="bottom" title="Draw a polygon and place a random element in there"
+                                data-toggle="tooltip" data-target="">Draw polygon</button>
+
+                            </div>
+                        
+                        
+                       
+                        </div>
+
+                    </div>
+                    <div class="container mr-auto mt-2 mt-lg-0 tab-pane show" id="AdditionalControls">
+
+                        <div id="" class="row mt-2">
+                            <div class="col-md-6 col-sm-12">
+                                <select class="form-control mt-3" name="mapTypeSelect" id="mapTypeSelect">
+                                    <option class="form-control mt-3" value="0" id="map_type_0">terrain</option>
+                                    <option class="form-control mt-3" value="1" id="map_type_1">hybrid</option>
+                                    <option class="form-control mt-3" value="2" id="map_type_2">satellite</option>
+                                    <option class="form-control mt-3" value="3" id="map_type_3">roadmap</option>
+                                </select>
+                            </div>
+                       
+                            <div class="col-md-6 col-sm-12">
+                                <button class="btn btn-secondary btn-block mt-3" id="getDynamicMarker" role="button"
+                                data-placement="bottom"
+                                title="Get a marker which updates its location data in the infowindow"
+                                data-toggle="tooltip">
+                                Dynamic marker
+                            </button>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
 
                 </div>
 
@@ -171,7 +202,7 @@
         </script>
 
     </div>
-      <!-- /container -->
+    <!-- /container -->
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -193,7 +224,7 @@
     <script type="text/javascript" src="js/PanoramaViewMarker.js"></script>
 
     <script type="text/javascript" src="js/Map.js"></script>
-    <script type="text/javascript" src="js/DrawingHandler.js"></script>
+    <script type="text/javascript" src="js/PolygonDrawer.js"></script>
     <script type="text/javascript" src="js/DirectionsHandler.js"></script>
 
     <script type="text/javascript" src="js/App.js"></script>
@@ -204,14 +235,19 @@
                 e.preventDefault();
                 $(this).tab('show');
             });
+            $("#drawPoly").click(function () {
+                $(this).toggleClass("btn-success", 3000, "fadeIn");
+                $(this).toggleClass("btn-danger", 3000, "fadeIn");
+
+            });
         });
     </script>
-<footer class="footer font-small">
-    <div class="container">
-            K1721863 | 2020 |  Gergo Endresz | <a href="" target="_blank">GITHUB</a>
+    <footer class="footer font-small">
+        <div class="container">
+            K1721863 | 2020 | Gergo Endresz | <a href="" target="_blank">GITHUB</a>
 
-    </div>
-</footer>
+        </div>
+    </footer>
 </body>
 
 </html>

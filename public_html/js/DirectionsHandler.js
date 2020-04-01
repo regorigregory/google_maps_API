@@ -9,6 +9,7 @@ class DirectionsHandler{
             bounds: GMAP.getInstance().mapObjectRef.getBounds(),
             componentREstrictions:  {'country': 'uk'}
         }
+        this.uiElementPointers = {};
         this.autoCompleteElements = [];
         this.directionsService = new google.maps.DirectionsService();
         this.directionsRenderer = google.maps.DirectionsRenderer;
@@ -22,38 +23,42 @@ class DirectionsHandler{
         }
         return DirectionsHandler.instance;
     }
+    configure(opts){
+        var me = DirectionsHandler.getInstance()
+        me.configObject = opts;
+        var ids = opts.elementIDS;
+        me.addUIElementReference("autoCompleteContainer", ids.autoCompleteContainer);
+        
+        me.configUIElement(ids.waypoint, "waypoint", "click", me.addWaypointInput);
+        me.configUIElement(ids.routeRequest, "routeRequest", "click", me.routeRequest);
+        me.configUIElement(ids.routeMode, "routeMode", "click", me.routeRequest);
+        me.configUIElement(ids.routeDate, "routeDate", "click", me.routeRequest);
+        me.configUIElement(ids.routeTime, "routeTime", "click", me.routeRequest);
+        me.addWaypointInput();
+        me.addWaypointInput();
 
-    setAutocompleteContainer(id){
-        DirectionsHandler.getInstance().inputContainer = document.getElementById(id);
+    }
+    addUIElementReference(key, stringID){
+        var me = DirectionsHandler.getInstance();
+        me.uiElementPointers[key] = document.getElementById(stringID);
     }
  
-    setAddWaypointTrigger(id){
-        DirectionsHandler.getInstance().waypointTrigger = document.getElementById(id);
-        DirectionsHandler.getInstance().waypointTrigger.addEventListener("click", this.addWaypointInput);
+    configUIElement(stringID, key, actionName, functionToBind){
+        var myself = DirectionsHandler.getInstance();
+        myself.addUIElementReference(key, stringID);
+        myself.uiElementPointers[key].addEventListener("click", functionToBind);
+
 
     }
-    setRouteRequestTrigger(id){
-        DirectionsHandler.getInstance().routeRequestTrigger = document.getElementById(id);
-        DirectionsHandler.getInstance().routeRequestTrigger.addEventListener("click", this.requestAndRenderRoute);
-    }
-    setModeSelector(id){
-        DirectionsHandler.getInstance().modeSelector = document.getElementById(id);
-    }
-    setDateSelector(id){
-        this.dateSelector = document.getElementById(id);
-
-    }
-  setTimeSelector(id){
-    this.timeSelector = document.getElementById(id);
-
-  }
+    
 
     addWaypointInput(){
         var me = DirectionsHandler.getInstance();
         var no = me.elementCounter++;
         var id = me.id_prefix+no;
         var containerDiv = document.createElement("div");
-        containerDiv.classList.add("col-4");
+        containerDiv.classList.add("col-md-4");
+        containerDiv.classList.add("col-sm-12");
         var labelElement = document.createElement("label");
             labelElement.setAttribute("for", id);
             labelElement.classList.add("form-control-plaintext");
@@ -73,7 +78,7 @@ class DirectionsHandler{
             containerDiv.appendChild(labelElement);
             containerDiv.appendChild(inputElement);
         me.bindAutoCompleteToNewInput(inputElement);
-        me.inputContainer.appendChild(containerDiv);
+        me.uiElementPointers.autoCompleteContainer.appendChild(containerDiv);
     }
 
     bindAutoCompleteToNewInput(element){

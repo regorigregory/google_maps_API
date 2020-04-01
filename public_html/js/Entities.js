@@ -68,6 +68,7 @@ class InfoMarker extends google.maps.Marker {
     {
         var me = this;
         var instance = GMAP.getInstance();
+        me.setTitle(me.getOneLineLocation(me));
         me.infoWindow = new google.maps.InfoWindow();
         me.addListener('click', function(){
             console.log("Stop clicking me, please.")

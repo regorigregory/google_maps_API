@@ -233,82 +233,46 @@ function startUp(){
     }
   ];
 
-
-  //UI styling
-
-  $("#drawPoly").click(function () {
-    $(this).toggleClass("btn-success", 3000, "fadeIn");
-    $(this).toggleClass("btn-danger", 3000, "fadeIn");
-
-  });
-
-
-  GMAP.getInstance();
-
-  GMAP.instance.availableColors = ["red", "green", "blue", "orange", "pink", "yellow", "gray", "purple"];
-  GMAP.instance.defaultColorURL = "https://maps.google.com/mapfiles/ms/icons/blue-dot.png";
-  GMAP.instance.mapIconBaseUrl = "https://maps.google.com/mapfiles/ms/icons/COLOR-dot.png";
-  GMAP.instance.latInput = document.getElementById("userInputLAT");
-  GMAP.instance.lngInput = document.getElementById("userInputLNG");
-  GMAP.getInstance().initMap();
-  //GMAP.getInstance().mapObjectRef.setOptions({ styles: testStyles });
-
-
-  //specyfying user controls
-
-  userControls = {};
-  userControls["latInput"] = document.getElementById("userInputLAT");
-  userControls["lngInput"] = document.getElementById("userInputLNG");
-  userControls["addAndMove"] = document.getElementById("putMarkerHere");
-  userControls["drawCircle"] = document.getElementById("drawCircle");
-  userControls["drawPoly"] = document.getElementById("drawPoly");
-
-  userControls["drawSquare"] = document.getElementById("drawSquare");
-  userControls["notTooFar"] = document.getElementById("notTooFar");
-  userControls["antipode"] = document.getElementById("antipode");
-  userControls["fromHere"] = document.getElementById("fromHere");
-  userControls["toHere"] = document.getElementById("toHere");
-
-  userControls["routeTrigger"] = document.getElementById("routeTrigger");
-  userControls["modeSelector"] = document.getElementById("modeSelector");
-  userControls["streetviewContainer"] = document.getElementById("streetviewContainer");
-  userControls["locationInfoMarker"] = document.getElementById("getDynamicMarker");
+  mapWrapperConfig = {};
+  mapWrapperConfig.elementIDS={};
+  mapWrapperConfig.elementIDS["latInput"] = "userInputLAT";
+  mapWrapperConfig.elementIDS["lngInput"] ="userInputLNG";
+  mapWrapperConfig.elementIDS["addAndMove"] ="putMarkerHere";
+  mapWrapperConfig.elementIDS["drawCircle"] = "drawCircle";
+  mapWrapperConfig.elementIDS["drawPoly"] = "drawPoly";
+  mapWrapperConfig.elementIDS["drawSquare"] = "drawSquare";
+  mapWrapperConfig.elementIDS["notTooFar"] = "notTooFar";
+  mapWrapperConfig.elementIDS["antipode"] ="antipode";
+ 
+  mapWrapperConfig.elementIDS["streetviewContainer"] = "streetviewContainer";
+  mapWrapperConfig.elementIDS["locationInfoMarker"] = "getDynamicMarker";
 
   
-  GMAP.getInstance().userControls = userControls;
+  var mapWrapper =  GMAP.getInstance();
+  mapWrapper.configure(mapWrapperConfig);
+  mapWrapper.initMap(mapWrapperConfig);
+
+  //The three lines below are deprecated...
+  //Just left here to support "legacy" functions
+  // having done during the workshops
+  mapWrapperConfig.availableColors = ["red", "green", "blue", "orange", "pink", "yellow", "gray", "purple"];
+  mapWrapperConfig.defaultColorURL = "https://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+  mapWrapperConfig.mapIconBaseUrl = "https://maps.google.com/mapfiles/ms/icons/COLOR-dot.png";
+  
+  var dirHandlerConfig = {};
+  dirHandlerConfig.elementIDS = {};
+  dirHandlerConfig.elementIDS.autoCompleteContainer = "autocompleteInputs";
+  dirHandlerConfig.elementIDS.waypoint = "addWaypointTrigger";
+  dirHandlerConfig.elementIDS.routeRequest = "routeRequestTrigger";
+  dirHandlerConfig.elementIDS.routeMode = "modeSelector";
+  dirHandlerConfig.elementIDS.routeDate = "dateSelector";
+  dirHandlerConfig.elementIDS.routeTime = "timeSelector";
+
   var dirHandler = DirectionsHandler.getInstance();
-  dirHandler.setAutocompleteContainer("autocompleteInputs");
-  dirHandler.setAddWaypointTrigger("addWaypointTrigger");
-  dirHandler.setRouteRequestTrigger("routeRequestTrigger");
-  dirHandler.setModeSelector("modeSelector");
-  dirHandler.setDateSelector("dateSelector");
-  dirHandler.setTimeSelector("timeSelector");
+  dirHandler.configure(dirHandlerConfig);
+
+  mapWrapperConfig.dirHandler = dirHandler;
   
-  dirHandler.addWaypointInput();
-  dirHandler.addWaypointInput();
-  
-  //initializing map and its components...
-
-  GMAP.getInstance().LIH = LuckyInsigthsHelper.getInstance();
-  GMAP.getInstance().LIH.init(GMAP.getInstance().userControls.drawSquare);
-
-  GMAP.getInstance().initMapTypeSelect("upperControls")
-  GMAP.getInstance().DH = new DrawingHandler(GMAP.getInstance().userControls.drawPoly);
-  GMAP.getInstance().DIRH = DirectionsHandler.getInstance();
-
-  //binding the actions
-
-  userControls["latInput"].addEventListener("input", GMAP.getInstance().moveTo);
-  userControls["lngInput"].addEventListener("input", GMAP.getInstance().moveTo);
-  userControls["addAndMove"].addEventListener("click", GMAP.getInstance().addMarker);
-  userControls["notTooFar"].addEventListener("click", GMAP.getInstance().notTooFar);
-
-
-  userControls["drawSquare"].addEventListener("click", LuckyInsigthsHelper.getInstance().nextPhase);
-
-  userControls["antipode"].addEventListener("click", GMAP.getInstance().moveToAntipode);
-  userControls["locationInfoMarker"].addEventListener("click", GMAP.getInstance().addLocationInfoMarker)
-  GMAP.userControls = userControls;
 }
 
 google.maps.event.addDomListener(window, 'load', startUp);
