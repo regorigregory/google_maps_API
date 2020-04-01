@@ -274,6 +274,7 @@ function startUp(){
   dirHandler.configure(dirHandlerConfig);
 
   mapWrapperConfig.dirHandler = dirHandler;
+  
   mapWrapper.PD = PolygonDrawer.getInstance();
   mapWrapper.PD.setPolyTrigger(mapWrapperConfig.elementIDS.drawPoly);
 }

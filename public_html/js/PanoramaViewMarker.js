@@ -9,7 +9,7 @@ class PanoramaViewMarker extends google.maps.Marker {
 
         var defaultSettings = {
             map: GMAP.getInstance().mapObjectRef,
-            draggable: false,
+            draggable: true,
             animation: google.maps.Animation.DROP,
             title: "This is #" + (PanoramaViewMarker.markerCounter+1) + " marker, my friend.",
             label: "" + (PanoramaViewMarker.markerCounter+1)

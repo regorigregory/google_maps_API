@@ -2,7 +2,7 @@ class MapSymbol {
     constructor(color) {
         this.path =
             "M454.848,198.848c0,159.225-179.751,306.689-179.751,306.689c-10.503,8.617-27.692,8.617-38.195,0	c0,0-179.751-147.464-179.751-306.689C57.153,89.027,146.18,0,256,0S454.848,89.027,454.848,198.848z ";
-        this.fillOpacity = 0.9;
+        this.fillOpacity = 1;
         this.scale = 0.07;
         this.strokeColor = "black";
         this.strokeWeight = 1;

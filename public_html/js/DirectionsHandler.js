@@ -131,6 +131,16 @@ class DirectionsHandler {
         var wayPointInputs = document.getElementsByClassName("directionsInput");
         var src = wayPointInputs[0];
         var dst = wayPointInputs[wayPointInputs.length - 1];
+        var departure = new Date(
+            me.uiElementPointers.routeDate.value
+            + "T"
+            + me.uiElementPointers.routeTime.value);
+        if(departure < new Date()){
+            var newDate = new Date;
+            newDate.setMinutes(newDate.getMinutes(), 5);
+            departure = newDate;
+            alert("The date specified is in the past. It has been set to "+departure);
+        }
         var opts = {
             origin: src.value,
             destination: dst.value,
@@ -138,16 +148,10 @@ class DirectionsHandler {
                 .TravelMode[me.uiElementPointers.routeMode.value],
             provideRouteAlternatives: true,
             drivingOptions: {
-                departureTime: new Date(
-                    me.uiElementPointers.routeDate.value
-                    + "T"
-                    + me.uiElementPointers.routeTime.value)
+                departureTime: departure
             },
             transitOptions: {
-                departureTime: new Date(
-                    me.uiElementPointers.routeDate.value
-                    + "T"
-                    + me.uiElementPointers.routeTime.value)
+                departureTime: departure
             }
         };
 
@@ -185,6 +189,8 @@ class DirectionsHandler {
         GMAP.getInstance().lastResponse = response;
         var j = 0;
         var map = GMAP.getInstance().mapObjectRef;
+        var locations = [];
+
         response.routes.forEach(function (r) {
             var color = InfoMarker.getRandomMarkerColour()
 
@@ -192,8 +198,7 @@ class DirectionsHandler {
                 map: map,
                 directions: response,
                 routeIndex: j,
-                suppressMarkers: true,
-
+                suppressMarkers: false,
                 polylineOptions: {
                     strokeColor: color
                 }
@@ -207,16 +212,18 @@ class DirectionsHandler {
             PanoramaViewMarker.active = null;
             PanoramaViewMarker.instances = [];
             PanoramaViewMarker.markerCounter = 0;
-            for (var i = 0; i < myRoute.steps.length; i++) {
-                var panoMarker = PanoramaViewMarker.addNewMarker(myRoute.steps[i].start_location, color);
-                
-                if(i==0){
-                    panoMarker.setLabel("S");
+            for (var i = 1; i < myRoute.steps.length-1; i++) {
+                var location = myRoute.steps[i].start_location;
+                if(locations.some(l=>l.equals(location))){
+                    console.log("Overlapping markers!");
+                    PanoramaViewMarker.markerCounter++;
+                    continue;
+                    
                 }
-                if(i==myRoute.steps.length-1){
-                    panoMarker.setLabel("F");
-                }
+                locations.push(location);
+                var panoMarker = PanoramaViewMarker.addNewMarker(location, color);
                 
+               
                 //https://developers.google.com/maps/documentation/javascript/examples/directions-complex
             }
         }
