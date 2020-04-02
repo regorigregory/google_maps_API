@@ -14,9 +14,9 @@ function startUp(){
   mapWrapperConfig.elementIDS["locationInfoMarker"] = "getDynamicMarker";
 
   var mapWrapper =  GMAP.getInstance();
+  mapWrapper.initMap();
 
   mapWrapper.configure(mapWrapperConfig);
-  mapWrapper.initMap(mapWrapperConfig);
 
   //The three lines below are deprecated...
   //Just left here to support "legacy" functions

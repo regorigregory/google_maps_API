@@ -3,8 +3,10 @@ class GMAP {
     //*******************************************************************
     //** Init functions *************************************************
     //*******************************************************************
-
+    static instance = null;
+    static instanceCounter =0;
     constructor() {
+        GMAP.instanceCounter+=1;
         this.mapHolder = document.getElementById("map");
         this.initialZoom = 4;
         this.startCoordinates = new google.maps.LatLng(this.getRandomLatitude(), this.getRandomLongitude());
@@ -20,71 +22,10 @@ class GMAP {
         this.markers = [];
         this.uiElementPointers = {};
     }
-
-    configure(opts) {
-        var myself = GMAP.getInstance();
-        myself.configObject = opts;
-        var ids = opts.elementIDS;
-
-        myself.configUIElement(ids.latInput, "latInput", "input", myself.moveTo);
-        myself.configUIElement(ids.lngInput, "lngInput", "input", myself.moveTo);
-
-
-        myself.configUIElement(ids.addAndMove, "addAndMove", "click", myself.addMarker);
-        myself.configUIElement(ids.notTooFar, "notTooFar", "click", myself.notTooFar);
-
-        myself.configUIElement(ids.antipode, "antipode", "click", myself.moveToAntipode);
-
-
-        myself.configUIElement(ids.locationInfoMarker, "locationInfoMarker", "click", myself.addLocationInfoMarker);
-        myself.configUIElement(ids.mapType, "mapTypeSelect", "change", myself.setMapStyle);
-
-        myself.initMap();
-
-
-        myself.LIH = LuckyInsigthsHelper.getInstance();
-        myself.LIH.init(ids.drawSquare);
-
-
-
-    }
-
-
-    configUIElement(stringID, key, action, functionToBind) {
-        var myself = GMAP.getInstance();
-        var element = document.getElementById(stringID);
-        this.uiElementPointers[key] = element;
-        element.addEventListener(action, functionToBind);
-    }
-
-    initMap() {
-
-        var instance = GMAP.getInstance();
-        var startCoordinates = instance.londonCoords;
-        //var startCoordinates = {lat: 51.50, lng:0};
-        instance.lastMarkerLocation = startCoordinates;
-        var mapDomElement = document.getElementById("map")
-
-        var map = new google.maps.Map(mapDomElement, {
-            zoom: instance.initialZoom,
-            center: startCoordinates,
-            mapTypeId: "terrain"
-        });
-
-        instance.mapObjectRef = map;
-        instance.mapObjectRef.addListener('center_changed', GMAP.getInstance().updateLatLngInputs);
-        instance.updateLatLngInputs();
-        //var markerTest = new google.maps.Marker({position: startCoordinates, map: map});
-        instance.placeMarkerAt(startCoordinates, instance.getRandomMarkerColour());
-        instance.uiElementPointers.lngInput.value = Math.round(startCoordinates.lng());
-        instance.uiElementPointers.latInput.value = Math.round(startCoordinates.lat());
-    }
     // Static functions ------------------------------------------------------
     static getInstance() {
         if (GMAP.instance == undefined) {
             GMAP.instance = new GMAP();
-
-            //GMAP.instance.requiredRadius = 300000;
         }
         return GMAP.instance;
     }
@@ -120,6 +61,66 @@ class GMAP {
             `;
         return content;
     }
+    configure(opts) {
+        var myself = GMAP.getInstance();
+        myself.configObject = opts;
+        var ids = opts.elementIDS;
+
+        myself.configUIElement(ids.latInput, "latInput", "input", myself.moveTo);
+        myself.configUIElement(ids.lngInput, "lngInput", "input", myself.moveTo);
+
+
+        myself.mapObjectRef.addListener('center_changed', myself.updateLatLngInputs);
+        myself.updateLatLngInputs();
+        //var markerTest = new google.maps.Marker({position: startCoordinates, map: map});
+        myself.addMarker(myself.londonCoords);
+        myself.uiElementPointers.lngInput.value = Math.round(myself.londonCoords.lng());
+        myself.uiElementPointers.latInput.value = Math.round(myself.londonCoords.lat());
+
+
+        myself.configUIElement(ids.addAndMove, "addAndMove", "click", myself.addMarker);
+        myself.configUIElement(ids.notTooFar, "notTooFar", "click", myself.notTooFar);
+
+        myself.configUIElement(ids.antipode, "antipode", "click", myself.moveToAntipode);
+
+
+        myself.configUIElement(ids.locationInfoMarker, "locationInfoMarker", "click", myself.addLocationInfoMarker);
+        myself.configUIElement(ids.mapType, "mapTypeSelect", "change", myself.setMapStyle);
+
+
+
+        myself.LIH = LuckyInsigthsHelper.getInstance();
+        myself.LIH.init(ids.drawSquare);
+
+
+
+    }
+
+
+    configUIElement(stringID, key, action, functionToBind) {
+        var myself = GMAP.getInstance();
+        var element = document.getElementById(stringID);
+        myself.uiElementPointers[key] = element;
+        element.addEventListener(action, functionToBind);
+    }
+
+    initMap() {
+
+        var instance = GMAP.getInstance();
+        var startCoordinates = instance.londonCoords;
+        //var startCoordinates = {lat: 51.50, lng:0};
+        var mapDomElement = document.getElementById("map")
+
+        var map = new google.maps.Map(mapDomElement, {
+            zoom: instance.initialZoom,
+            center: startCoordinates,
+            mapTypeId: "terrain"
+        });
+
+        instance.mapObjectRef = map;
+        
+    }
+
 
     //*******************************************************************
     //** Business logic**************************************************
@@ -283,11 +284,14 @@ class GMAP {
         myself.markers.push(marker);
 
     }
+    centerChanged(){
+        console.log("center changed!");
+    }
     moveTo() {
         var instance = GMAP.getInstance();
         if (instance.checkIFCoordsAreValid()) {
-            var latitude = parseInt(instance.latInput.value);
-            var longitude = parseInt(instance.lngInput.value);
+            var latitude = parseInt(instance.uiElementPointers.latInput.value);
+            var longitude = parseInt(instance.uiElementPointers.lngInput.value);
             var coords = new google.maps.LatLng(latitude, longitude);
             instance.mapObjectRef.setCenter(coords);
         }
@@ -433,14 +437,17 @@ class GMAP {
     }
 
     updateLatLngInputs() {
+        console.log("updating field values");
         var instance = GMAP.getInstance();
         var coords = new google.maps.LatLng(instance.mapObjectRef.getCenter().lat(), instance.mapObjectRef.getCenter().lng());
         var latPointer = instance.uiElementPointers.latInput;
         var lngPointer = instance.uiElementPointers.lngInput;
         latPointer.removeEventListener("input", GMAP.getInstance().moveTo);
         lngPointer.removeEventListener("input", GMAP.getInstance().moveTo);
+
         latPointer.value = Math.round(coords.lat());
         lngPointer.value = Math.round(coords.lng());
+
         latPointer.addEventListener("input", GMAP.getInstance().moveTo);
         lngPointer.addEventListener("input", GMAP.getInstance().moveTo);
     }
