@@ -55,7 +55,7 @@ class DirectionsHandler {
             var childNodesNo = childNodes.length;
 
             if (childNodesNo > 2) {
-                for (var i = 2; i < childNodesNo; i++) {
+                for (var i = childNodesNo-1; i > 1; i--) {
                     me.uiElementPointers.autoCompleteContainer.removeChild(childNodes[i]);
                 }
                 alert("If Transit mode is chosen, only two waypoints are allowed. The additional ones will be removed.");
