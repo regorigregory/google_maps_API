@@ -1,0 +1,233 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+
+    </style>
+    <!--<link rel="stylesheet" href="css/bootstrap-theme.min.css">-->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body id="wrapper">
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div id="container-fluid">
+        <nav class="navbar nav-tabs navbar-fixed-top navbar-light bg-light " style="background-color: #e3f2fd;">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggled"
+                aria-controls="navbarToggled" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">Google Maps</a>
+            <div class="collapse navbar-collapse col-sm-12 col-md-12 mt-4" id="navbarToggled">
+                <ul class="nav nav-tabs nav-pills nav-fill">
+                    <li class="nav-item"><a class="nav-link active" href="#MarkerActions">Marker actions</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#DirectionsContainer">Directions</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#AdditionalControls">Additional actions</a></li>
+
+                </ul>
+                <div class="tab-content mb-4 mt-3">
+
+                    <div class="container-fluid mr-auto mt-2 mt-lg-0 tab-pane show" id="DirectionsContainer">
+                        <div id="dateTimeInputs" class="row mt-2">
+                            <div class="col-md-4 col-sm-12">
+                                <label class="form-control-paintext mr-2" for="dateSelector">Select the date of your
+                                    departure</label>
+                                <input class="form-control mr-2" id="dateSelector" name="dateSelector" type="date"
+                                    value="">
+
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+
+                                <label class="form-control-plaintext mr-2" for="timeSelector">Select the time of your
+                                    departure</label>
+                                <input class="form-control mr-2" id="timeSelector" name="timeSelector" type="time">
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <label for="modeSelector" class="form-control-plaintext mr-2">Mode of travel</label>
+                                <select id="modeSelector" name="travelMode" class="form-control  mr-2">
+                                    <option value="WALKING">Walking</option>
+                                    <option value="TRANSIT">Transit</option>
+                                    <option value="DRIVING">Driving</option>
+                                    <option value="BICYCLING">Cycling</option>
+
+                                </select>
+                            </div>
+
+                        </div>
+                        <script type="text/javascript">
+                            var currentDateTime = new Date();
+
+                            document.getElementById("dateSelector").value = currentDateTime.toISOString().split("T")[0];
+                            document.getElementById("timeSelector").value = currentDateTime.toISOString().split("T")[1].split(".")[0];
+                        </script>
+                        <div id="autocompleteInputs" class="row mt-2"></div>
+
+
+                        <div id="wayPointContainer" class="row mt-2">
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary blinker btn-block mt-3" id="addWaypointTrigger"
+                                role="button" data-placement="bottom" title="Add new Waypoint" data-toggle="tooltip"
+                                data-target="">Add new waypoint!</button>
+
+                            </div>
+
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary blinker btn-block mt-3" id="removeWaypointTrigger"
+                                role="button" data-placement="bottom" title="Removes last waypoint."
+                                data-toggle="tooltip" data-target="">Remove waypoint!</button>
+
+                                
+                            </div>
+
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary blinker btn-block mt-3" id="routeRequestTrigger"
+                                role="button" data-placement="bottom" title="Get your routes!" data-toggle="tooltip"
+                                data-target="">Get
+                                route!</button>   
+                            </div> 
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                    <div class="container-fluid mr-auto mt-2 mt-lg-0 tab-pane show active" id="MarkerActions">
+                        <div class="row mt-2">
+                            <div class="col-md-6 col-sm-12">
+                                <label for="userInputLAT" class="form-control-plaintext mr-2">Latitude: &nbsp;</label>
+                                <input name="userInputLAT" id="userInputLAT" class="mr-2 form-control" type="number"
+                                    min="-90" max="90" />
+
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <label for="userInputLNG" class="mr-2 form-control-plaintext">Longitude: &nbsp;</label>
+                                <input name="userInputLNG" id="userInputLNG" class="mr-2 form-control" type="number"
+                                    min="-180" max="180" />
+                            </div>
+
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary btn-block mt-3 blinker" id="putMarkerHere"
+                                    role="button" data-placement="bottom" title="Put a marker at the centre of the map."
+                                    data-toggle="tooltip">Button 1 - "Marker, please!</button>
+
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary blinker btn-block mt-3" id="notTooFar" role="button"
+                                    data-placement="bottom"
+                                    title="Get a random location within 300km of the last marker."
+                                    data-toggle="tooltip">
+                                    Button 2 - "not too far"
+                                </button>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary blinker btn-block mt-3" id="antipode" role="button"
+                                    data-placement="bottom" title="Move to the antipode and place a marker there."
+                                    data-toggle="tooltip">
+                                    Button 3 - "antipode"
+                                </button>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary  btn-block mt-3" id="drawSquare" role="button"
+                                    data-placement="bottom" title="Place a random marker in the current bounds."
+                                    data-toggle="tooltip">Button 4 - "Rain markers"</button>
+
+                            </div>
+
+                            <div class="col-md-4 col-sm-12">
+                                <button class="btn btn-secondary  btn-block mt-3" id="drawPoly" role="button"
+                                    data-placement="bottom" title="Draw a polygon and place a random element in there"
+                                    data-toggle="tooltip" data-target="">Button 5 - "Draw polygon"</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mr-auto mt-2 mt-lg-0 tab-pane show" id="AdditionalControls">
+                        <div id="" class="row mt-2">
+                            <div class="col-md-6 col-sm-12">
+                                <select class="form-control mt-3" name="mapTypeSelect" id="mapTypeSelect">
+                                    <option class="form-control mt-3" value="0" id="map_type_0">terrain</option>
+                                    <option class="form-control mt-3" value="1" id="map_type_1">hybrid</option>
+                                    <option class="form-control mt-3" value="2" id="map_type_2">satellite</option>
+                                    <option class="form-control mt-3" value="3" id="map_type_3">roadmap</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <button class="btn btn-secondary btn-block mt-3" id="getDynamicMarker" role="button"
+                                    data-placement="bottom"
+                                    title="Get a marker which updates its location data in the infowindow"
+                                    data-toggle="tooltip">
+                                    Dynamic marker
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </nav>
+    </div>
+    <div class="container-fluid" id="streetviewContainer" style="display: none"></div>
+    <div class="container-fluid" id="google_maps_iframe_container">
+        <div id="map"></div>
+        <script>
+            var outerWidth = window.outerWidth;
+            var map = document.getElementById("map");
+            map.style.width = outerWidth + "px";
+        </script>
+    </div>
+    <!-- /container -->
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+        integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- google api and main js is here -->
+    <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3Ok02Xgv_0Ht4-b--gWrc8jtz2CzQwns&libraries=maps,drawing,geometry,directions,places"></script>
+    <script type="text/javascript" src="js/Entities.js"></script>
+    <script type="text/javascript" src="js/Map.js"></script>
+    <script type="text/javascript" src="js/DirectionsHandler.js"></script>
+    <script type="text/javascript" src="js/App.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".nav-tabs a").click(function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+
+
+            $(".blinker").click(function (e) {
+                var myself = $(this);
+
+                $(this).animate({ backgroundColor: "#218838" }, 10);
+                setTimeout(function () {
+                    myself.animate({ backgroundColor: "#5a6268" }, 100);
+                }, 200);
+            });
+        });
+    </script>
+    <footer class="footer font-small">
+        <div class="container">
+            K1721863 | 2020 | Gergo Endresz | <a href="" target="_blank">GITHUB</a>
+        </div>
+    </footer>
+</body>
+</html>
