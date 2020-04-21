@@ -1,5 +1,5 @@
 function startUp(){
-  mapWrapperConfig = {};
+  var mapWrapperConfig = {};
   mapWrapperConfig.elementIDS={};
   mapWrapperConfig.elementIDS["latInput"] = "userInputLAT";
   mapWrapperConfig.elementIDS["lngInput"] ="userInputLNG";
