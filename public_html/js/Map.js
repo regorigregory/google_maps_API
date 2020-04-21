@@ -390,19 +390,19 @@ class GMAP {
         var bounds = newCircle.getBounds();
         //latitude
 
-        var x_i_neg = bounds.Za.i < 0 ? true : false;
-        var x_j_neg = bounds.Za.i < 0 ? true : false;
-        var diff_x = Math.abs(bounds.Za.i) - Math.abs(bounds.Za.j);
+        //var x_i_neg = bounds.Za.i < 0 ? true : false;
+        //var x_j_neg = bounds.Za.i < 0 ? true : false;
+        //var diff_x = Math.abs(bounds.Za.i) - Math.abs(bounds.Za.j);
         //longitude
-        var diff_y = Math.abs(bounds.Ua.i - bounds.Ua.j);
-        var ratio = diff_x / diff_y
+        //var diff_y = Math.abs(bounds.Ua.i - bounds.Ua.j);
+        //var ratio = diff_x / diff_y
 
-        var randomLat = instance.getRandom(diff_x, bounds.Za.i)
+        //var randomLat = instance.getRandom(diff_x, bounds.Za.i)
 
-        var randomLng = instance.getRandom(diff_x, bounds.Za.i)
+        //var randomLng = instance.getRandom(diff_x, bounds.Za.i)
 
-        console.log("x diff:" + Math.abs(bounds.Za.i - bounds.Za.j));
-        console.log("y diff:" + Math.abs(bounds.Ua.i - bounds.Ua.j));
+        //console.log("x diff:" + Math.abs(bounds.Za.i - bounds.Za.j));
+        //console.log("y diff:" + Math.abs(bounds.Ua.i - bounds.Ua.j));
         instance.lastCircle = newCircle;
         instance.circles.push(newCircle);
     }

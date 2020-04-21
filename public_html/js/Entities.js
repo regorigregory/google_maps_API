@@ -96,7 +96,7 @@ class InfoWindow extends google.maps.InfoWindow {
 //*******************************************************************
 
 class InfoMarker extends google.maps.Marker {
-    instanceCounter = 0;
+    //static instanceCounter=0;
 
     constructor(passedLoc, markerColor) {
 
